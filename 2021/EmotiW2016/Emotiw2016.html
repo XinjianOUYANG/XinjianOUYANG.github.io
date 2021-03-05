@@ -9,14 +9,54 @@
 <body>
    
     <h1>
-        <b>U-Net</b>: Convolutional Networks for Biomedical Image Segmentation
+        <b>EmotiW2016</b>: Video-Based Emotion Recognition using CNN-RNN and C3D Hybrid Networks
     </h1>
+
     <p>
-        The U-net is convolutional network architecture for fast and precise segmentation of images. And the network architecture of U-net is as below:
+        <b>Abstract</b>: The paper presents a "Video-Based Emotion Recognition using CNN-RNN and C3D Hybrid Networks", whose core modle is a hybrid network that combines recurrent neural network(RNN) and 3D convolutional networks(C3D) in a late-fusion fashion. The architecture of this network is shown as following: 
     </p>
-    <left>
-        <a class="image fit"><img src="/2021/EmotiW2016/NN_structure.jpg" width="40%" height="40%" /></a>
-    </left>
+    <div>
+        <a class="image fit"><img src="/2021/EmotiW2016/NN_structure.jpg" width="100%" height="100%" /></a>
+    </div>
+
+    <p>
+        <b>Keywords:</b> Emotion Recognition; RNN; LSTM network; C3D; Model Fusion
+    </p>
+
+    <p>
+        <b>limitations of traditional CNNs:</b>
+        Traditional convolutional neural networks have a major limitation that they just handle spatial information. 
+        For example, in the EmotiW2014 winner’s work, all video frames are extracted from videos and regarded as the static images for further process. 
+        The aggregating image features of each video form a feature vector which neglects the important temporal video information.
+        (即CNN只能提取暂态特征，整体与局部)
+        <a class="post-title-link" href="https://blog.csdn.net/lrglgy/article/details/88764906" >
+            <span >The advantages and limitations of CNN</span>
+        </a>
+    </p>
+
+    <p>
+        <b>Deep 3-dimensional convolutional networks (C3D):</b>
+        C3D can model appearance and motion information simultaneously 
+        and the C3D features with a linear classifier can achieve good performance 
+        on different video analysis benchmarks. 
+        It is found that C3D networks have a good performance in emotion recognition
+    </p>
+
+    <p>
+        The main contribution of this paper: hybrid <b>CNN-RNN</b> + C3D
+    </p>
+
+    <p>
+        <b>Long Short-Term Memory(LSTM):</b>
+        As a particular type of recurrent neural networks, 
+        the Long Short-Term Memory (LSTM) recurrent neural network is widely adopted. 
+        LSTM has memory ability and suits for processing sequences with contexts well. 
+        An encoder LSTM can be used to map an input sequence into a fixed length vector representation. 
+        This vector representation is decoded using single decoder LSTM or multiple decoder LSTMs 
+        to handle different tasks such as emotion classification. 
+        Recently, LSTMs are also well developed and shown to be efficient to deal with various sequences versus sequences problems, 
+        such as audio analysis, video captioning, video action recognition, and so on.
+    </p>
 
     <li>
         <a class="post-title-link" href="/2021/EmotiW2016/Video-Based Emotion Recognition using CNN-RNN and C3D Hybrid Networks.pdf" >
@@ -26,6 +66,11 @@
     <li>
         <a class="post-title-link" href="/2021/EmotiW2016/EmotiW 2016 Video and Group-Level Emotion Recognition Challenges.pdf" >
             <span >PDF: Introduction of EmotiW 2016 Video and Group-Level Emotion Recognition Challenges</span>
+        </a>
+    </li>
+    <li>
+        <a class="post-title-link" href="https://github.com/lidian007/EmotiW2016" >
+            <span >Github source code</span>
         </a>
     </li>
 
