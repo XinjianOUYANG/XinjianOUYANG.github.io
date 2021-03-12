@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Allow: /about/
+Allow: /archives/
+Allow: /tags/
+Allow: /categories/
+Allow: /vendors/
+Allow: /js/
+Allow: /css/
+Allow: /fonts/
+Allow: /vendors/
+Allow: /fancybox/
+Sitemap: /sitemap.xml

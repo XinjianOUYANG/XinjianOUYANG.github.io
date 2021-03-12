@@ -1,0 +1,1458 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>新樂街口的三角窗</title>
+  <subtitle>我，在這裡，享受等你的時光。</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://oawan.me/"/>
+  <updated>2017-06-20T03:03:25.003Z</updated>
+  <id>https://oawan.me/</id>
+  
+  <author>
+    <name>OAwan</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>[React] 用 nwb 快速開發 Components and Libraries</title>
+    <link href="https://oawan.me/2017/react-nwb-create-react-components-and-libraries/"/>
+    <id>https://oawan.me/2017/react-nwb-create-react-components-and-libraries/</id>
+    <published>2017-06-16T04:26:33.000Z</published>
+    <updated>2017-06-20T03:03:25.003Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="http://i.imgur.com/CaBRleb.jpg" alt="nwb"></p>
+<h1 id="目的"><a href="#目的" class="headerlink" title="# 目的"></a><strong># 目的</strong></h1><p>快速開發 React App or React Components(Libraries)。</p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="# 前言"></a><strong># 前言</strong></h1><p>之前曾經使用 React 寫過幾個 Components 和 Library，但都是自己從頭搭建開發環境或是由 <a href="https://github.com/facebookincubator/create-react-app" target="_blank" rel="external"><strong>create-react-app</strong></a> 開始，要打包上傳 npm 的過程還蠻繁雜的！而前陣子發現 <span class="oaspan oaspan-red oaspan-reverse"><a href="https://github.com/insin/nwb" target="_blank" rel="external">nwb</a></span> 這個 toolkit，立馬寫了一個 Component 作嘗試，體驗還不錯，現在就來筆記分享一下！</p>
+<a id="more"></a>
+<hr>
+<h1 id="筆記"><a href="#筆記" class="headerlink" title="# 筆記"></a><strong># 筆記</strong></h1><h2 id="什麼是-nwb"><a href="#什麼是-nwb" class="headerlink" title="什麼是 nwb"></a>什麼是 nwb</h2><p><span class="oaspan oaspan-red oaspan-reverse"><a href="https://github.com/insin/nwb" target="_blank" rel="external">nwb</a></span> 是一個開發 <a href="https://facebook.github.io/react/" target="_blank" rel="external"><strong>React</strong></a>、<a href="https://preactjs.com/" target="_blank" rel="external"><strong>Preact</strong></a> 和 <a href="https://infernojs.org/" target="_blank" rel="external"><strong>Inferno</strong></a> 的 toolkit，整合了開發時需要的工具，像是 <a href="https://webpack.js.org/" target="_blank" rel="external"><strong>Webpack</strong></a>、<a href="https://babeljs.io/" target="_blank" rel="external"><strong>Babel</strong></a> 和 <a href="https://karma-runner.github.io/1.0/index.html" target="_blank" rel="external"><strong>Karma</strong></a>。<br>使用最新的 JS 語法(ES2015, ES2016, ES2017)，預設設定上，可供使用 <strong>Promise</strong>、<strong>fetch()</strong>、<strong>async/await</strong> 等。<br>再來是對於 <strong>Sass</strong>、<strong>Less</strong> 和 <strong>Stylus</strong> 的支援，只需額外使用相對應的 plugin 就好，不需要額外設定！</p>
+<blockquote>
+<p><strong>nwb</strong> 強調它是一個 toolkit，<strong>不是一個 boilerplate</strong>。</p>
+</blockquote>
+<h2 id="nwb-的優點"><a href="#nwb-的優點" class="headerlink" title="nwb 的優點"></a>nwb 的優點</h2><p>個人覺得它所整合的開發環境還蠻完整的，從 <strong>安裝</strong>、<strong>開發</strong>、<strong>測試</strong> 到 <strong>打包上傳</strong>，完全不需要額外的設定(當然它也有提供讓開發者自行設定的方法)：</p>
+<ol>
+<li><strong>快速建構開發環境</strong>，大量減少建構環境的時間，把時間留在開發和設計上。</li>
+<li><strong>Hot Module Replacement</strong>，讓開發產品自動更新，這應該已經是大家開發上不可或缺的開發利器。</li>
+<li><strong>顯示建置狀態</strong>，在 CLI 中顯示目前 compile 的狀態或報錯。</li>
+<li><strong>使用 Mocha 和 Expect</strong>，在 Karma(in PhantomJS) 跑單元測試，可以直接專心寫 test 檔就好。</li>
+<li><strong>Travis CI</strong>，使用 Travis Continuous Integration 並將 code coverage 結果提供 Coveralls/codecov.io。</li>
+<li><strong>ES5、ES 和 UMD</strong>，nwb 幫你一次打包三種 builds。</li>
+<li><strong>Single Configuration files</strong>，可在 <code>nwb.config.js</code> 中客製 Webpack、Karma 或 npm builds 的設定。</li>
+<li><strong>Autoprefixd CSS</strong>，這個設定可以讓 styles 撰寫時自動生成支援各個瀏覽器的 prefixed。</li>
+</ol>
+<blockquote>
+<p>以上所提及的，是我在原本開發上就會碰到和使用的，當然 nwb 還有 <a href="https://github.com/insin/nwb/blob/master/docs/Features.md#features" target="_blank" rel="external">很多細項的優點</a>！</p>
+</blockquote>
+<h2 id="使用-nwb-開發-React-Components-Libraries"><a href="#使用-nwb-開發-React-Components-Libraries" class="headerlink" title="使用 nwb 開發 React Components/Libraries"></a>使用 nwb 開發 React Components/Libraries</h2><h3 id="1-在環境中加入-nwb"><a href="#1-在環境中加入-nwb" class="headerlink" title="1. 在環境中加入 nwb"></a>1. 在環境中加入 <strong>nwb</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install -g nwb</div></pre></td></tr></table></figure>
+<h3 id="2-使用-nwb-new-創建-project"><a href="#2-使用-nwb-new-創建-project" class="headerlink" title="2. 使用 nwb new 創建 project"></a>2. 使用 <code>nwb new</code> 創建 project</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nwb new react-component react-ocard</div></pre></td></tr></table></figure>
+<p>在建置時，nwb 一定會 build 一個 ES5 的版本在 <code>lib/</code> 中，所以在創建 component 時會跳提醒問你是否還要建置 <strong>ES6 module</strong>(看個人需求)：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Creating a react-component project...</div><div class="line">? Do you want to create an ES6 module build? (Y/n)</div></pre></td></tr></table></figure></p>
+<p>接著，會問你是否需要建置 <strong>Universal Module Definition (UMD)</strong>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">? Do you want to create a UMD build? (y/N)</div></pre></td></tr></table></figure></p>
+<p>如果選擇 <code>y</code>，則會詢問你要使用的 global varible name 是什麼：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">? Which global variable name should the UMD build set?</div></pre></td></tr></table></figure></p>
+<p>以上面舉的例子，我就輸入 <strong>ReactOCard</strong>，這樣若是使用 UMD 時，就可以直接使用 ReactOCard component！</p>
+<blockquote>
+<p><strong>Note:</strong> 建置時 nwb 會建一個 <code>react-ocard.js</code> 和 <code>react-ocard.min.js</code> 在 <code>umd/</code> 中。</p>
+</blockquote>
+<p>這樣，我們就創建好一個 <strong>react-ocard</strong> 的專案。</p>
+<blockquote>
+<p><code>nwb new</code> 後面除了 <code>react-component</code> 外，還可使用 <code>react-app</code>、<code>preact-app</code> 和 <code>inferno-app</code> 分別創建你想開發的 app</p>
+</blockquote>
+<h3 id="3-認識專案架構"><a href="#3-認識專案架構" class="headerlink" title="3. 認識專案架構"></a>3. 認識專案架構</h3><p>這個專案和平常我們在開發時的架構差不多，所以應該不陌生：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">react-ocard</div><div class="line">  ├ .gitignore</div><div class="line">  ├ .travis.yml</div><div class="line">  ├ CONTRIBUTING.md</div><div class="line">  ├ nwb.config.js</div><div class="line">  ├ package.json</div><div class="line">  ├ README.md</div><div class="line">  ├ demo</div><div class="line">  │  └ src</div><div class="line">  │     └ index.js</div><div class="line">  ├ node_modules</div><div class="line">  ├ src</div><div class="line">  │  └ index.js</div><div class="line">  └tests</div><div class="line">    ├ .eslintrc</div><div class="line">    └ index-test.js</div></pre></td></tr></table></figure></p>
+<ul>
+<li><strong>demo/</strong>: 在此資料夾中放你對於 Component 的 demo，方便在 nwb 的 development server 中作開發和測試 Component。</li>
+<li><strong>src/</strong>: 這裡就是你的 React Component。</li>
+<li><strong>test/</strong>: nwb 會在這個資料夾中找到相對 <code>src/</code> 的測試檔案 (檔名結尾為 <code>.test.js</code>、<code>-test.js</code> 或 <code>.spec.js</code>) 作測試。</li>
+<li><strong>nwb.config.js</strong>: 前面有提到，你可以透過這個設定檔調整或擴展 nwb 所提供的默認配置。</li>
+</ul>
+<h3 id="4-認識指令"><a href="#4-認識指令" class="headerlink" title="4. 認識指令"></a>4. 認識指令</h3><p>從 <code>package.json</code> 可看到相關的 <code>scripts</code>：</p>
+<ul>
+<li><code>npm start</code> - 啟動開發伺服器 run demo app</li>
+<li><code>npm test</code> - 跑測試</li>
+<li><code>npm run test:coverage</code> - 跑測試並在 <code>coverage/</code> 中生成 coverage report</li>
+<li><code>npm run test:watch</code> - 跑測試並監看測試檔 (若測試黨有所變更，就會立即重跑測試，方便測試撰寫)</li>
+<li><code>npm run build</code> - 建置 Component (建置 <code>lib/</code> 以便上傳至 npm)</li>
+<li><code>npm run clean</code> - 將 build 的資料夾清掉 (像是 <code>lib/</code>、<code>es/</code> 和 <code>umd/</code>)</li>
+</ul>
+<p><code>npm start</code> 直接進入開發狀態！</p>
+<h3 id="5-使用-Sass-Scss"><a href="#5-使用-Sass-Scss" class="headerlink" title="5. 使用 Sass/Scss"></a>5. 使用 Sass/Scss</h3><p>如果開發時除了 inline styles 外，有撰寫 <code>.scss</code> 或 <code>.sass</code>，可以使用 plugin <code>nwb-sass</code> 來支援編譯，使用方法很簡單：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm i nwb-sass --save-dev</div></pre></td></tr></table></figure>
+<p>這樣就會自動幫你編譯 <code>.scss</code> 或 <code>.sass</code> 檔囉！</p>
+<blockquote>
+<p>這邊稍微聊一下，不知道對於如果 Component 是包含樣式的，大家是怎麼作的？<br>以目前我的開發習慣來說的話，都是將 <code>.scss</code> 寫在對應的 Component 資料夾中，當作 <code>src/</code> 的一部分，再由 demo 中作 import，這樣 Component 本身就是乾淨沒有引入 styles 檔案的狀況；<br>而打包上傳至 npm 前，會將 <strong>轉譯後 .css</strong> 放在 <code>css/</code> 或 <code>styles/</code> 中。<br>這樣的話，使用 Component 時就是分開引入 (import component 和 styles)，不知道有沒有什麼 <strong>建議</strong> 的作法可供參考。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">import MyComponent from &apos;react-mycomponent&apos;</div><div class="line">import &apos;react-mycomponent/styles/react-mycomponent.css&apos;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="6-上傳至-npm"><a href="#6-上傳至-npm" class="headerlink" title="6. 上傳至 npm"></a>6. 上傳至 npm</h3><p>Components/Libraries 開發完成並且 build 完後，就可以上傳至 npm 囉！<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm publish</div></pre></td></tr></table></figure></p>
+<p>在 <code>package.json</code> 中可看到，nwb 預設是將 <code>es/</code>、<code>lib/</code> 和 <code>umd/</code> 打包在 npm package 中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&quot;files&quot;: [</div><div class="line">    &quot;es&quot;,</div><div class="line">    &quot;lib&quot;,</div><div class="line">    &quot;umd&quot;</div><div class="line">]</div></pre></td></tr></table></figure></p>
+<p>你可以自行添加要打包上傳的資料夾，像我就多設了 <code>css</code> 以便上傳 Component 的 styles。</p>
+<hr>
+<h1 id="後記"><a href="#後記" class="headerlink" title="# 後記"></a><strong># 後記</strong></h1><p>前一陣子看到 <strong>Yahoo!</strong> 的 <strong>懶人卡</strong>，覺得閱讀起來還不錯，設計簡潔又帶點微微的互動，所以原本就打算來實作看看；<br>再加上看到 <span class="oaspan oaspan-red oaspan-reverse"><a href="https://github.com/insin/nwb" target="_blank" rel="external">nwb</a></span> ，就決定用它來開發看看，沒想到還蠻容易上手的，加上剛好符合我開發環境的需求，所以在開發環境的建置上近乎是無痛使用 🤗🤗🤗</p>
+<p>很久沒打筆記了… 但真心覺得不錯，所以筆記一下分享給大家作參考！</p>
+<p>也跟大家分享一下這次作的練習 <span class="oaspan oaspan-red"><a href="https://github.com/GeorgioWan/react-ocard" target="_blank" rel="external"><strong>react-ocard</strong></a></span>，這是參考 <strong>Yahoo! 懶人卡</strong> 所寫的 React Component，技術上除了 React 外，還使用了 <a href="https://github.com/cubiq/iscroll" target="_blank" rel="external"><strong>iScroll 5</strong></a> (單純綁 iscroll.js)。<br>如果覺得還不錯的話，歡迎給個 ⭐  或 Fork 一起讓它更完美喔！！</p>
+<blockquote>
+<p>可能、也許、Maybe 之後會再打個 <strong>iScroll 用於 React</strong> 的筆記吧… 😋</p>
+</blockquote>
+<h2 id="2017-06-17-大事記"><a href="#2017-06-17-大事記" class="headerlink" title="2017.06.17 大事記"></a>2017.06.17 大事記</h2><p>我為 nwb 寫的這篇文章而設計的<a href="https://github.com/insin/nwb/pull/325" target="_blank" rel="external">封面圖，被原作者採用了！</a>超開心的！！</p>
+<p>That’s it, <strong>DONE!</strong></p>
+<hr>
+<p><strong>【參考資料】</strong></p>
+<ul>
+<li>nwb：<a href="https://github.com/insin/nwb" target="_blank" rel="external">https://github.com/insin/nwb</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;http://i.imgur.com/CaBRleb.jpg&quot; alt=&quot;nwb&quot;&gt;&lt;/p&gt;
+&lt;h1 id=&quot;目的&quot;&gt;&lt;a href=&quot;#目的&quot; class=&quot;headerlink&quot; title=&quot;# 目的&quot;&gt;&lt;/a&gt;&lt;strong&gt;# 目的&lt;/strong&gt;&lt;/h1&gt;&lt;p&gt;快速開發 React App or React Components(Libraries)。&lt;/p&gt;
+&lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;# 前言&quot;&gt;&lt;/a&gt;&lt;strong&gt;# 前言&lt;/strong&gt;&lt;/h1&gt;&lt;p&gt;之前曾經使用 React 寫過幾個 Components 和 Library，但都是自己從頭搭建開發環境或是由 &lt;a href=&quot;https://github.com/facebookincubator/create-react-app&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;&lt;strong&gt;create-react-app&lt;/strong&gt;&lt;/a&gt; 開始，要打包上傳 npm 的過程還蠻繁雜的！而前陣子發現 &lt;span class=&quot;oaspan oaspan-red oaspan-reverse&quot;&gt;&lt;a href=&quot;https://github.com/insin/nwb&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;nwb&lt;/a&gt;&lt;/span&gt; 這個 toolkit，立馬寫了一個 Component 作嘗試，體驗還不錯，現在就來筆記分享一下！&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Programmer" scheme="https://oawan.me/categories/programmer/"/>
+    
+    
+      <category term="攻城獅筆記" scheme="https://oawan.me/tags/%E6%94%BB%E5%9F%8E%E7%8D%85%E7%AD%86%E8%A8%98/"/>
+    
+      <category term="nwb" scheme="https://oawan.me/tags/nwb/"/>
+    
+      <category term="react" scheme="https://oawan.me/tags/react/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[台南中西區] 鬍鬚忠牛肉湯 - 不可錯過的頂級牛肉湯！</title>
+    <link href="https://oawan.me/2017/%E5%8F%B0%E5%8D%97%E4%B8%AD%E8%A5%BF%E5%8D%80-%E9%AC%8D%E9%AC%9A%E5%BF%A0%E7%89%9B%E8%82%89%E6%B9%AF-%E4%B8%8D%E5%8F%AF%E9%8C%AF%E9%81%8E%E7%9A%84%E9%A0%82%E7%B4%9A%E7%89%9B%E8%82%89%E6%B9%AF/"/>
+    <id>https://oawan.me/2017/台南中西區-鬍鬚忠牛肉湯-不可錯過的頂級牛肉湯/</id>
+    <published>2017-05-26T00:52:05.000Z</published>
+    <updated>2017-05-27T07:35:55.000Z</updated>
+    
+    <content type="html"><![CDATA[<img src="/2017/台南中西區-鬍鬚忠牛肉湯-不可錯過的頂級牛肉湯/img/鬍鬚忠牛肉湯-1.jpg" alt="img/鬍鬚忠牛肉湯-1.jpg" title="">
+<p>今天是快閃台南的第二天，在離開台南前，我和小凱蘿非常有默契地想再來一碗牛肉湯，於是到處奔走，不過在下午四點多有營業的店家並不多… 最後最後還是回來等 <strong>17:00</strong> 開張的 <span class="oaspan oaspan-red oaspan-reverse">鬍鬚忠牛肉湯</span>！</p>
+<a id="more"></a>
+<hr>
+<h1 id="鬍鬚忠牛肉湯"><a href="#鬍鬚忠牛肉湯" class="headerlink" title="鬍鬚忠牛肉湯"></a>鬍鬚忠牛肉湯</h1><p><span class="oaspan oaspan-reverse">好吃推薦</span> 4.5 <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-full"></i></p>
+<img src="/2017/台南中西區-鬍鬚忠牛肉湯-不可錯過的頂級牛肉湯/img/鬍鬚忠牛肉湯-2.jpg" width="550">
+<p>聽說以前 <strong>鬍鬚忠</strong> 並沒有招牌，所以大家都是叫 <span class="oaspan">無名牛肉湯</span> 或 <span class="oaspan">鄭家牛肉湯</span>，當天是 <strong>16:50</strong> 左右到店家，不知道是不是比較早的關係，完全不用排隊，不過隔壁同樣是 <strong>17:00</strong> 開張的 <span class="oaspan oaspan-reverse"><a href="/2017/台南中西區-阿江炒鱔魚-這才是正港的炒鱔魚意麵/">阿江炒鱔魚</a></span>(推薦喔👍) 早已坐滿了人！</p>
+<hr>
+<h2 id="蒜頭牛肉-150-小-150-大-200"><a href="#蒜頭牛肉-150-小-150-大-200" class="headerlink" title="蒜頭牛肉 $150 (小 $150 | 大 $200)"></a>蒜頭牛肉 <span class="oabadge oabadge-yellow">$150</span> (小 $150 | 大 $200)</h2><img src="/2017/台南中西區-鬍鬚忠牛肉湯-不可錯過的頂級牛肉湯/img/鬍鬚忠牛肉湯-3.jpg" alt="img/鬍鬚忠牛肉湯-3.jpg" title="">
+<p>首先襲來的是 <strong>濃濃的蒜香味兒</strong>，讓人食慾大開；牛肉看起來還帶有一點點血色，<strong>咬起來比較韌</strong>，算是比較 <strong>重鹹</strong> 的口味，不過牛肉真是 <strong>越嚼越香</strong>，超適合配飯 der！</p>
+<hr>
+<h2 id="頂級牛肉湯-200-小-200-大-300"><a href="#頂級牛肉湯-200-小-200-大-300" class="headerlink" title="頂級牛肉湯 $200 (小 $200 | 大 $300)"></a>頂級牛肉湯 <span class="oabadge oabadge-yellow">$200</span> (小 $200 | 大 $300)</h2><img src="/2017/台南中西區-鬍鬚忠牛肉湯-不可錯過的頂級牛肉湯/img/鬍鬚忠牛肉湯-4.jpg" alt="img/鬍鬚忠牛肉湯-4.jpg" title="">
+<p>要試當然要試最好的！所以點了 <strong>頂級牛肉湯</strong> 來試試，我想我們是 <strong>一試成主顧</strong> 了 😝😝<br>湯頭超讚！喝起來很 <strong>清爽不油膩</strong>，而且味道還很 <strong>濃郁不會過鹹</strong>，不知道店家是不是有伴洋蔥熬煮，喝起來還帶有一點點 <strong>洋蔥的鮮甜味</strong>！整個很對我和小凱蘿的味 😍😍😍</p>
+<img src="/2017/台南中西區-鬍鬚忠牛肉湯-不可錯過的頂級牛肉湯/img/鬍鬚忠牛肉湯-1.jpg" alt="img/鬍鬚忠牛肉湯-1.jpg" title="">
+<p>牛肉的部分帶有一點油花，燙的恰到好處，肉質很 <strong>鮮嫩</strong> 又帶一點 <strong>Q 彈</strong>，除口感外，一口咬下時，嘴裡的溢滿牛肉香也是超過癮的！！</p>
+<hr>
+<h1 id="後記-amp-心得"><a href="#後記-amp-心得" class="headerlink" title="後記 &amp; 心得"></a>後記 &amp; 心得</h1><p>在打文章時才發現，蠻多人推 <strong>鬍鬚忠</strong> 的 <strong>牛肉燥飯</strong>，但但但！！我們居然沒有吃到！超殘念der 😫😫</p>
+<p>經 OA 的詢問後得知，凡是點 <strong>任一價位的牛肉湯</strong>，都會附上 <strong>牛肉燥飯</strong>，但由於日前店家發現，不少顧客因為免費而有浪費的狀況，所以現在點了牛肉湯之後，要 <strong>記得向服務人員附註要牛肉燥飯</strong> 才會提供喔！(還是 <strong>免費的</strong>，別擔心)</p>
+<blockquote>
+<p>p.s. 希望店家日後於牛肉燥飯的提供能明顯的標示，好可惜這次無緣沒到，不過這是一家很值得回訪的牛肉湯店，期待下次的造訪！</p>
+</blockquote>
+<p>台南牛肉湯林立，每間店對於湯頭、牛肉和料理的理念，都有自己的特色和堅持；而我和小凱蘿品嚐過的牛肉湯也不多，不過沒關係，慢慢來，對我們來說，台南就是一個每次旅行都充滿期待和驚豔的好地方 😘</p>
+<img src="/2017/台南中西區-鬍鬚忠牛肉湯-不可錯過的頂級牛肉湯/img/鬍鬚忠牛肉湯-5.jpg" width="550">
+<blockquote>
+<p>最後，附上一張小凱蘿的喝湯美照，結束這次的府城．輕旅行😁</p>
+</blockquote>
+<hr>
+<h1 id="店家資訊"><a href="#店家資訊" class="headerlink" title="店家資訊"></a>店家資訊</h1><p><span class="oaspan oaspan-reverse"><i class="fa fa-clock-o"></i></span> 營業時間：<strong>17:00 - 10:00(周二公休)</strong><br><span class="oaspan oaspan-reverse"><i class="fa fa-facebook"></i></span> 粉絲團：<a href="https://www.facebook.com/%E9%AC%8D%E9%AC%9A%E5%BF%A0%E7%89%9B%E8%82%89%E6%B9%AF-219192501425166/" target="_blank" rel="external">鬍鬚忠牛肉湯</a><br><span class="oaspan oaspan-reverse"><i class="fa fa-phone"></i></span> 電話：<strong>0938-133-306</strong><br><span class="oaspan oaspan-reverse"><i class="fa fa-map-marker"></i></span> 地址：<a href="https://www.google.com.tw/maps/place/%E9%AC%8D%E9%AC%9A%E5%BF%A0%E7%89%9B%E8%82%89%E6%B9%AF/@22.998393,120.196926,15z/data=!4m5!3m4!1s0x0:0x94bed6f82fb07965!8m2!3d22.998393!4d120.196926" target="_blank" rel="external">台南市中西區民族路三段91號</a></p>
+<div style="text-align: center;"><br>  <iframe class="oamap" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14690.763405107486!2d120.196926!3d22.998393!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x94bed6f82fb07965!2z6ayN6aya5b-g54mb6IKJ5rmv!5e0!3m2!1szh-TW!2stw!4v1495869359533" height="250" frameborder="0" style="border:0" allowfullscreen></iframe><br></div>
+
+<hr>
+<h1 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h1><h2 id="街口的美食地圖"><a href="#街口的美食地圖" class="headerlink" title="街口的美食地圖"></a>街口的美食地圖</h2><ul>
+<li><a href="/2017/台南北區-阿憨鹹粥-免排隊的府城古早味/">[台南北區] 阿憨鹹粥 - 免排隊的府城古早味</a></li>
+<li><a href="/2017/台南中西區-富盛號碗粿-永樂市場的古早味美食/">[台南中西區] 富盛號碗粿 - 永樂市場的古早味美食</a></li>
+<li><a href="/2017/台南中西區-阿江炒鱔魚-這才是正港的炒鱔魚意麵/">[台南中西區] 阿江炒鱔魚 - 這才是正港的炒鱔魚意麵</a></li>
+</ul>
+<h2 id="街口的住宿體驗"><a href="#街口的住宿體驗" class="headerlink" title="街口的住宿體驗"></a>街口的住宿體驗</h2><ul>
+<li><a href="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/">[台南東區] 台南老爺行旅 - 高鐵三週年房型三級跳</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;img src=&quot;/2017/台南中西區-鬍鬚忠牛肉湯-不可錯過的頂級牛肉湯/img/鬍鬚忠牛肉湯-1.jpg&quot; alt=&quot;img/鬍鬚忠牛肉湯-1.jpg&quot; title=&quot;&quot;&gt;
+&lt;p&gt;今天是快閃台南的第二天，在離開台南前，我和小凱蘿非常有默契地想再來一碗牛肉湯，於是到處奔走，不過在下午四點多有營業的店家並不多… 最後最後還是回來等 &lt;strong&gt;17:00&lt;/strong&gt; 開張的 &lt;span class=&quot;oaspan oaspan-red oaspan-reverse&quot;&gt;鬍鬚忠牛肉湯&lt;/span&gt;！&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Food" scheme="https://oawan.me/categories/food/"/>
+    
+    
+      <category term="街口的美食地圖" scheme="https://oawan.me/tags/%E8%A1%97%E5%8F%A3%E7%9A%84%E7%BE%8E%E9%A3%9F%E5%9C%B0%E5%9C%96/"/>
+    
+      <category term="台南市" scheme="https://oawan.me/tags/%E5%8F%B0%E5%8D%97%E5%B8%82/"/>
+    
+      <category term="台南中西區" scheme="https://oawan.me/tags/%E5%8F%B0%E5%8D%97%E4%B8%AD%E8%A5%BF%E5%8D%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[台南中西區] 阿江炒鱔魚 - 這才是正港的炒鱔魚意麵！</title>
+    <link href="https://oawan.me/2017/%E5%8F%B0%E5%8D%97%E4%B8%AD%E8%A5%BF%E5%8D%80-%E9%98%BF%E6%B1%9F%E7%82%92%E9%B1%94%E9%AD%9A-%E9%80%99%E6%89%8D%E6%98%AF%E6%AD%A3%E6%B8%AF%E7%9A%84%E7%82%92%E9%B1%94%E9%AD%9A%E6%84%8F%E9%BA%B5/"/>
+    <id>https://oawan.me/2017/台南中西區-阿江炒鱔魚-這才是正港的炒鱔魚意麵/</id>
+    <published>2017-05-25T01:06:37.000Z</published>
+    <updated>2017-05-27T07:39:48.000Z</updated>
+    
+    <content type="html"><![CDATA[<img src="/2017/台南中西區-阿江炒鱔魚-這才是正港的炒鱔魚意麵/img/阿江炒鱔魚-4.jpg" alt="img/阿江炒鱔魚-4.jpg" title="">
+<p>在離開台南前，想再喝上一碗牛肉湯，所以原本和小凱蘿衝著 <span class="oaspan oaspan-reverse"><a href="/2017/台南中西區-鬍鬚忠牛肉湯-不可錯過的頂級牛肉湯/">鬍鬚忠牛肉湯</a></span> 而來，沒想到意外發現這間 <strong>不能說的鱔魚意麵</strong>！</p>
+<a id="more"></a>
+<hr>
+<h1 id="阿江炒鱔魚"><a href="#阿江炒鱔魚" class="headerlink" title="阿江炒鱔魚"></a>阿江炒鱔魚</h1><p><span class="oaspan oaspan-reverse">好吃推薦</span> 4.5 <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-full"></i></p>
+<p><strong>炒鱔魚意麵</strong> 是小時候 OA 爸常買的宵夜之一，所以雖然我是高雄人，但非常非常喜歡吃 <strong>炒鱔魚意麵</strong>！<br>上次來台南時有嘗試過一間店，結果並不滿意，加上小凱蘿對 <strong>炒鱔魚</strong> 興致缺缺，這次就沒有特地再找店家嘗試。</p>
+<img src="/2017/台南中西區-阿江炒鱔魚-這才是正港的炒鱔魚意麵/img/阿江炒鱔魚-2.jpg" alt="img/阿江炒鱔魚-2.jpg" title="">
+<p>那天是 <strong>16:50</strong> 左右在 <span class="oaspan oaspan-reverse"><a href="/2017/台南中西區-鬍鬚忠牛肉湯-不可錯過的頂級牛肉湯/">鬍鬚忠牛肉湯</a></span> 等開張，沒想到旁邊的 <strong>阿江</strong> 越來越多人，這也讓非常喜歡 <strong>炒鱔魚意麵</strong> 的我躍躍欲試！</p>
+<img src="/2017/台南中西區-阿江炒鱔魚-這才是正港的炒鱔魚意麵/img/阿江炒鱔魚-1.jpg" alt="img/阿江炒鱔魚-1.jpg" title="">
+<p><strong>鬍鬚忠</strong> 的老闆看我一直探頭探腦，就對我說「想吃可以過去點啊」，小凱蘿也叫我去點一份來吃吃，以免等等坐車回台北時一直懊悔沒吃到 😝😝<br>於是就這樣點了一盤 <strong>乾炒鱔魚意麵</strong>！</p>
+<p>在開張營業前，老闆就一直很忙，一方面忙著備料、將(炸)意麵泡開，另一方面則是一直跟入座的客官抬槓<br>一下問這邊帥哥今天去哪玩，一下問旁邊美眉怕不怕辣，說實在我也好喜歡這種街道像弄互相問候抬槓氣氛！</p>
+<hr>
+<h2 id="乾炒鱔魚意麵-120"><a href="#乾炒鱔魚意麵-120" class="headerlink" title="乾炒鱔魚意麵 $120"></a>乾炒鱔魚意麵 <span class="oabadge oabadge-yellow">$120</span></h2><img src="/2017/台南中西區-阿江炒鱔魚-這才是正港的炒鱔魚意麵/img/阿江炒鱔魚-3.jpg" alt="img/阿江炒鱔魚-3.jpg" title="">
+<p>不知道在台南，這樣一盤 <span class="oaspan oaspan-yellow oaspan-reverse">NT$ 120</span> 算不算太貴，但以目前吃到的 <strong>炒鱔魚意麵</strong> 來說，這個份量和好吃的程度，我是覺得 <strong>超。划。算！</strong></p>
+<img src="/2017/台南中西區-阿江炒鱔魚-這才是正港的炒鱔魚意麵/img/阿江炒鱔魚-4.jpg" alt="img/阿江炒鱔魚-4.jpg" title="">
+<p>炒鱔魚的意麵用的是 <strong>炸意麵</strong> (聽說可以點炒油麵！)，老闆會先將意麵泡開再拌炒，意麵的軟硬度控制得很好，既 <strong>不會太軟爛也不會還硬硬的</strong>，而 <strong>鱔魚</strong> 也炒得 <strong>爽脆不老爛</strong>，份量也夠阿莎力，加上 <strong>微甜偏鹹</strong> 炒湯汁，我真的是吃得讚不絕口，一直對著小凱蘿說<strong>「這才是真正的炒鱔魚意麵！！」</strong></p>
+<hr>
+<h1 id="後記-amp-心得"><a href="#後記-amp-心得" class="headerlink" title="後記 &amp; 心得"></a>後記 &amp; 心得</h1><p>原本我們只是想帶著滿嘴的牛肉湯味離開台南，沒想到居然意外吃到這麼好吃的 <span class="oaspan oaspan-red oaspan-reverse">阿江炒鱔魚</span>！</p>
+<p>在打文章作功課時才發現，原來這間店已經是很有名氣的店家，也不少人抱怨 <strong>排隊問題</strong> 和 <strong>衛生問題</strong>，但我並不覺得這影響了我對他的評價。</p>
+<p>每家炒鱔魚意麵都有自己的獨家作法，無論在 <strong>甜鹹調理的平衡、麵條的軟硬程度</strong> 還是 <strong>鱔魚熟度的控制</strong>，我相信每家店都有自己獨特的地方，每個人也都有自己在意和喜歡的味道，而對我來說，這個就是 <strong>正港的炒鱔魚意麵</strong> 哪！</p>
+<blockquote>
+<p>不喜歡排隊的話請盡早到場喔！<br>還有，倘若真的真的 <strong>很在意</strong> 或 <strong>非常注重環境衛生</strong> 的客官就請自動左轉吧 😂😂</p>
+</blockquote>
+<hr>
+<h1 id="店家資訊"><a href="#店家資訊" class="headerlink" title="店家資訊"></a>店家資訊</h1><p><span class="oaspan oaspan-reverse"><i class="fa fa-clock-o"></i></span> 營業時間：<strong>17:00 - 02:00(全無公休)</strong><br><span class="oaspan oaspan-reverse"><i class="fa fa-phone"></i></span> 電話：<strong>0937-671-052</strong><br><span class="oaspan oaspan-reverse"><i class="fa fa-map-marker"></i></span> 地址：<a href="https://www.google.com.tw/maps/place/%E9%98%BF%E6%B1%9F%E7%82%92%E9%B1%94%E9%AD%9A/@22.9983601,120.197006,15z/data=!4m5!3m4!1s0x0:0x1678caced66690d9!8m2!3d22.9983601!4d120.197006" target="_blank" rel="external">台南市中西區民族路三段89號</a></p>
+<div style="text-align: center;"><br>  <iframe class="oamap" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14690.766985539218!2d120.197006!3d22.9983601!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x1678caced66690d9!2z6Zi_5rGf54KS6bGU6a2a!5e0!3m2!1szh-TW!2stw!4v1495852578830" height="250" frameborder="0" style="border:0" allowfullscreen></iframe><br></div>
+
+<hr>
+<h1 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h1><h2 id="街口的美食地圖"><a href="#街口的美食地圖" class="headerlink" title="街口的美食地圖"></a>街口的美食地圖</h2><ul>
+<li><a href="/2017/台南北區-阿憨鹹粥-免排隊的府城古早味/">[台南北區] 阿憨鹹粥 - 免排隊的府城古早味</a></li>
+<li><a href="/2017/台南中西區-富盛號碗粿-永樂市場的古早味美食/">[台南中西區] 富盛號碗粿 - 永樂市場的古早味美食</a></li>
+<li><a href="/2017/台南中西區-鬍鬚忠牛肉湯-不可錯過的頂級牛肉湯/">[台南中西區] 鬍鬚忠牛肉湯 - 不可錯過的頂級牛肉湯</a></li>
+</ul>
+<h2 id="街口的住宿體驗"><a href="#街口的住宿體驗" class="headerlink" title="街口的住宿體驗"></a>街口的住宿體驗</h2><ul>
+<li><a href="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/">[台南東區] 台南老爺行旅 - 高鐵三週年房型三級跳</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;img src=&quot;/2017/台南中西區-阿江炒鱔魚-這才是正港的炒鱔魚意麵/img/阿江炒鱔魚-4.jpg&quot; alt=&quot;img/阿江炒鱔魚-4.jpg&quot; title=&quot;&quot;&gt;
+&lt;p&gt;在離開台南前，想再喝上一碗牛肉湯，所以原本和小凱蘿衝著 &lt;span class=&quot;oaspan oaspan-reverse&quot;&gt;&lt;a href=&quot;/2017/台南中西區-鬍鬚忠牛肉湯-不可錯過的頂級牛肉湯/&quot;&gt;鬍鬚忠牛肉湯&lt;/a&gt;&lt;/span&gt; 而來，沒想到意外發現這間 &lt;strong&gt;不能說的鱔魚意麵&lt;/strong&gt;！&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Food" scheme="https://oawan.me/categories/food/"/>
+    
+    
+      <category term="街口的美食地圖" scheme="https://oawan.me/tags/%E8%A1%97%E5%8F%A3%E7%9A%84%E7%BE%8E%E9%A3%9F%E5%9C%B0%E5%9C%96/"/>
+    
+      <category term="台南市" scheme="https://oawan.me/tags/%E5%8F%B0%E5%8D%97%E5%B8%82/"/>
+    
+      <category term="台南中西區" scheme="https://oawan.me/tags/%E5%8F%B0%E5%8D%97%E4%B8%AD%E8%A5%BF%E5%8D%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[台南仁德區] 阿裕牛肉涮涮鍋 - 饕客必吃！超越牛肉湯的大享受！</title>
+    <link href="https://oawan.me/2017/%E5%8F%B0%E5%8D%97%E4%BB%81%E5%BE%B7%E5%8D%80-%E9%98%BF%E8%A3%95%E7%89%9B%E8%82%89%E6%B6%AE%E6%B6%AE%E9%8D%8B-%E8%B6%85%E8%B6%8A%E7%89%9B%E8%82%89%E6%B9%AF%E7%9A%84%E5%A4%A7%E4%BA%AB%E5%8F%97/"/>
+    <id>https://oawan.me/2017/台南仁德區-阿裕牛肉涮涮鍋-超越牛肉湯的大享受/</id>
+    <published>2017-05-22T23:09:57.000Z</published>
+    <updated>2017-05-27T07:48:54.000Z</updated>
+    
+    <content type="html"><![CDATA[<img src="/2017/台南仁德區-阿裕牛肉涮涮鍋-超越牛肉湯的大享受/img/阿裕牛肉涮涮鍋-3.jpg" alt="img/阿裕牛肉涮涮鍋-3.jpg" title="">
+<p>到台南有什麼美食是一定要吃？OA 覺得 <strong>牛肉湯</strong> 是絕對要嘗試的！這次感謝在地好朋友的招待，讓我們吃到比 <strong>牛肉湯</strong> 更滿足的大享受 <span class="oaspan oaspan-red oaspan-reverse">阿裕牛肉涮涮鍋</span>！</p>
+<a id="more"></a>
+<hr>
+<h1 id="阿裕牛肉涮涮鍋"><a href="#阿裕牛肉涮涮鍋" class="headerlink" title="阿裕牛肉涮涮鍋"></a>阿裕牛肉涮涮鍋</h1><p><span class="oaspan oaspan-reverse">大推薦</span> 4.0 <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></p>
+<p><strong>阿裕</strong> 距離 <span class="oaspan">奇美博物館</span> 不遠，約莫十分鐘不到的騎車距離，如果想安排這兩個行程一起走的話，可以先到 <strong>奇美</strong> 走走拍拍美照，然後強烈建議挑在 <strong>16:30 前</strong> 抵達 <strong>阿裕</strong>，再晚… 就得陷入排隊地獄惹！等吃飽喝足再回 <strong>奇美</strong> 看夜景散步。</p>
+<hr>
+<h2 id="鍋底-100-特優頂級鮮牛肉-300-x-4"><a href="#鍋底-100-特優頂級鮮牛肉-300-x-4" class="headerlink" title="鍋底 $100 + 特優頂級鮮牛肉 $300 x 4"></a>鍋底 <span class="oabadge oabadge-yellow">$100</span> + 特優頂級鮮牛肉 <span class="oabadge oabadge-yellow">$300</span> x 4</h2><img src="/2017/台南仁德區-阿裕牛肉涮涮鍋-超越牛肉湯的大享受/img/阿裕牛肉涮涮鍋-1.jpg" alt="img/阿裕牛肉涮涮鍋-1.jpg" title="">
+<p>一進店內，牛肉湯的香味就撲了上來，好朋友很簡潔跟老闆點餐<strong>「頭家，來四盤」</strong><br>我很好奇的問「這裡沒有菜單嗎？」<br>「有是有啦… 但來這邊就是要吃最好吃的 <strong>牛肉</strong>！」好友回<br>過不久老闆送上鍋底和肉盤，我們也在冰箱挑了我最愛的 <strong>豬血糕</strong> 和 <strong>凍豆腐</strong><br>店內除了 <strong>自助式</strong> 的火鍋料可以拿取外，還有 <strong>白飯 (可淋滷汁)</strong> 可以吃到飽！</p>
+<img src="/2017/台南仁德區-阿裕牛肉涮涮鍋-超越牛肉湯的大享受/img/阿裕牛肉涮涮鍋-2.jpg" alt="img/阿裕牛肉涮涮鍋-2.jpg" title="">
+<p>從上面的照片可以看到湯底中有 <strong>高麗菜、番茄、蔥和香菜</strong> 等<br><strong>阿裕</strong> 的湯底是看起來清清的，但喝起來還蠻濃郁的<br>其實進門就可以看到老闆在門口用大骨熬一大鍋湯，想必一進門就聞到的牛肉湯香就是從那一鍋來的！</p>
+<blockquote>
+<p><strong>WARNING!!</strong> 其實湯底 <strong>香菜味</strong> 還蠻濃的… 香菜 hater 請自行左轉或提醒老闆一下 😂😂😂</p>
+</blockquote>
+<img src="/2017/台南仁德區-阿裕牛肉涮涮鍋-超越牛肉湯的大享受/img/阿裕牛肉涮涮鍋-3.jpg" alt="img/阿裕牛肉涮涮鍋-3.jpg" title="">
+<p>除了湯頭不錯外，最重要的主角就是我們的 <strong>溫體牛肉</strong> 阿！<br>這盤是一般牛肉湯店可以吃到的部位，<strong>肉質鮮嫩</strong>，<strong>油花較少</strong>。</p>
+<p>雖然 <strong>阿裕</strong> 的肉盤一盤 <span class="oaspan oaspan-yellow oaspan-reverse">NT$ 300</span>，但我還是建議至少點個 2 - 3 盤<br>因為老闆會 <strong>根據盤數配不同部位</strong> 的牛肉給客官享用！<br>這次多虧有專業在地ㄟ直接點四盤，我們才知道，原來不同部位的牛肉有不同層次的享受<br>這真的是超越以往喝牛肉湯的大享受哪！！</p>
+<img src="/2017/台南仁德區-阿裕牛肉涮涮鍋-超越牛肉湯的大享受/img/阿裕牛肉涮涮鍋-4.jpg" alt="img/阿裕牛肉涮涮鍋-4.jpg" title="">
+<p>而第二盤牛肉切成 <strong>長片狀</strong>，油花稍比上面小片狀的多些，咬起來比較 <strong>韌</strong> 一點，不過牛肉香也比較重些。</p>
+<img src="/2017/台南仁德區-阿裕牛肉涮涮鍋-超越牛肉湯的大享受/img/阿裕牛肉涮涮鍋-5.jpg" alt="img/阿裕牛肉涮涮鍋-5.jpg" title="">
+<p>這盤就是讓我和小凱蘿為之驚豔的一盤！！<br>油花又比長片狀的部位更多一些些，口感很特別，咬下去會有一種 <strong>啪滋啪滋</strong> 的感覺，該怎麼形容呢 🤔<br>就是 <strong>柔嫩</strong> 中又帶一點 <strong>彈牙</strong> 的口感，加上牛肉香溢滿整個口腔，真是大開眼界阿！</p>
+<blockquote>
+<p>p.s. 沒跟雷恩學過 <strong>猛牛青龍斬</strong>，實在分不出哪些是什麼部位…，但不同的部位真的有不同的口感和享受！挺特別的體驗</p>
+</blockquote>
+<img src="/2017/台南仁德區-阿裕牛肉涮涮鍋-超越牛肉湯的大享受/img/阿裕牛肉涮涮鍋-6.jpg" alt="img/阿裕牛肉涮涮鍋-6.jpg" title="">
+<p>涮牛肉有個小撇步，就是用涮牛肉的網勺 (🙋‍♂️其實我不知道這個工具叫什麼耶…) 裝幾片牛肉，然後用筷子快速拌個 <strong>3 - 4 秒</strong> 左右就可以吃了！</p>
+<p>這邊有個有趣的事，那天老闆娘還蠻可愛的，她一桌一桌的巡著<br>「會吃吼？」<br>「阿不要全部丟進去煮捏」<br>「記得用涮的，涮一下下就可以吃了蛤～」<br>生怕別人把她的牛肉煮壞似的不斷提醒著，哈哈哈哈</p>
+<img src="/2017/台南仁德區-阿裕牛肉涮涮鍋-超越牛肉湯的大享受/img/阿裕牛肉涮涮鍋-7.jpg" alt="img/阿裕牛肉涮涮鍋-7.jpg" title="">
+<p>涮 <strong>3 - 4 秒</strong> 左右大概會呈現粉紅色的樣子，不敢吃太生的人也可以再多涮一會兒，but 別煮到老掉喔！小心被老闆娘嘮叨 😝😝😝</p>
+<img src="/2017/台南仁德區-阿裕牛肉涮涮鍋-超越牛肉湯的大享受/img/阿裕牛肉涮涮鍋-8.jpg" alt="img/阿裕牛肉涮涮鍋-8.jpg" title="">
+<p>這就是我和小凱蘿最喜歡的部位涮起來的樣子，那個花紋，那個色澤，喔！現在大半夜看這照片真的很自虐R…</p>
+<hr>
+<h1 id="後記-amp-心得"><a href="#後記-amp-心得" class="headerlink" title="後記 &amp; 心得"></a>後記 &amp; 心得</h1><p>其實在今年過年期間朋友就有帶我來訪過 <strong>阿裕</strong> 一次，但當天可能太過忙碌或客人爆炸多，得到的回應居然是 <strong>不收兩個人</strong>… 😩</p>
+<blockquote>
+<p>經詢問後得知，店家座位分兩人、三人、四人及五人以上，當天應是兩人座位都已客滿，望勿造成誤會。</p>
+</blockquote>
+<p>幸好很快的又有機會來台南玩！<br>真的很謝謝當天朋友的招待，除了這餐被請客外，還送我們一包店裡販售的 <strong>原味牛肉乾</strong>，真是 <strong>有呷擱有掠</strong>！<br>這次 <span class="oaspan oaspan-red oaspan-reverse">阿裕牛肉涮涮鍋</span> 的體驗真的很滿足，但這個點比較遠些，<strong>離台南市區騎車約 30 分鐘車程</strong>，所以踩點上可能不太好安排。</p>
+<blockquote>
+<p>店內販售的牛肉乾是用當天未使用的牛肉製成的，一包是 <span class="oaspan oaspan-yellow oaspan-reverse">NT$ 150</span><br>口感有別於一般外面販售的牛肉乾，很像真的在吃牛肉，但又有牛肉乾的調味，還挺特別的，給有興趣的人作參考。</p>
+</blockquote>
+<hr>
+<h1 id="店家資訊"><a href="#店家資訊" class="headerlink" title="店家資訊"></a>店家資訊</h1><p><span class="oaspan oaspan-reverse"><i class="fa fa-clock-o"></i></span> 營業時間：<strong>(週三至週日) 08:00 – 14:00, 17:00 – 00:00</strong> | <strong>(週一) 08:00 – 14:00</strong> | <strong>(週二) 17:00 – 00:00</strong><br><span class="oaspan oaspan-reverse"><i class="fa fa-facebook"></i></span> 粉絲團：<a href="https://www.facebook.com/%E9%98%BF%E8%A3%95%E7%89%9B%E8%82%89%E6%B6%AE%E6%B6%AE%E9%8D%8B-%E7%89%9B%E8%82%89%E6%B9%AF-387773411301627/" target="_blank" rel="external">阿裕牛肉涮涮鍋 - 牛肉湯</a><br><span class="oaspan oaspan-reverse"><i class="fa fa-phone"></i></span> 電話：<strong>06-266-8816</strong><br><span class="oaspan oaspan-reverse"><i class="fa fa-map-marker"></i></span> 地址：<a href="https://www.google.com.tw/maps/place/%E9%98%BF%E8%A3%95%E7%89%9B%E8%82%89%E6%B6%AE%E6%B6%AE%E9%8D%8B/@22.9377365,120.2477244,15z/data=!4m2!3m1!1s0x0:0x59d278e54d332cb0?sa=X&amp;ved=0ahUKEwjRsOrHsobUAhXBT7wKHQc_DmkQ_BIIgQEwCg" target="_blank" rel="external">台南市仁德區中正路一段525號</a></p>
+<div style="text-align: center;"><br>  <iframe class="oamap" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14697.35628411845!2d120.2477244!3d22.9377365!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x59d278e54d332cb0!2z6Zi_6KOV54mb6IKJ5rau5rau6Y2L!5e0!3m2!1szh-TW!2stw!4v1495555927199" height="250" frameborder="0" style="border:0" allowfullscreen></iframe><br></div>
+
+<hr>
+<h1 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h1><h2 id="街口的美食地圖"><a href="#街口的美食地圖" class="headerlink" title="街口的美食地圖"></a>街口的美食地圖</h2><ul>
+<li><a href="/2017/台南北區-阿憨鹹粥-免排隊的府城古早味/">[台南北區] 阿憨鹹粥 - 免排隊的府城古早味</a></li>
+<li><a href="/2017/台南中西區-富盛號碗粿-永樂市場的古早味美食/">[台南中西區] 富盛號碗粿 - 永樂市場的古早味美食</a></li>
+<li><a href="/2017/台南中西區-阿江炒鱔魚-這才是正港的炒鱔魚意麵/">[台南中西區] 阿江炒鱔魚 - 這才是正港的炒鱔魚意麵</a></li>
+<li><a href="/2017/台南中西區-鬍鬚忠牛肉湯-不可錯過的頂級牛肉湯/">[台南中西區] 鬍鬚忠牛肉湯 - 不可錯過的頂級牛肉湯</a></li>
+</ul>
+<h2 id="街口的住宿體驗"><a href="#街口的住宿體驗" class="headerlink" title="街口的住宿體驗"></a>街口的住宿體驗</h2><ul>
+<li><a href="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/">[台南東區] 台南老爺行旅 - 高鐵三週年房型三級跳</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;img src=&quot;/2017/台南仁德區-阿裕牛肉涮涮鍋-超越牛肉湯的大享受/img/阿裕牛肉涮涮鍋-3.jpg&quot; alt=&quot;img/阿裕牛肉涮涮鍋-3.jpg&quot; title=&quot;&quot;&gt;
+&lt;p&gt;到台南有什麼美食是一定要吃？OA 覺得 &lt;strong&gt;牛肉湯&lt;/strong&gt; 是絕對要嘗試的！這次感謝在地好朋友的招待，讓我們吃到比 &lt;strong&gt;牛肉湯&lt;/strong&gt; 更滿足的大享受 &lt;span class=&quot;oaspan oaspan-red oaspan-reverse&quot;&gt;阿裕牛肉涮涮鍋&lt;/span&gt;！&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Food" scheme="https://oawan.me/categories/food/"/>
+    
+    
+      <category term="街口的美食地圖" scheme="https://oawan.me/tags/%E8%A1%97%E5%8F%A3%E7%9A%84%E7%BE%8E%E9%A3%9F%E5%9C%B0%E5%9C%96/"/>
+    
+      <category term="台南市" scheme="https://oawan.me/tags/%E5%8F%B0%E5%8D%97%E5%B8%82/"/>
+    
+      <category term="台南仁德區" scheme="https://oawan.me/tags/%E5%8F%B0%E5%8D%97%E4%BB%81%E5%BE%B7%E5%8D%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[台南東區] 台南老爺行旅 - 高鐵三週年房型三級跳</title>
+    <link href="https://oawan.me/2017/%E5%8F%B0%E5%8D%97%E6%9D%B1%E5%8D%80-%E5%8F%B0%E5%8D%97%E8%80%81%E7%88%BA%E8%A1%8C%E6%97%85-%E9%AB%98%E9%90%B5%E4%B8%89%E9%80%B1%E5%B9%B4%E6%88%BF%E5%9E%8B%E4%B8%89%E7%B4%9A%E8%B7%B3/"/>
+    <id>https://oawan.me/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/</id>
+    <published>2017-05-20T03:21:32.000Z</published>
+    <updated>2017-05-27T07:48:58.000Z</updated>
+    
+    <content type="html"><![CDATA[<img src="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/窗外景緻.jpg" alt="img/窗外景緻.jpg" title="">
+<p>超開心又可以到台南玩啦！這次很突然的決定快閃台南，主要是因為賢慧的小凱蘿，在網路上找到一個 <strong>相當實惠</strong> 的住宿方案，讓我們有幸能在 <span class="oaspan oaspan-red oaspan-reverse">台南老爺行旅</span> 以萬元不到的價格享受超高級房型！難得一次的大享受，是一定要記錄分享一下的啦 😍😍</p>
+<a id="more"></a>
+<hr>
+<h1 id="台南老爺行旅"><a href="#台南老爺行旅" class="headerlink" title="台南老爺行旅"></a>台南老爺行旅</h1><p><span class="oaspan oaspan-reverse">推薦</span> 4.0 <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></p>
+<p>這次我們入住的是原價 <span class="oaspan oaspan-yellow oaspan-reverse">NT$ 18,000(+10%)</span> 的 <span class="oaspan">品味套房</span>，價格真的是嚇死人，不過這是此房型的定價，真正的價格常會搭配優惠活動作調整；這次我們就是以特殊活動的房價入住，一晚直接降成 <span class="oaspan oaspan-yellow oaspan-reverse">NT$ 4,900(+10%)</span>，超激(一ㄡˋ)省(ㄖㄣˊ)！</p>
+<blockquote>
+<p>搭配高鐵，票價打八折喔！本篇文章的後記會補上相關資訊以供參考喔！</p>
+</blockquote>
+<hr>
+<h2 id="房間介紹"><a href="#房間介紹" class="headerlink" title="房間介紹"></a>房間介紹</h2><img src="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/品味套房-1.jpg" alt="img/品味套房-1.jpg" title="">
+<p>打開房門時我真的心花怒放了，陽光從整面的落地窗灑進來，讓人身心好愉悅阿 🤗</p>
+<img src="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/品味套房-2.jpg" alt="img/品味套房-2.jpg" title="">
+<p>進門後有個小吧檯和辦公桌，小吧檯除了 <strong>小冰箱、水果盤、小點心、招待紅酒</strong> 和電話外，還有 illy 膠囊咖啡機可以隨意使用。</p>
+<img src="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/水果盤.jpg" alt="img/水果盤.jpg" title="">
+<p>其實除了水果盤外，招待的小點心真的很好吃，是老爺行旅的 <strong>巧克力餅乾</strong>，但… 一下就被我們吃光了，ㄎㄎ</p>
+<img src="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/水果盤-2.jpg" alt="img/水果盤-2.jpg" title="">
+<p>小凱蘿也立刻切一顆奇異果來好好享受和放鬆一下。</p>
+<img src="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/法蘭絲金色年代.jpg" alt="img/法蘭絲金色年代.jpg" title="">
+<p>招待的紅酒是法蘭絲代理的智利紅酒(Santa Helena) － <strong>金色年代(Siglo De Oro Cabernet Sauvignon)</strong>，哥不是品酒系der，以上都是靠谷哥大神 hahaaa</p>
+<img src="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/illy咖啡機-1.jpg" width="450">
+<p>小凱蘿負責鑑定水果的部分，我就來負責研究這個 <strong>illy 膠囊咖啡機</strong>。</p>
+<img src="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/illy咖啡機-3.jpg" width="450">
+<p>第一次使用 illy 膠囊咖啡機，還蠻新奇的，沖泡時咖啡香竄出來的瞬間，精神都來了！<br>但我有個小問題…🙋‍♂️ 它會到處亂噴耶！是每台膠囊咖啡機都會這樣嗎？(土包子求解)</p>
+<img src="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/illy咖啡機-2.jpg" alt="img/illy咖啡機-2.jpg" title="">
+<p>而老爺行旅附的咖啡膠囊有 <strong>低咖啡因(綠色)</strong> 和 <strong>濃縮咖啡(藍色)</strong> 兩種，也附上糖包供甜度調整。</p>
+<img src="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/品味套房-3.jpg" alt="img/品味套房-3.jpg" title="">
+<p>整個房間的設計是屬於開放式的，讓整體看起來相當寬敞舒適；這是品味套房的客廳，有一盞大大的落地燈、可愛的鳥籠座椅和別緻的雙人小沙發。</p>
+<img src="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/品味套房-4.jpg" alt="img/品味套房-4.jpg" title="">
+<p>客廳的牆上擺設的壁燈很特別，嗯… 由於 OA 不懂裝潢和設計，所以只好祭出很有 <strong>設計感</strong> 來形容這舒服的感覺 😝😝😝</p>
+<img src="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/品味套房-6.jpg" alt="img/品味套房-6.jpg" title="">
+<p>我個人還蠻喜歡這個落地燈的，後來發現整個老爺行旅都可以看到這個落地燈，只好再次祭出它也很有 <strong>設計感</strong> 呢，哈哈哈</p>
+<img src="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/品味套房-5.jpg" alt="img/品味套房-5.jpg" title="">
+<p>從客廳望過去，可以先看到垂掛式的大電視，而電視下方還有一組 <strong>無線藍芽音響</strong> 可以使用；然後往後看到的是房間的部分，透視的設計讓空間被拉大了，蘇胡。</p>
+<blockquote>
+<p>p.s 電視可以旋轉 360 度喔喔喔喔！</p>
+</blockquote>
+<img src="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/藍芽音響.jpg" alt="img/藍芽音響.jpg" title="">
+<p>這就是可以帶著到處放的 <strong>無線藍芽音響</strong>，只要手機開啟藍芽連接，就可以撥放了，很簡單而且很方便；可以在泡澡時一邊聽音樂一邊喝紅酒，好好放鬆放鬆！</p>
+<img src="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/浴室-1.jpg" alt="img/浴室-1.jpg" title="">
+<p>浴室也是個又大又寬敞的環境，有 <strong>兩面鏡子</strong> 和 <strong>兩個洗手台</strong>，方便兩個人同時梳妝打扮；<strong>泡澡的浴缸</strong> 也是在開放式的空間，上面有個置放紅酒的小木板，而浴缸前面擺了電視，方便一邊泡澡一邊享用招待的紅酒。<br><strong>淋浴間</strong> 和 <strong>廁所</strong> 則是獨立的兩個小隔間，圖呢圖呢？(敲)<br>ㄜ… 就… 忘了拍，嗯嗯，ㄎㄎ 😅</p>
+<img src="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/浴室-3.jpg" alt="img/浴室-3.jpg" title="">
+<p>阿！這這這，勉強有拍到通往淋浴間的推門的 <strong>推</strong>，可愛吧！</p>
+<img src="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/浴室-2.jpg" alt="img/浴室-2.jpg" title="">
+<p>在洗手台旁，有幾個小格子，最上層擺放的是 <strong>吹風機</strong>，中間層是 <strong>衛生紙</strong>，而最下層是 <strong>漱口杯、牙刷牙膏、髮圈、折疊梳 </strong> 和 <strong>浴帽</strong> 等。</p>
+<img src="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/浴室-4.jpg" alt="img/浴室-4.jpg" title="">
+<p>而浴缸旁的小桌子除擺放 <strong>兩瓶水</strong> 外，還有 <strong>洗髮乳、沐浴乳、護髮乳跟潤膚乳液</strong>，都是用老爺行旅的小罐子裝的，小巧可愛 (方便攜帶?)</p>
+<img src="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/啤酒.jpg" width="550">
+<p>泡完澡後就是要從冰箱拿出冰冰涼涼的 <strong>金牌台啤</strong> 配電影阿！</p>
+<img src="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/房卡-1.jpg" alt="img/房卡-1.jpg" title="">
+<p>房間是 <strong>房卡</strong> 作感應開門的動作，這就是我們的房卡正面</p>
+<img src="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/房卡-2.jpg" alt="img/房卡-2.jpg" title="">
+<p>房卡背面的資訊卡上，貼心的印上 <strong>早餐、自助洗衣房</strong> 和 <strong>健身房</strong> 的時間和使用樓層，也印有 <strong>退房時間</strong> 作提醒。</p>
+<hr>
+<h2 id="周邊介紹"><a href="#周邊介紹" class="headerlink" title="周邊介紹"></a>周邊介紹</h2><img src="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/走廊燈.jpg" alt="img/走廊燈.jpg" title="">
+<p>房間外走廊上都設有 <strong>房號燈</strong>，這個房號燈的設計原型，就是 <span class="oaspan">神農街</span> 的街燈喔！</p>
+<img src="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/早餐-1.jpg" alt="img/早餐-1.jpg" title="">
+<p>早餐是在 <strong>5樓</strong> 的 <strong>甘粹餐廳</strong> 和 <strong>廿一 Bar 21</strong>，而上圖即是 <strong>Bar 21</strong> 吧檯。</p>
+<img src="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/早餐-2.jpg" alt="img/早餐-2.jpg" title="">
+<p>這邊則是 <strong>甘粹餐廳</strong> 的用餐空間。</p>
+<img src="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/早餐-7.jpg" alt="img/早餐-7.jpg" title="">
+<p>老爺行旅的每個地方都能看見設計的影子，即使是用餐的餐墊也很用心。</p>
+<img src="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/早餐-3.jpg" alt="img/早餐-3.jpg" title="">
+<p>早餐是 <strong>自助吧</strong> 的方式，餐點從西式的吐司、歐姆蛋到中式的稀飯、豆漿都有，由於是自助的關係，就偷懶沒有每樣都拍了 😅</p>
+<img src="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/早餐-4.jpg" alt="img/早餐-4.jpg" title="">
+<p>只要有中式的自助吧，OA 我就一定會盛碗粥配肉鬆、豆枝 (🙋‍♂️國語是什麼阿？)和麵筋，超讚！</p>
+<img src="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/早餐-5.jpg" alt="img/早餐-5.jpg" title="">
+<p>吃飽喝足後才發現一個很可愛的地方，老爺行旅的碗盤上都印有<strong>「參考線」</strong>，像這碗上就印著 <strong>飽嘟嘟、呷飽、飽</strong></p>
+<img src="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/早餐-6.jpg" alt="img/早餐-6.jpg" title="">
+<p>餐盤上印的則是 <strong>么薩薩、呷么、么</strong>，哈哈哈</p>
+<hr>
+<h1 id="後記-amp-心得"><a href="#後記-amp-心得" class="headerlink" title="後記 &amp; 心得"></a>後記 &amp; 心得</h1><p>這次的住宿體驗真的是太享受了，環境 <strong>簡潔明亮</strong>、整體 <strong>設計舒適</strong> 外，員工的 <strong>服務素質也相當好</strong>！<br>原本還想說來台南玩住這麼好，會不會是種浪費和奢侈，但！真的值得一試！<br>不過不過，在入住前一定要先上網作作功課，大部分時間都會有搭配的優惠活動，不敢肯定會便宜到多少，但一定比直接訂房來的划算。<br>這次我們能以這麼 <strong>便宜的價格入住 (NT$ 4,900 + 10%/晚)</strong> 和購得 <strong>高鐵來回票 (NT$ 2,220/人)</strong><br>都歸功於小凱蘿發現 <span class="oaspan"><a href="https://www.thsrc.com.tw/tw/Article/ArticleContent/e08603fc-52a9-4785-81b7-9db16a26d1fd" target="_blank" rel="external">高鐵飯店聯票三週年</a></span> 的活動，雖然活動期限已經過了，但有興趣前往老爺行旅的大家，也可以先看看 <a href="http://www.hotelroyal.com.tw/tainan/news_list.aspx" target="_blank" rel="external"><strong>官方網站的活動資訊</strong></a> 喔！</p>
+<img src="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/小凱蘿.jpg" width="550">
+<p>最後附上小卡蘿美照一枚結束這回合 😍</p>
+<hr>
+<h1 id="飯店資訊"><a href="#飯店資訊" class="headerlink" title="飯店資訊"></a>飯店資訊</h1><p><span class="oaspan oaspan-reverse"><i class="fa fa-globe"></i></span> 官方網站：<a href="http://www.hotelroyal.com.tw/tainan/index.aspx" target="_blank" rel="external"><strong>台南老爺行旅</strong></a><br><span class="oaspan oaspan-reverse"><i class="fa fa-phone"></i></span> 電話：<strong>06-236-6168</strong><br><span class="oaspan oaspan-reverse"><i class="fa fa-map-marker"></i></span> 地址：<a href="https://www.google.com.tw/maps/place/%E5%8F%B0%E5%8D%97%E8%80%81%E7%88%BA%E8%A1%8C%E6%97%85+The+Place+Tainan/@22.9900119,120.2330748,15z/data=!4m5!3m4!1s0x0:0x90f1df86b5ce6804!8m2!3d22.9900119!4d120.2330748" target="_blank" rel="external">台南市東區中華東路一段368號</a></p>
+<div style="text-align: center;"><br>  <iframe class="oamap" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14691.675344489719!2d120.2330748!3d22.9900119!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x90f1df86b5ce6804!2z5Y-w5Y2X6ICB54i66KGM5peFIFRoZSBQbGFjZSBUYWluYW4!5e0!3m2!1szh-TW!2stw!4v1495300257934" height="250" frameborder="0" style="border:0" allowfullscreen></iframe><br></div>
+
+<hr>
+<h1 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h1><h2 id="街口的美食地圖"><a href="#街口的美食地圖" class="headerlink" title="街口的美食地圖"></a>街口的美食地圖</h2><ul>
+<li><a href="/2017/台南北區-阿憨鹹粥-免排隊的府城古早味/">[台南北區] 阿憨鹹粥 - 免排隊的府城古早味</a></li>
+<li><a href="/2017/台南中西區-富盛號碗粿-永樂市場的古早味美食/">[台南中西區] 富盛號碗粿 - 永樂市場的古早味美食</a></li>
+<li><a href="/2017/台南中西區-阿江炒鱔魚-這才是正港的炒鱔魚意麵/">[台南中西區] 阿江炒鱔魚 - 這才是正港的炒鱔魚意麵</a></li>
+<li><a href="/2017/台南中西區-鬍鬚忠牛肉湯-不可錯過的頂級牛肉湯/">[台南中西區] 鬍鬚忠牛肉湯 - 不可錯過的頂級牛肉湯</a></li>
+<li><a href="/2017/台南仁德區-阿裕牛肉涮涮鍋-超越牛肉湯的大享受/">[台南仁德區] 阿裕牛肉涮涮鍋 - 饕客必吃！超越牛肉湯的大享受！</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;img src=&quot;/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/img/窗外景緻.jpg&quot; alt=&quot;img/窗外景緻.jpg&quot; title=&quot;&quot;&gt;
+&lt;p&gt;超開心又可以到台南玩啦！這次很突然的決定快閃台南，主要是因為賢慧的小凱蘿，在網路上找到一個 &lt;strong&gt;相當實惠&lt;/strong&gt; 的住宿方案，讓我們有幸能在 &lt;span class=&quot;oaspan oaspan-red oaspan-reverse&quot;&gt;台南老爺行旅&lt;/span&gt; 以萬元不到的價格享受超高級房型！難得一次的大享受，是一定要記錄分享一下的啦 😍😍&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Stay" scheme="https://oawan.me/categories/stay/"/>
+    
+    
+      <category term="台南市" scheme="https://oawan.me/tags/%E5%8F%B0%E5%8D%97%E5%B8%82/"/>
+    
+      <category term="街口的住宿體驗" scheme="https://oawan.me/tags/%E8%A1%97%E5%8F%A3%E7%9A%84%E4%BD%8F%E5%AE%BF%E9%AB%94%E9%A9%97/"/>
+    
+      <category term="台南東區" scheme="https://oawan.me/tags/%E5%8F%B0%E5%8D%97%E6%9D%B1%E5%8D%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[台南中西區] 富盛號碗粿 - 永樂市場的古早味美食</title>
+    <link href="https://oawan.me/2017/%E5%8F%B0%E5%8D%97%E4%B8%AD%E8%A5%BF%E5%8D%80-%E5%AF%8C%E7%9B%9B%E8%99%9F%E7%A2%97%E7%B2%BF-%E6%B0%B8%E6%A8%82%E5%B8%82%E5%A0%B4%E7%9A%84%E5%8F%A4%E6%97%A9%E5%91%B3%E7%BE%8E%E9%A3%9F/"/>
+    <id>https://oawan.me/2017/台南中西區-富盛號碗粿-永樂市場的古早味美食/</id>
+    <published>2017-05-18T08:59:32.000Z</published>
+    <updated>2017-05-27T07:44:01.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/img/food/2017/Tainan/West Central District/富盛號碗粿/富盛號-2.jpg" alt="富盛號碗粿"><br>上次來台南，在地的好朋友有推薦這家好吃的 <span class="oaspan oaspan-red oaspan-reverse">富盛號碗粿</span>，但上次來玩真的沒肚子塞，不過不要緊，<strong>上次沒吃到的，這次補回來，阿這次沒吃到的，下次通通來！</strong>身為愛好美食的肥宅，就是要一直來，一直吃 😏😏</p>
+<a id="more"></a>
+<hr>
+<h1 id="富盛號碗粿"><a href="#富盛號碗粿" class="headerlink" title="富盛號碗粿"></a>富盛號碗粿</h1><p><span class="oaspan oaspan-reverse">划算</span> 3.5 <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-full"></i><i class="fa fa-star-o"></i></p>
+<p>其實我沒想過大家對於 <strong>碗粿</strong> 的喜好程度，對於我來說，是小時候回憶的味道，大學北上後好像就幾乎沒在吃到 <strong>碗粿</strong>，如果台北有什麼好吃的碗粿也歡迎留言推薦給我喔！</p>
+<blockquote>
+<p>p.s. 神奇的是，小凱蘿居然沒有吃過 <strong>碗粿</strong>… 😲</p>
+</blockquote>
+<p><img src="/img/food/2017/Tainan/West Central District/富盛號碗粿/富盛號-1.jpg" alt="富盛號碗粿"><br>這家 <span class="oaspan oaspan-red oaspan-reverse">富盛號碗粿</span> 是位於台南 <span class="oaspan">永樂市場</span> 的 <strong>70 年老店</strong>，店內牆上掛的店家廣告和招牌都好可愛，很用心在設計上。</p>
+<p><img src="/img/food/2017/Tainan/West Central District/富盛號碗粿/富盛號-3.jpg" alt="富盛號碗粿"><br>店面是開放式的用餐空間，有風扇，但… 如果是七八月大熱天的，應該…</p>
+<hr>
+<h2 id="碗粿-30"><a href="#碗粿-30" class="headerlink" title="碗粿 $30"></a>碗粿 <span class="oabadge oabadge-yellow">$30</span></h2><p><img src="/img/food/2017/Tainan/West Central District/富盛號碗粿/碗粿-1.jpg" alt="富盛號碗粿"><br>這碗碗粿只要 <strong>$30</strong>，不要看上面的醬黑不拉機的，他可不是死鹹的醬油膏喔！</p>
+<blockquote>
+<p>唉唉，很可惜的是 OA 在這邊拍的食物沙龍照都好失敗，拍的不是很好吶 😭😭😭</p>
+</blockquote>
+<p><img src="/img/food/2017/Tainan/West Central District/富盛號碗粿/碗粿-2.jpg" alt="富盛號碗粿"><br>盛裝碗粿就要用這種瓷碗才夠味，不過，後來和推薦我們來吃的好朋友聊才發現，原來大家小時候都是用一支冰棒棍挖著吃！</p>
+<p><img src="/img/food/2017/Tainan/West Central District/富盛號碗粿/碗粿-3.jpg" alt="富盛號碗粿"><br>他們家的碗粿用料真的很實在，碗粿吃起來很香Q，裡面還有蝦仁、肉燥、香菇還有一顆好吃的蛋黃，這樣只要 $30，真的是 <strong>超、級、划、算！</strong></p>
+<hr>
+<h1 id="後記-amp-心得"><a href="#後記-amp-心得" class="headerlink" title="後記 &amp; 心得"></a>後記 &amp; 心得</h1><p>其實 <span class="oaspan oaspan-red oaspan-reverse">富盛號</span> 除了碗粿外，還有賣 <strong>魚羹</strong>，但由於我和小凱蘿要留點胃給其他美食，所以就沒嘗試啦！<br>得說一下，碗粿真的很划算，而且也很好吃，走過路過的朋友不仿停下來試試看，不過可以考慮外帶，因為人多的話，內用可能得排上一些時間喔 😋</p>
+<hr>
+<h1 id="店家資訊"><a href="#店家資訊" class="headerlink" title="店家資訊"></a>店家資訊</h1><p><span class="oaspan oaspan-reverse"><i class="fa fa-clock-o"></i></span> 營業時間：<strong>07:00 - 17:00(每週四公休)</strong><br><span class="oaspan oaspan-reverse"><i class="fa fa-phone"></i></span> 電話：<strong>06-227-4101</strong><br><span class="oaspan oaspan-reverse"><i class="fa fa-map-marker"></i></span> 地址：<a href="https://www.google.com.tw/maps/place/%E5%AF%8C%E7%9B%9B%E8%99%9F%E7%A2%97%E7%B2%BF/@22.9979372,120.1993287,16.5z/data=!4m5!3m4!1s0x0:0xf9d29bde433087b2!8m2!3d22.9976239!4d120.1990221" target="_blank" rel="external">台南市中西區西門路二段333巷8號</a></p>
+<div style="text-align: center;"><br>  <iframe class="oamap" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d4367.601923697929!2d120.1979138387206!3d22.998027295940897!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xf9d29bde433087b2!2z5a-M55ub6Jmf56KX57K_!5e0!3m2!1szh-TW!2stw!4v1495104414665" width="800" height="250" frameborder="0" style="border:0" allowfullscreen></iframe><br></div>
+
+<hr>
+<h1 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h1><h2 id="街口的美食地圖"><a href="#街口的美食地圖" class="headerlink" title="街口的美食地圖"></a>街口的美食地圖</h2><ul>
+<li><a href="/2017/台南北區-阿憨鹹粥-免排隊的府城古早味/">[台南北區] 阿憨鹹粥 - 免排隊的府城古早味</a></li>
+<li><a href="/2017/台南中西區-阿江炒鱔魚-這才是正港的炒鱔魚意麵/">[台南中西區] 阿江炒鱔魚 - 這才是正港的炒鱔魚意麵</a></li>
+<li><a href="/2017/台南中西區-鬍鬚忠牛肉湯-不可錯過的頂級牛肉湯/">[台南中西區] 鬍鬚忠牛肉湯 - 不可錯過的頂級牛肉湯</a></li>
+<li><a href="/2017/台南仁德區-阿裕牛肉涮涮鍋-超越牛肉湯的大享受/">[台南仁德區] 阿裕牛肉涮涮鍋 - 饕客必吃！超越牛肉湯的大享受！</a></li>
+</ul>
+<h2 id="街口的住宿體驗"><a href="#街口的住宿體驗" class="headerlink" title="街口的住宿體驗"></a>街口的住宿體驗</h2><ul>
+<li><a href="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/">[台南東區] 台南老爺行旅 - 高鐵三週年房型三級跳</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/img/food/2017/Tainan/West Central District/富盛號碗粿/富盛號-2.jpg&quot; alt=&quot;富盛號碗粿&quot;&gt;&lt;br&gt;上次來台南，在地的好朋友有推薦這家好吃的 &lt;span class=&quot;oaspan oaspan-red oaspan-reverse&quot;&gt;富盛號碗粿&lt;/span&gt;，但上次來玩真的沒肚子塞，不過不要緊，&lt;strong&gt;上次沒吃到的，這次補回來，阿這次沒吃到的，下次通通來！&lt;/strong&gt;身為愛好美食的肥宅，就是要一直來，一直吃 😏😏&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Food" scheme="https://oawan.me/categories/food/"/>
+    
+    
+      <category term="街口的美食地圖" scheme="https://oawan.me/tags/%E8%A1%97%E5%8F%A3%E7%9A%84%E7%BE%8E%E9%A3%9F%E5%9C%B0%E5%9C%96/"/>
+    
+      <category term="台南市" scheme="https://oawan.me/tags/%E5%8F%B0%E5%8D%97%E5%B8%82/"/>
+    
+      <category term="台南中西區" scheme="https://oawan.me/tags/%E5%8F%B0%E5%8D%97%E4%B8%AD%E8%A5%BF%E5%8D%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[台南北區] 阿憨鹹粥 - 免排隊的府城古早味</title>
+    <link href="https://oawan.me/2017/%E5%8F%B0%E5%8D%97%E5%8C%97%E5%8D%80-%E9%98%BF%E6%86%A8%E9%B9%B9%E7%B2%A5-%E5%85%8D%E6%8E%92%E9%9A%8A%E7%9A%84%E5%BA%9C%E5%9F%8E%E5%8F%A4%E6%97%A9%E5%91%B3/"/>
+    <id>https://oawan.me/2017/台南北區-阿憨鹹粥-免排隊的府城古早味/</id>
+    <published>2017-05-16T15:22:00.000Z</published>
+    <updated>2017-05-27T07:49:09.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/img/food/2017/Tainan/North District/阿憨鹹粥/虱目魚肚粥-1.jpg" alt="阿憨鹹粥"><br>上次來台南飽到沒胃吃的鹹粥，這次要好好補回來！跟 OA 一起來嚐看看這家頗負盛名的 <span class="oaspan oaspan-red oaspan-reverse">阿憨鹹粥</span> 吧！</p>
+<a id="more"></a>
+<hr>
+<h1 id="阿憨鹹粥"><a href="#阿憨鹹粥" class="headerlink" title="阿憨鹹粥"></a>阿憨鹹粥</h1><p><span class="oaspan oaspan-reverse">不錯</span> 3.0 <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></p>
+<p>這天用餐大概是中午一點左右，雖然人算蠻多的，但由於店面大、桌數多，所以基本上不太需要等；不過在這有個缺憾，就是太餓了，完全忘記拍店面、環境和價目表…(淚)</p>
+<hr>
+<h2 id="虱目魚臊飯-30"><a href="#虱目魚臊飯-30" class="headerlink" title="虱目魚臊飯 $30"></a>虱目魚臊飯 <span class="oabadge oabadge-yellow">$30</span></h2><p><img src="/img/food/2017/Tainan/North District/阿憨鹹粥/虱目魚臊飯.jpg" alt="阿憨鹹粥"><br>這可不是一般的 <strong>滷肉飯</strong> 或 <strong>肉燥飯</strong> 喔！是很特別的 <span class="oaspan oaspan-reverse">虱目魚臊飯</span>，這魚臊比較重鹹一點，不算是偏甜的台南料理，但我覺得還蠻特別蠻好吃的，喜歡鹹香味多一點的人不仿企跨麥。</p>
+<hr>
+<h2 id="虱目魚肚粥-100-油條-10"><a href="#虱目魚肚粥-100-油條-10" class="headerlink" title="虱目魚肚粥 $100 + 油條 $10"></a>虱目魚肚粥 <span class="oabadge oabadge-yellow">$100</span> + 油條 <span class="oabadge oabadge-yellow">$10</span></h2><p><img src="/img/food/2017/Tainan/North District/阿憨鹹粥/虱目魚肚粥-1.jpg" alt="阿憨鹹粥"><br>由於小凱蘿是虱目魚肚愛好者，加上上次的台南行沒好好吃到虱目魚肚，所以這次我特地找了台南有名的鹹粥 - <span class="oaspan oaspan-reverse">虱目魚肚粥</span> 來滿足咱們的口腹之慾！<br>　　<br><img src="/img/food/2017/Tainan/North District/阿憨鹹粥/虱目魚肚粥-2.jpg" alt="阿憨鹹粥"><br>由於我的阿嬤是台南人，所以小時候還蠻常吃 <strong>鹹粥</strong> 的，但並不覺得有什麼特別的，也沒有特別喜歡虱目魚肚，直到在桃園、台北久居後，才發現，原來不是所有虱目魚肚都是無刺的，也並不是所有虱目魚肚都是好吃的…XDD<br><strong>就是它了！</strong><br>我算是長大後才喜歡吃虱目魚肚，而且就是這個味道才好吃，就口感來說，魚肚滑嫩化口，魚肉也緊實鮮甜，真的讚讚，所以我給這小肚皮兒的評價還不錯喔！</p>
+<p><img src="/img/food/2017/Tainan/North District/阿憨鹹粥/虱目魚肚粥-3.jpg" alt="阿憨鹹粥"><br>小凱蘿吃了一口粥後，滿臉疑惑的問我「為什麼這個是粥？」<br>「這就是粥阿！不然是什麼？」我回<br>「粥不是應該稠稠的，像是廣東粥那樣」小凱蘿又側頭表示疑惑<br>「對耶！但我從小就說這是粥，但也說稠稠的那是粥… ㄜ…」我自己疑惑，ㄎㄎ<br>好啦，不管！我想說的是，有些人並不喜歡這種 <strong>湯飯</strong> 類型的粥，但有的人從小就吃習慣這樣的 <strong>粥</strong>；對於鹹粥本身，我好像就是抱持著 <strong>呷懷念</strong> 的心態，所以並沒有覺得特別好吃。</p>
+<p><img src="/img/food/2017/Tainan/North District/阿憨鹹粥/虱目魚肚粥-4.jpg" alt="阿憨鹹粥"><br>當然，台南鹹粥除了 <strong>虱目魚肚</strong> 外，不免俗要來點 <strong>蚵仔</strong> 才夠滿意，阿憨的蚵仔很新鮮，一碗粥大概有四到五顆，但不算大顆，不過至少沒灌水增肥。</p>
+<hr>
+<h1 id="後記-amp-心得"><a href="#後記-amp-心得" class="headerlink" title="後記 &amp; 心得"></a>後記 &amp; 心得</h1><p>這次來 <span class="oaspan oaspan-red oaspan-reverse">阿憨鹹粥</span> 最可惜的是沒吃到 <span class="oaspan oaspan-reverse">魚腸</span>，沒想到才大中午的就銷光了… 真是殘念。<br>綜合評比下給了阿憨 <strong>3</strong> 顆 <i class="fa fa-star"></i>，主要是因為 <strong>出餐快</strong>、<strong>魚肚好吃</strong> 和 <strong>幾乎免排隊</strong>，但粥本身的並不會讓人覺得驚豔，算是個 <strong>呷粗飽</strong> 的好地方！</p>
+<hr>
+<h1 id="店家資訊"><a href="#店家資訊" class="headerlink" title="店家資訊"></a>店家資訊</h1><p><span class="oaspan oaspan-reverse"><i class="fa fa-clock-o"></i></span> 營業時間：<strong>06:20 - 22:00(無公休)</strong><br><span class="oaspan oaspan-reverse"><i class="fa fa-phone"></i></span> 電話：<strong>06-221-8699</strong><br><span class="oaspan oaspan-reverse"><i class="fa fa-map-marker"></i></span> 地址：<a href="https://www.google.com.tw/maps/place/%E9%98%BF%E6%86%A8%E9%B9%B9%E7%B2%A5/@23.0015388,120.2063201,15z/data=!4m5!3m4!1s0x0:0xff66cd9852349479!8m2!3d23.0015388!4d120.2063201" target="_blank" rel="external">台南市北區公園南路169號</a></p>
+<div style="text-align: center;"><br>  <iframe class="oamap" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14690.421032516175!2d120.2063201!3d23.0015388!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xff66cd9852349479!2z6Zi_5oao6bm557Kl!5e0!3m2!1szh-TW!2stw!4v1494954290491" height="250" frameborder="0" style="border:0" allowfullscreen></iframe><br></div>
+
+<hr>
+<h1 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h1><h2 id="街口的美食地圖"><a href="#街口的美食地圖" class="headerlink" title="街口的美食地圖"></a>街口的美食地圖</h2><ul>
+<li><a href="/2017/台南中西區-富盛號碗粿-永樂市場的古早味美食/">[台南中西區] 富盛號碗粿 - 永樂市場的古早味美食</a></li>
+<li><a href="/2017/台南中西區-阿江炒鱔魚-這才是正港的炒鱔魚意麵/">[台南中西區] 阿江炒鱔魚 - 這才是正港的炒鱔魚意麵</a></li>
+<li><a href="/2017/台南中西區-鬍鬚忠牛肉湯-不可錯過的頂級牛肉湯/">[台南中西區] 鬍鬚忠牛肉湯 - 不可錯過的頂級牛肉湯</a></li>
+<li><a href="/2017/台南仁德區-阿裕牛肉涮涮鍋-超越牛肉湯的大享受/">[台南仁德區] 阿裕牛肉涮涮鍋 - 饕客必吃！超越牛肉湯的大享受！</a></li>
+</ul>
+<h2 id="街口的住宿體驗"><a href="#街口的住宿體驗" class="headerlink" title="街口的住宿體驗"></a>街口的住宿體驗</h2><ul>
+<li><a href="/2017/台南東區-台南老爺行旅-高鐵三週年房型三級跳/">[台南東區] 台南老爺行旅 - 高鐵三週年房型三級跳</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/img/food/2017/Tainan/North District/阿憨鹹粥/虱目魚肚粥-1.jpg&quot; alt=&quot;阿憨鹹粥&quot;&gt;&lt;br&gt;上次來台南飽到沒胃吃的鹹粥，這次要好好補回來！跟 OA 一起來嚐看看這家頗負盛名的 &lt;span class=&quot;oaspan oaspan-red oaspan-reverse&quot;&gt;阿憨鹹粥&lt;/span&gt; 吧！&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Food" scheme="https://oawan.me/categories/food/"/>
+    
+    
+      <category term="街口的美食地圖" scheme="https://oawan.me/tags/%E8%A1%97%E5%8F%A3%E7%9A%84%E7%BE%8E%E9%A3%9F%E5%9C%B0%E5%9C%96/"/>
+    
+      <category term="台南市" scheme="https://oawan.me/tags/%E5%8F%B0%E5%8D%97%E5%B8%82/"/>
+    
+      <category term="台南北區" scheme="https://oawan.me/tags/%E5%8F%B0%E5%8D%97%E5%8C%97%E5%8D%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[生活] - 知道你們的事之後</title>
+    <link href="https://oawan.me/2016/%E7%94%9F%E6%B4%BB-%E7%9F%A5%E9%81%93%E4%BD%A0%E5%80%91%E7%9A%84%E4%BA%8B%E4%B9%8B%E5%BE%8C/"/>
+    <id>https://oawan.me/2016/生活-知道你們的事之後/</id>
+    <published>2016-10-17T09:47:44.000Z</published>
+    <updated>2016-10-18T01:54:20.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/img/life/2016/永無島.png" alt="永無島"><br>　　<strong>在這裡和你一起變老，是我ㄧ生中最快樂的事。</strong><br>　　　　　　　　　　　　　　　　－ 安妮朵拉《永無島》</p>
+<a id="more"></a>
+<hr>
+<p><strong>《永無島》</strong>是我很喜歡的一首歌和ㄧ支 MV，<br>由於劇本和演員的演技關係，讓我覺得這是ㄧ支很值得記住和分享的 MV：</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Jf6z4jHNrSY" frameborder="0" allowfullscreen></iframe>
+
+<hr>
+<p><strong>「你應該知道我們的事了吧？」</strong><br>接著，你用客觀的說法，告訴我是誰提了分手，是誰為誰好，是誰自私…<br>我知道你是很難受的，也知道除了這些你告訴我的事之外，你並不想多聊，而我也就沒多問了。</p>
+<p>曾經，在你口中的她，很獨立、很有個性、卻也很懂事，是一個能配合你大男人個性的好女孩；<br>也記得你告訴過我你們的故事，因為問心無愧，所以一起勇敢的往前。</p>
+<p>你們的相處，一直以來都讓我覺得羨慕，<br>彼此給彼此足夠的空間，也適時地參與互相的活動，<br>更難得的是除了朋友外，跟對方的家人也處得融洽！</p>
+<p>但，在我們沒什麼聯繫的這一年裡，很多關於你們的事漸漸變得陌生了；<br>那天，你問我 <strong>「你應該知道我們的事了吧？」</strong>，我很驚訝，也很難過，<br>那些 <strong>契合的難得</strong>，好像突然都不重要了。</p>
+<hr>
+<p>關於分手，很難，<br>每個人對同一件事本就抱持著不同的感受跟看法，<br>如果能一直保持初衷，或許就不會這麼複雜了。</p>
+<p>我們常常被對方的優點吸引，彼此接近，然後漸漸了解對方；<br>接著，對彼此產生期待感，當對方滿足不了這份期待時，我們選擇溝通體諒或試圖改變對方。<br>在時間與問題的堆疊下，當初的優點，將會慢慢被遺忘，被視為理所當然；<br>也許，對方為你改變了不少，但仍不符合你的期待時，就會選擇放棄。</p>
+<hr>
+<p>「我們都曾經青澀、憧憬、追求並勇敢熱戀，」<br>「在彼此生命中，佔有很長的ㄧ段時光，」<br>「如果你說是浪費，請記得翻閱美好的那ㄧ面。」</p>
+<p>我喜歡在自己的世界咬文嚼字，也把它送給 <strong>你們</strong>。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/img/life/2016/永無島.png&quot; alt=&quot;永無島&quot;&gt;&lt;br&gt;　　&lt;strong&gt;在這裡和你一起變老，是我ㄧ生中最快樂的事。&lt;/strong&gt;&lt;br&gt;　　　　　　　　　　　　　　　　－ 安妮朵拉《永無島》&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Life" scheme="https://oawan.me/categories/life/"/>
+    
+    
+      <category term="關於愛情" scheme="https://oawan.me/tags/%E9%97%9C%E6%96%BC%E6%84%9B%E6%83%85/"/>
+    
+      <category term="在街口的停停想想" scheme="https://oawan.me/tags/%E5%9C%A8%E8%A1%97%E5%8F%A3%E7%9A%84%E5%81%9C%E5%81%9C%E6%83%B3%E6%83%B3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[JavaScript] JSON stringify and parse</title>
+    <link href="https://oawan.me/2016/javascript-json-stringify-and-parse/"/>
+    <id>https://oawan.me/2016/javascript-json-stringify-and-parse/</id>
+    <published>2016-09-30T03:01:06.000Z</published>
+    <updated>2016-10-02T20:00:08.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/img/program/json.png" alt="JSON"></p>
+<h1 id="目的"><a href="#目的" class="headerlink" title="# 目的"></a><strong># 目的</strong></h1><p>　　紀錄一下最近常用的 <span class="oaspan oaspan-reverse">JSON</span> 和 method。</p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="# 前言"></a><strong># 前言</strong></h1><p>　　<span class="oaspan oaspan-reverse">JSON</span> 是一個蠻常用到的 <strong>純文字</strong> 格式表示法；本篇就來筆記一下 <span class="oaspan oaspan-reverse">JSON</span> 與 JS 中兩個好用的方法(<strong>stringify()</strong> 和 <strong>parse()</strong>)。</p>
+<a id="more"></a>
+<hr>
+<h1 id="筆記"><a href="#筆記" class="headerlink" title="# 筆記"></a><strong># 筆記</strong></h1><h2 id="JSON-is？"><a href="#JSON-is？" class="headerlink" title="JSON is？"></a>JSON is？</h2><ul>
+<li><span class="oaspan oaspan-reverse">JSON</span> 就是 <strong>JavaScript Object Notation</strong>，JavaScript 物件表示法</li>
+<li><span class="oaspan oaspan-reverse">JSON</span> 為 <strong>純文字</strong> 格式</li>
+<li><span class="oaspan oaspan-reverse">JSON</span> 具自我描述性、易於人理解、閱讀和編寫，同時也易於機器解析和生成</li>
+<li><span class="oaspan oaspan-reverse">JSON</span> 較 <strong>XML (eXtensible Markup Language)</strong> 小、快且更易解析</li>
+</ul>
+<h2 id="JSON-格式"><a href="#JSON-格式" class="headerlink" title="JSON 格式"></a>JSON 格式</h2><p>　　<span class="oaspan oaspan-reverse">JSON</span> 字串可以包含 <span class="oaspan">物件 (Object)</span> 和 <span class="oaspan">陣列 (Array)</span></p>
+<blockquote>
+<p>Tips: 物件與陣列可互相包含，如：<code>{&quot;array&quot;: [{&quot;object&quot;: &quot;object&quot;}]}</code></p>
+</blockquote>
+<h3 id="物件-Object"><a href="#物件-Object" class="headerlink" title="物件 (Object)"></a><span class="oaspan">物件 (Object)</span></h3><ul>
+<li>物件以 <code>{</code> 開始，<code>}</code> 作結</li>
+<li>物件中格式為 <code>name: value</code>，以 <code>:</code> 分隔</li>
+<li><strong>name</strong> 必須以 <code>&quot;&quot;</code> 括起來 (單引號或雙引號皆可)</li>
+<li>若多個物件，則使用 <code>,</code> 分隔</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&#123; </div><div class="line">  <span class="string">"name1"</span>: value1, </div><div class="line">  <span class="string">"name2"</span>: value2</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="陣列-Array"><a href="#陣列-Array" class="headerlink" title="陣列 (Array)"></a><span class="oaspan">陣列 (Array)</span></h3><ul>
+<li>物件以 <code>[</code> 開始，<code>]</code> 作結</li>
+<li>若多個物件，則使用 <code>,</code> 分隔</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[ </div><div class="line">  value1, </div><div class="line">  value2</div><div class="line">]</div></pre></td></tr></table></figure>
+<h3 id="物件-Object-陣列-Array-範例"><a href="#物件-Object-陣列-Array-範例" class="headerlink" title="物件 (Object) + 陣列 (Array) 範例"></a><span class="oaspan">物件 (Object)</span> + <span class="oaspan">陣列 (Array) 範例</span></h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&#123; </div><div class="line">  <span class="string">"name"</span>: <span class="string">"OAwan"</span>, </div><div class="line">  <span class="string">"sex"</span> : <span class="string">"Male"</span>,</div><div class="line">  <span class="string">"age"</span> : <span class="number">27</span>,</div><div class="line">  <span class="string">"married"</span> : <span class="literal">false</span>,</div><div class="line">  <span class="string">"skills"</span>  : [</div><div class="line">    <span class="string">"RubyOnRails"</span>,</div><div class="line">    <span class="string">"JavaScript"</span>,</div><div class="line">    <span class="string">"Scss"</span></div><div class="line">  ]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="JavaScript-處理-JSON"><a href="#JavaScript-處理-JSON" class="headerlink" title="JavaScript 處理 JSON"></a>JavaScript 處理 JSON</h2><h3 id="將物件序列化成-JSON-字串-stringify"><a href="#將物件序列化成-JSON-字串-stringify" class="headerlink" title="將物件序列化成 JSON 字串 - stringify()"></a>將物件序列化成 JSON 字串 - stringify()</h3><p>　　可以使用 <code>JSON.stringify(obj, fn, indent)</code> 將物件序列化</p>
+<ul>
+<li><span class="oaspan oaspan-reverse">obj</span>　欲作序列化的物件</li>
+<li><span class="oaspan oaspan-reverse">fn</span>　為 <strong>function</strong> 時，物件中將被序列化的屬性都會經過此 function 轉換和處理；若是 <strong>Array</strong> 時，表示指定特定屬性</li>
+<li><span class="oaspan oaspan-reverse">indent</span>　此參數控制序列化後字串的縮排(最多 10 個空格)</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 宣告一個 user object</span></div><div class="line"><span class="keyword">let</span> user = &#123;</div><div class="line">  <span class="string">"name"</span>: <span class="string">"OAwan"</span>, </div><div class="line">  <span class="string">"sex"</span> : <span class="string">"Male"</span>,</div><div class="line">  <span class="string">"age"</span> : <span class="number">27</span>,</div><div class="line">  <span class="string">"married"</span> : <span class="literal">false</span>,</div><div class="line">  <span class="string">"skills"</span>  : [</div><div class="line">    <span class="string">"RubyOnRails"</span>,</div><div class="line">    <span class="string">"JavaScript"</span>,</div><div class="line">    <span class="string">"Scss"</span></div><div class="line">  ]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 第二個參數為 function 時，將處理 married 屬性</span></div><div class="line"><span class="built_in">console</span>.log(</div><div class="line">  <span class="built_in">JSON</span>.stringify(user, (key, value) =&gt; &#123;</div><div class="line">     <span class="keyword">if</span> (key === <span class="string">'married'</span>) </div><div class="line">       <span class="keyword">return</span> (value === <span class="literal">true</span> ? <span class="string">'已婚'</span> : <span class="string">'未婚'</span>);</div><div class="line">  &#125;, <span class="number">2</span>);</div><div class="line">);</div><div class="line"></div><div class="line"><span class="comment">/* 輸出：</span></div><div class="line">&#123;</div><div class="line">  "name":"OAwan",</div><div class="line">  "sex":"Male",</div><div class="line">  "age":"27",</div><div class="line">  "married":"未婚",</div><div class="line">  "skills":[</div><div class="line">    "RubyOnRails",</div><div class="line">    "JavaScript",</div><div class="line">    "Scss"</div><div class="line">  ]</div><div class="line">&#125;</div><div class="line">*/</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 第二個參數為 Array 時，指定將被序列化的屬性</span></div><div class="line"><span class="built_in">console</span>.log(</div><div class="line">  <span class="built_in">JSON</span>.stringify(user, [<span class="string">"name"</span>, <span class="string">"sex"</span>], <span class="number">2</span>);</div><div class="line">);</div><div class="line"></div><div class="line"><span class="comment">/* 輸出：</span></div><div class="line">&#123;</div><div class="line">  "name":"OAwan",</div><div class="line">  "sex":"Male"</div><div class="line">&#125;</div><div class="line">*/</div></pre></td></tr></table></figure>
+<h3 id="將-JSON-字串解析成-JavaScript-物件-parse"><a href="#將-JSON-字串解析成-JavaScript-物件-parse" class="headerlink" title="將 JSON 字串解析成 JavaScript 物件 - parse()"></a>將 JSON 字串解析成 JavaScript 物件 - parse()</h3><p>　　透過 <code>JSON.parse(obj, fn)</code> 方法將 JSON 字串解析成 JavaScript 物件，以便透過 JavaScript 操作。</p>
+<ul>
+<li><span class="oaspan oaspan-reverse">obj</span>　欲解析的 JSON 字串</li>
+<li><span class="oaspan oaspan-reverse">fn</span>　透過 function 處理後 return 屬性值，若 return undefined 則不包括此屬性</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 宣告一個 JSON 字串</span></div><div class="line"><span class="keyword">let</span> userJSON = <span class="string">`&#123;</span></div><div class="line">  "name":"OAwan",</div><div class="line">  "sex":"Male",</div><div class="line">  "age":"27",</div><div class="line">  "married":"未婚",</div><div class="line">  "skills":[</div><div class="line">    "RubyOnRails",</div><div class="line">    "JavaScript",</div><div class="line">    "Scss"</div><div class="line">  ]</div><div class="line">&#125;`;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 透過 JSON.parse() 解析 JSON 字串</span></div><div class="line"><span class="keyword">let</span> user = <span class="built_in">JSON</span>.parse(userJSON);</div><div class="line"></div><div class="line"><span class="comment">// 取得物件值</span></div><div class="line"><span class="built_in">console</span>.log(</div><div class="line">  user.name + <span class="string">', '</span> + user.skills[<span class="number">1</span>]</div><div class="line">);</div><div class="line"></div><div class="line"><span class="comment">/* 輸出：</span></div><div class="line">OAwan, JavaScript</div><div class="line">*/</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 設置第二個參數來處理解析</span></div><div class="line"><span class="keyword">let</span> user = <span class="built_in">JSON</span>.parse(userJSON, (key, value) =&gt; &#123;</div><div class="line">    <span class="keyword">if</span> (key === <span class="string">'married'</span>)</div><div class="line">      <span class="keyword">return</span> (value === <span class="string">'已婚'</span> ? <span class="literal">true</span> : <span class="literal">false</span>);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// 取得物件值</span></div><div class="line"><span class="built_in">console</span>.log(</div><div class="line">  user</div><div class="line">);</div><div class="line"></div><div class="line"><span class="comment">/* 輸出：</span></div><div class="line">Object &#123;name: "OAwan", sex: "Male", age: 27, married: false, skills: ["RubyOnRails", "JavaScript", "Scss"]&#125;</div><div class="line">*/</div></pre></td></tr></table></figure>
+<p>　<br>That’s it, <strong>DONE!</strong></p>
+<p><strong>【參考資料】</strong></p>
+<ul>
+<li>JSON 教學、格式：<a href="http://www.smalljacky.com/programming-language/javascript-programming-language/json-teaching-format/" target="_blank" rel="external">http://www.smalljacky.com/programming-language/javascript-programming-language/json-teaching-format/</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/img/program/json.png&quot; alt=&quot;JSON&quot;&gt;&lt;/p&gt;
+&lt;h1 id=&quot;目的&quot;&gt;&lt;a href=&quot;#目的&quot; class=&quot;headerlink&quot; title=&quot;# 目的&quot;&gt;&lt;/a&gt;&lt;strong&gt;# 目的&lt;/strong&gt;&lt;/h1&gt;&lt;p&gt;　　紀錄一下最近常用的 &lt;span class=&quot;oaspan oaspan-reverse&quot;&gt;JSON&lt;/span&gt; 和 method。&lt;/p&gt;
+&lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;# 前言&quot;&gt;&lt;/a&gt;&lt;strong&gt;# 前言&lt;/strong&gt;&lt;/h1&gt;&lt;p&gt;　　&lt;span class=&quot;oaspan oaspan-reverse&quot;&gt;JSON&lt;/span&gt; 是一個蠻常用到的 &lt;strong&gt;純文字&lt;/strong&gt; 格式表示法；本篇就來筆記一下 &lt;span class=&quot;oaspan oaspan-reverse&quot;&gt;JSON&lt;/span&gt; 與 JS 中兩個好用的方法(&lt;strong&gt;stringify()&lt;/strong&gt; 和 &lt;strong&gt;parse()&lt;/strong&gt;)。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Programmer" scheme="https://oawan.me/categories/programmer/"/>
+    
+    
+      <category term="攻城獅筆記" scheme="https://oawan.me/tags/%E6%94%BB%E5%9F%8E%E7%8D%85%E7%AD%86%E8%A8%98/"/>
+    
+      <category term="javascript" scheme="https://oawan.me/tags/javascript/"/>
+    
+      <category term="json" scheme="https://oawan.me/tags/json/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[生活] 關於最近在忙的事 - [Oi]</title>
+    <link href="https://oawan.me/2016/%E7%94%9F%E6%B4%BB-%E9%97%9C%E6%96%BC%E6%9C%80%E8%BF%91%E5%9C%A8%E5%BF%99%E7%9A%84%E4%BA%8B/"/>
+    <id>https://oawan.me/2016/生活-關於最近在忙的事/</id>
+    <published>2016-09-29T02:46:01.000Z</published>
+    <updated>2016-09-29T19:50:27.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/img/program/For-Oi.jpg" alt="Oi"><br>　　嗯～已經 <strong>富奸</strong> 了幾個多月，拖欠了一拖拉庫想寫的 Blog 文章還沒打，在趕稿前，就先來說說這個月究竟都在忙些什麼，也順便紀錄當個 <span class="oaspan oaspan-reverse">里程碑</span>！</p>
+<a id="more"></a>
+<hr>
+<h1 id="關於想寫的文章"><a href="#關於想寫的文章" class="headerlink" title="# 關於想寫的文章"></a><strong># 關於想寫的文章</strong></h1><p>　　其實從 <strong>七月</strong> 開始，就已經積欠了幾篇想寫的 Blog 文章，包含七月 <span class="oaspan oaspan-red">小凱蘿生日</span> 的台東遊、各地的<strong>美食食記</strong>、<strong>每月看電影</strong> 的心得整理和一些技術相關的心得文章等。太多想寫的東西，但也太懶太拖了，嗯 … 繼續加油吧！</p>
+<hr>
+<h1 id="最近在忙的事"><a href="#最近在忙的事" class="headerlink" title="# 最近在忙的事"></a><strong># 最近在忙的事</strong></h1><h2 id="投影片-Framework"><a href="#投影片-Framework" class="headerlink" title="投影片 Framework"></a>投影片 Framework</h2><p>　　上個月在臉書的 <a href="https://www.facebook.com/groups/f2e.tw/" target="_blank" rel="external"><span class="oaspan oaspan-reverse">Front-End Developers Taiwan</span></a> 看到幾位大大推薦幾個有趣的 <strong>投影片</strong> framework，最吸引我的就是 <a href="https://github.com/hakimel/reveal.js" target="_blank" rel="external"><strong>reveal.js</strong></a> 和 <a href="https://github.com/impress/impress.js" target="_blank" rel="external"><strong>impress.js</strong></a>！尤其是後者，很容易上手，也很讓人驚嘆，雖然後來我才發現開發者的靈感是來自頗負盛名的 <a href="https://prezi.com/" target="_blank" rel="external"><strong>Prezi</strong></a>，但對於能以這樣的方式呈現投影片，只能說真的 <strong>太　酷　惹！</strong></p>
+<h2 id="台灣製造！？"><a href="#台灣製造！？" class="headerlink" title="台灣製造！？"></a>台灣製造！？</h2><p>　　在玩過 <strong>impress.js</strong> 後，很想立刻推薦給朋友；不過，對於要製作一個好玩好看 <strong>impress.js</strong> 投影片，除了要有良好的 <strong>呈現設計</strong> 外，還要略懂 <strong>HTML</strong> 和 <strong>CSS</strong> (嚴格來說…啦)；如果因為這樣就錯過這麼棒的東西實在太可惜了！</p>
+<p>　　雖然 <strong>impress.js</strong> 的 <a href="https://github.com/impress/impress.js/wiki/Examples-and-demos#authoring-tools" target="_blank" rel="external"><strong>wiki</strong></a> 有一些製作工具，BUT！基於 <strong>超想分享</strong>，加上正在學習 <a href="https://facebook.github.io/react/" target="_blank" rel="external">React</a>，再再加上總想來點 <strong>台灣製造</strong> 的情懷，於是就熱血地展開這個月的開發之路 XDD</p>
+<p>　　動機已經提過了，現在來聊聊目的，其實很簡單，就是讓想製作 <strong>impress.js</strong> 投影片的人，能有一個 <strong>WYSIWYG (所見即所得)</strong> 的編輯器，在不用撰寫任何程式碼 (這裡指的是 HTML、CSS 和 JS) 的情況下，作出作品來 <del><em>炫耀</em></del> 分享給朋友看！</p>
+<hr>
+<h1 id="練習-amp-開發"><a href="#練習-amp-開發" class="headerlink" title="# 練習 &amp; 開發"></a><strong># 練習 &amp; 開發</strong></h1><h2 id="Start-with…"><a href="#Start-with…" class="headerlink" title="Start with…"></a>Start with…</h2><p>　　這個作品主要是以 <strong>React</strong> 搭配 <a href="http://redux.js.org/" target="_blank" rel="external"><strong>Redux</strong></a> 開發製作 <strong>impress.js</strong> 的編輯器。<br>　　我的 <strong>開發環境</strong> 是用 <span class="oaspan">Cloud9</span>，這是近來習慣使用的 Online Editor，原因無它，就是 <strong>方便</strong> 和 <strong>好 DEMO</strong>。<br>　　<br>　　而開始的樣板是使用 <a href="https://github.com/gaearon" target="_blank" rel="external">Dan</a> 的 <a href="https://github.com/gaearon/react-hot-boilerplate" target="_blank" rel="external"><strong>react-hot-boilerplate</strong></a>，為的是它提供的 <strong>Webpack</strong>、<strong>webpack-dev-server</strong>、<strong>react-hot-loader</strong> 等，使用這個樣板省了不少建置開發環境的時間；不過，就在開發到一半時，Dan 在 README 中寫了 <span class="oaspan oaspan-red">This Is Experimental and Incomplete!</span> … 尷尬 XDD</p>
+<h2 id="練習項目"><a href="#練習項目" class="headerlink" title="練習項目"></a>練習項目</h2><p>　　除了邊學邊寫 <strong>React</strong> 和 <strong>Redux</strong> 外，在開發過程中也幾乎使用 <strong>ES6 (ES2015)</strong> 和 <strong>SCSS (SASS)</strong> 作撰寫，讓自己更熟悉它們。<br>　　因需求所致，我也選了幾個 framework 和 library 來學習和使用：
+　　</p>
+<ul>
+<li>整體框架　　：　<a href="http://react-bootstrap.github.io/" target="_blank" rel="external"><strong>react-bootstrap</strong></a></li>
+<li>HTML 編輯器：　<a href="https://github.com/instructure-react/react-tinymce" target="_blank" rel="external"><strong>react-tinymce</strong></a></li>
+<li>教學導覽　　：　<a href="https://github.com/gilbarbara/react-joyride" target="_blank" rel="external"><strong>react-joyride</strong></a></li>
+<li>部分動畫呈現：　<a href="https://daneden.github.io/animate.css/" target="_blank" rel="external"><strong>Animate.css</strong></a></li>
+</ul>
+<h2 id="正在改善"><a href="#正在改善" class="headerlink" title="正在改善"></a>正在改善</h2><p>　　在大致的功能上已經完成，但於 <strong>各家瀏覽器</strong> 和 <strong>螢幕尺寸</strong> 的支援度上還有很大的問題；而目前在 Mobile 和 Pad 上的體驗不佳，所以基本上目前是不支援的，所以還有很多的問題需要思考和改善！</p>
+<hr>
+<h1 id="這就是-Oi"><a href="#這就是-Oi" class="headerlink" title="# 這就是 [ Oi ]"></a><strong># 這就是 [ Oi ]</strong></h1><p>　　為什麼叫作 <strong>[ Oi ]</strong> 呢？<br>　　是因為在看到 <strong>impress.js</strong> 當下真的讓我很興奮，我也希望這個編輯器，能讓人感到興奮，而且很 <strong>印象深刻</strong>！<br>　　所以，<strong>[ Oi ]</strong> 就是希望能讓人感到 <strong>Oh! impressive!</strong>，哈。</p>
+<hr>
+<h1 id="後記"><a href="#後記" class="headerlink" title="後記"></a><strong>後記</strong></h1><p>　　以上，就是為什麼會累積這麼多文章沒寫，歡迎捧捧場，可以的話麻煩給些鼓勵和建議唷！ - <a href="https://oawan.me/Oi"><span class="oaspan oaspan-red oaspan-reverse"><strong>[ Oi ]</strong></span></a>。<br>　　也非常感謝給我 <i class="fa fa-star"></i> 的大大們，希望這個作品能讓更多人知道，也希望能有更多人能一起開發！<br>　　<br>That’s it, <strong>DONE!</strong></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/img/program/For-Oi.jpg&quot; alt=&quot;Oi&quot;&gt;&lt;br&gt;　　嗯～已經 &lt;strong&gt;富奸&lt;/strong&gt; 了幾個多月，拖欠了一拖拉庫想寫的 Blog 文章還沒打，在趕稿前，就先來說說這個月究竟都在忙些什麼，也順便紀錄當個 &lt;span class=&quot;oaspan oaspan-reverse&quot;&gt;里程碑&lt;/span&gt;！&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Programmer" scheme="https://oawan.me/categories/programmer/"/>
+    
+    
+      <category term="攻城獅筆記" scheme="https://oawan.me/tags/%E6%94%BB%E5%9F%8E%E7%8D%85%E7%AD%86%E8%A8%98/"/>
+    
+      <category term="React" scheme="https://oawan.me/tags/React/"/>
+    
+      <category term="Redux" scheme="https://oawan.me/tags/Redux/"/>
+    
+      <category term="es6" scheme="https://oawan.me/tags/es6/"/>
+    
+      <category term="Oi" scheme="https://oawan.me/tags/Oi/"/>
+    
+      <category term="impressJS" scheme="https://oawan.me/tags/impressJS/"/>
+    
+      <category term="AnimateCSS" scheme="https://oawan.me/tags/AnimateCSS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[高雄前鎮] 蠔蠔先生 - 氣氛超好的生蠔海景約會地</title>
+    <link href="https://oawan.me/2016/%E9%AB%98%E9%9B%84%E5%89%8D%E9%8E%AE-%E8%A0%94%E8%A0%94%E5%85%88%E7%94%9F-%E6%B0%A3%E6%B0%9B%E8%B6%85%E5%A5%BD%E7%9A%84%E7%94%9F%E8%A0%94%E6%B5%B7%E6%99%AF%E7%B4%84%E6%9C%83%E5%9C%B0/"/>
+    <id>https://oawan.me/2016/高雄前鎮-蠔蠔先生-氣氛超好的生蠔海景約會地/</id>
+    <published>2016-08-13T15:20:05.000Z</published>
+    <updated>2017-05-27T07:49:16.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/img/food/2016/Kaohsiung/Qianzhen/Mr.Oyster/綜合海鮮拼盤-3.jpg" alt="蠔蠔先生"><br>　　今年的 <span class="oaspan oaspan-red">父親節大餐</span> 想來點不一樣的，有別於以往的 <strong>飲茶</strong>、<strong>西餐廳</strong> 等，今年我們一起到新的幽會地點約會囉！</p>
+<a id="more"></a>
+<hr>
+<h1 id="蠔蠔先生-Mr-Oyster"><a href="#蠔蠔先生-Mr-Oyster" class="headerlink" title="蠔蠔先生 Mr. Oyster"></a>蠔蠔先生 Mr. Oyster</h1><p><span class="oaspan oaspan-reverse">推薦</span> 4.0 <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></p>
+<p><img src="/img/food/2016/Kaohsiung/Qianzhen/Mr.Oyster/戶外用餐區.jpg" alt="蠔蠔先生"><br>　　<span class="oaspan oaspan-red oaspan-reverse">Mr. Oyster 蠔蠔先生</span> 的用餐位置有分 <strong>室內</strong> 和 <strong>室外</strong>，由於室內位置較少，所以我們一家子這天在室外用餐！從這個角度看過去，後面就是餐廳本身，挺美的。<br>　　<br><img src="/img/food/2016/Kaohsiung/Qianzhen/Mr.Oyster/戶外用餐區-2.jpg" alt="蠔蠔先生"><br>　　如果從另一個角度看，則是 <strong>海景</strong> 或是停泊的 <strong>私人遊艇</strong>，建議用餐的時間可以訂在 <span class="oaspan oaspan-reverse">18:00</span>，一方面是餐廳 <strong>18:00</strong> 開始營業，另一方面是在入坐後點餐及等餐時可以欣賞西岸 <strong>美麗的夕陽</strong>！店家位置真的選得很棒，而且雖然在室外用餐，但一面是海一面是餐廳，不會被路人的目光影響用餐，好適合情侶約會阿XDD</p>
+<p><img src="/img/food/2016/Kaohsiung/Qianzhen/Mr.Oyster/菜單.jpg" alt="蠔蠔先生"><br>　　<strong>菜單</strong> 的部分有兩頁，這是第一頁，也就是餐點的部分，而第二頁則是飲料的部分；原本對 <strong>生蠔</strong> 沒有太大的研究，看到菜單才知道原來生蠔也是有分的！</p>
+<hr>
+<h2 id="白酒奶油蛤蜊淡菜-320"><a href="#白酒奶油蛤蜊淡菜-320" class="headerlink" title="白酒奶油蛤蜊淡菜 $320"></a>白酒奶油蛤蜊淡菜 <span class="oabadge oabadge-yellow">$320</span></h2><p><img src="/img/food/2016/Kaohsiung/Qianzhen/Mr.Oyster/白酒奶油蛤蜊淡菜.jpg" alt="蠔蠔先生"><br>　　當晚的訂位客人很多，但上菜速度卻蠻快的，讓人蠻意外的！我們第一道上的菜是 <span class="oaspan oaspan-reverse">白酒奶油蛤蜊淡菜</span>，旁邊的 <strong>佛卡夏麵包</strong> 可以沾著底下的 <strong>奶油湯</strong> 吃，奶香味很足，又不會太鹹。<br><img src="/img/food/2016/Kaohsiung/Qianzhen/Mr.Oyster/白酒奶油蛤蜊淡菜-2.jpg" alt="蠔蠔先生"><br>　　一開始就先來個 <strong>淡菜</strong> 打頭陣，肉質很Ｑ彈，和 <strong>蛤蜊</strong> 味道都很原汁原味的鮮甜！</p>
+<hr>
+<h2 id="每日精選湯品-120"><a href="#每日精選湯品-120" class="headerlink" title="每日精選湯品 $120"></a>每日精選湯品 <span class="oabadge oabadge-yellow">$120</span></h2><p><img src="/img/food/2016/Kaohsiung/Qianzhen/Mr.Oyster/每日精選湯品.jpg" alt="蠔蠔先生"><br>　　<span class="oaspan oaspan-reverse">每日精選湯品</span> 顧名思義每天都不一定一樣喔！再點之前可以先向服務生詢問。</p>
+<hr>
+<h2 id="煙燻三文魚沙拉-260"><a href="#煙燻三文魚沙拉-260" class="headerlink" title="煙燻三文魚沙拉 $260"></a>煙燻三文魚沙拉 <span class="oabadge oabadge-yellow">$260</span></h2><p><img src="/img/food/2016/Kaohsiung/Qianzhen/Mr.Oyster/煙燻三文魚沙拉.jpg" alt="蠔蠔先生"><br>　　沙拉的部分大家一致覺得很棒！而且再擺盤上還把 <strong>三文魚(鮭魚)</strong> 捏成玫瑰花的形狀 <i class="fa fa-heart" style="color: #F44336;"></i>。其實除了 <span class="oaspan oaspan-reverse">煙燻三文魚沙拉</span> 我們也點了 <span class="oaspan oaspan-reverse">水牛城雞肉凱薩沙拉</span>，大家鯨吞的速度實在太快了，所以來不及拍起來 T__T</p>
+<hr>
+<h2 id="焗烤乳酪松露醬薯條佐蘑菇-260"><a href="#焗烤乳酪松露醬薯條佐蘑菇-260" class="headerlink" title="焗烤乳酪松露醬薯條佐蘑菇 $260"></a>焗烤乳酪松露醬薯條佐蘑菇 <span class="oabadge oabadge-yellow">$260</span></h2><p><img src="/img/food/2016/Kaohsiung/Qianzhen/Mr.Oyster/焗烤乳酪松露醬薯條佐蘑菇.jpg" alt="蠔蠔先生"><br>　　薯條這個東西真的各有所好，像ＯＡ爸和妹妹覺得薯條就是要有點脆才好吃，而我和老哥就覺得焗烤加薯條好好吃～</p>
+<hr>
+<h2 id="酥炸新鮮魷魚-220"><a href="#酥炸新鮮魷魚-220" class="headerlink" title="酥炸新鮮魷魚 $220"></a>酥炸新鮮魷魚 <span class="oabadge oabadge-yellow">$220</span></h2><p><img src="/img/food/2016/Kaohsiung/Qianzhen/Mr.Oyster/酥炸新鮮魷魚.jpg" alt="蠔蠔先生"><br>　　跟其他菜色相較之下，對這道料理的記憶相對薄弱了些。</p>
+<hr>
+<h2 id="酪悅香檳-Moet-amp-Chandon-2200"><a href="#酪悅香檳-Moet-amp-Chandon-2200" class="headerlink" title="酪悅香檳 Moet &amp; Chandon $2200"></a>酪悅香檳 Moet &amp; Chandon <span class="oabadge oabadge-yellow">$2200</span></h2><img src="/img/food/2016/Kaohsiung/Qianzhen/Mr.Oyster/香檳.jpg" width="550">
+<p>　　在上重頭戲前，服務生先幫我們倒上了香檳，今天我們開的是 <span class="oaspan oaspan-reverse">酪悅香檳 Moet &amp; Chandon</span>。<br><img src="/img/food/2016/Kaohsiung/Qianzhen/Mr.Oyster/香檳-2.jpg" width="550"><br>　　專屬的香檳杯美美搭，在這個日子開香檳慶祝加上海鮮真的好幸福阿！</p>
+<hr>
+<h2 id="綜合海鮮拼盤-980-amp-吉拉多生蠔-280-x-8"><a href="#綜合海鮮拼盤-980-amp-吉拉多生蠔-280-x-8" class="headerlink" title="綜合海鮮拼盤 $980 &amp; 吉拉多生蠔 $280 x 8"></a>綜合海鮮拼盤 <span class="oabadge oabadge-yellow">$980</span> &amp; 吉拉多生蠔 <span class="oabadge oabadge-yellow">$280</span> x 8</h2><img src="/img/food/2016/Kaohsiung/Qianzhen/Mr.Oyster/綜合海鮮拼盤.jpg" width="550">
+<p>　　搭拉～這就是今天的重頭戲！<span class="oaspan oaspan-reverse">綜合海鮮拼盤</span> 的部分是 <strong>淡菜</strong>、<strong>白蝦</strong>、<strong>魷魚圈</strong> 和兩顆法國 <span class="oaspan oaspan-reverse">吉拉多生蠔</span>！食材都很新鮮，單吃很鮮甜，或是在食用時可以搭配 <strong>辣醬</strong>、<strong>酸醋醬</strong> 或 <strong>雞尾酒醬</strong>。而點餐時ＯＡ爸霸氣地加點了八顆 <span class="oaspan oaspan-reverse">吉拉多生蠔</span>，因為傷的是老哥的荷包XDD<br><img src="/img/food/2016/Kaohsiung/Qianzhen/Mr.Oyster/綜合海鮮拼盤-2.jpg" alt="蠔蠔先生"><br>　　<span class="oaspan oaspan-reverse">吉拉多生蠔</span> 真的好好吃！我和ＯＡ爸都吞了兩顆，一顆我只滴幾滴檸檬汁，另一顆加一點 <strong>雞尾酒醬</strong>，雖然醬很好吃(超推薦沾白蝦吃！)，但我還是覺得生蠔加幾滴檸檬汁吃最鮮甜！！<span class="oaspan oaspan-red oaspan-reverse">Mr. Oyster 蠔蠔先生</span> 的生蠔都是以顆計價，雖然價格不菲，但吃了一顆從法國來的 <strong>吉拉多</strong> 後真的覺得很值得！</p>
+<hr>
+<h2 id="生煎干貝-380"><a href="#生煎干貝-380" class="headerlink" title="生煎干貝 $380"></a>生煎干貝 <span class="oabadge oabadge-yellow">$380</span></h2><p><img src="/img/food/2016/Kaohsiung/Qianzhen/Mr.Oyster/生煎干貝.jpg" alt="蠔蠔先生"><br>　　<span class="oaspan oaspan-reverse">生煎干貝</span> 其實是 <strong>北海道干貝</strong> 搭配 <strong>白花椰菜泥</strong>，一份是兩顆。這道很好吃！甘甜鮮嫩又不會被醬汁搶走味道。</p>
+<hr>
+<h2 id="松露蘑菇義大利麵-320"><a href="#松露蘑菇義大利麵-320" class="headerlink" title="松露蘑菇義大利麵 $320"></a>松露蘑菇義大利麵 <span class="oabadge oabadge-yellow">$320</span></h2><p><img src="/img/food/2016/Kaohsiung/Qianzhen/Mr.Oyster/松露蘑菇義大利麵.jpg" alt="蠔蠔先生"><br>　　接著是我們點的三道主菜，第一道上的是 <span class="oaspan oaspan-reverse">松露蘑菇義大利麵</span>，扁麵吃起來很入味，和濃稠的醬汁沒有距離感。</p>
+<hr>
+<h2 id="煙花女義大利麵-320"><a href="#煙花女義大利麵-320" class="headerlink" title="煙花女義大利麵 $320"></a>煙花女義大利麵 <span class="oabadge oabadge-yellow">$320</span></h2><p><img src="/img/food/2016/Kaohsiung/Qianzhen/Mr.Oyster/煙花女義大利麵.jpg" alt="蠔蠔先生"><br>　　第二道上的是 <span class="oaspan oaspan-reverse">煙花女義大利麵</span>，這道名字很特別也很陌生，所以好奇地立刻谷哥一下，原來是指 <strong>煙花女醬</strong> 的義大利麵，而 <strong>煙花女醬</strong> 是由義大利普遍的三種食材熬煮出來的紅醬，而三種食材就是菜單上所說的 <strong>鯷魚</strong>、<strong>黑橄欖</strong> 和 <strong>酸豆</strong>；相較起來我個人偏好 <span class="oaspan oaspan-reverse">松露蘑菇義大利麵</span> 一點。</p>
+<hr>
+<h2 id="嫩煎豪野鴨胸-680"><a href="#嫩煎豪野鴨胸-680" class="headerlink" title="嫩煎豪野鴨胸 $680"></a>嫩煎豪野鴨胸 <span class="oabadge oabadge-yellow">$680</span></h2><p><img src="/img/food/2016/Kaohsiung/Qianzhen/Mr.Oyster/嫩煎豪野鴨胸.jpg" alt="蠔蠔先生"><br>　　最後上的主菜是 <span class="oaspan oaspan-reverse">嫩煎豪野鴨胸</span>，這吃起來很特別！鴨胸很厚實，原本還擔心會柴柴的，但油脂很夠又不會太油膩，而且吃起來肉質很細膩、很多汁；最開心的是挑嘴的ＯＡ爸除了很喜歡 <span class="oaspan oaspan-reverse">吉拉多生蠔</span>，對道 <strong>鴨胸</strong> 也表示厲害！</p>
+<hr>
+<h2 id="哈根達斯冰淇淋-100"><a href="#哈根達斯冰淇淋-100" class="headerlink" title="哈根達斯冰淇淋 $100"></a>哈根達斯冰淇淋 <span class="oabadge oabadge-yellow">$100</span></h2><p><img src="/img/food/2016/Kaohsiung/Qianzhen/Mr.Oyster/哈根巧酥.jpg" alt="蠔蠔先生"><br>　　其實冰淇淋蠻沒必要點的，除了價格上沒比較便宜外，外面也買得到，我比較好奇菜單上另一道甜點 <span class="oaspan oaspan-reverse">主廚精緻甜點</span> 會是什麼，但 … 在一陣混亂之中，就點了 <strong>巧酥口味</strong> 的哈根達斯，還是好吃，哈！<br><img src="/img/food/2016/Kaohsiung/Qianzhen/Mr.Oyster/哥與侄子.jpg" alt="蠔蠔先生"><br>　　偶然之下拍到另一對父子(也就是我老哥和他兒子)有趣又溫暖的一幕，謝謝這個頑皮蛋侄子，讓老哥能成為越來越成熟的父親 =D</p>
+<hr>
+<h1 id="後記-amp-心得"><a href="#後記-amp-心得" class="headerlink" title="後記 &amp; 心得"></a>後記 &amp; 心得</h1><p>　　因為知道ＯＡ爸喜歡有氣氛的餐廳，所以今年找到了 <span class="oaspan oaspan-red oaspan-reverse">Mr. Oyster 蠔蠔先生</span>，我也真的蠻喜歡這邊的！不過很可惜太晚訂位，沒訂到能看夕陽的時間。這裡的食材都非常新鮮，出菜速度和服務也很讓人滿意，but 建議怕熱的人可以在秋天或春天的時候再選擇戶外座位用餐XDD</p>
+<hr>
+<h1 id="店家資訊"><a href="#店家資訊" class="headerlink" title="店家資訊"></a>店家資訊</h1><p><span class="oaspan oaspan-reverse"><i class="fa fa-clock-o"></i></span> 營業時間：<strong>18:00 - 01:00(全無公休!)</strong><br><span class="oaspan oaspan-reverse"><i class="fa fa-phone"></i></span> 電話：<strong>0981-613688</strong><br><span class="oaspan oaspan-reverse"><i class="fa fa-map-marker"></i></span> 地址：<a href="https://www.google.com.tw/maps/place/806%E9%AB%98%E9%9B%84%E5%B8%82%E5%89%8D%E9%8E%AE%E5%8D%80%E6%88%90%E5%8A%9F%E4%BA%8C%E8%B7%AF39%E8%99%9F/@22.6003312,120.3010998,17z/data=!3m1!4b1!4m5!3m4!1s0x346e03714ce88077:0x6bf7e7e799aa9869!8m2!3d22.6003312!4d120.3032885" target="_blank" rel="external">高雄市前鎮區成功二路39-1號</a></p>
+<div style="text-align: center;"><br>  <iframe class="oamap" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3683.4321749953024!2d120.30109981496008!3d22.60033118516847!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346e03714ce88077%3A0x6bf7e7e799aa9869!2zODA26auY6ZuE5biC5YmN6Y6u5Y2A5oiQ5Yqf5LqM6LevMznomZ8!5e0!3m2!1szh-TW!2stw!4v1471112629290" width="800" height="250" frameborder="0" style="border:0" allowfullscreen></iframe><br></div>
+
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/img/food/2016/Kaohsiung/Qianzhen/Mr.Oyster/綜合海鮮拼盤-3.jpg&quot; alt=&quot;蠔蠔先生&quot;&gt;&lt;br&gt;　　今年的 &lt;span class=&quot;oaspan oaspan-red&quot;&gt;父親節大餐&lt;/span&gt; 想來點不一樣的，有別於以往的 &lt;strong&gt;飲茶&lt;/strong&gt;、&lt;strong&gt;西餐廳&lt;/strong&gt; 等，今年我們一起到新的幽會地點約會囉！&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Food" scheme="https://oawan.me/categories/food/"/>
+    
+    
+      <category term="街口的美食地圖" scheme="https://oawan.me/tags/%E8%A1%97%E5%8F%A3%E7%9A%84%E7%BE%8E%E9%A3%9F%E5%9C%B0%E5%9C%96/"/>
+    
+      <category term="高雄市" scheme="https://oawan.me/tags/%E9%AB%98%E9%9B%84%E5%B8%82/"/>
+    
+      <category term="高雄前鎮區" scheme="https://oawan.me/tags/%E9%AB%98%E9%9B%84%E5%89%8D%E9%8E%AE%E5%8D%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[台北松山] 漁聞樂 - 名字很逗趣的無菜單日式料理</title>
+    <link href="https://oawan.me/2016/%E5%8F%B0%E5%8C%97%E6%9D%BE%E5%B1%B1-%E6%BC%81%E8%81%9E%E6%A8%82-%E5%90%8D%E5%AD%97%E5%BE%88%E9%80%97%E8%B6%A3%E7%9A%84%E7%84%A1%E8%8F%9C%E5%96%AE%E6%97%A5%E5%BC%8F%E6%96%99%E7%90%86/"/>
+    <id>https://oawan.me/2016/台北松山-漁聞樂-名字很逗趣的無菜單日式料理/</id>
+    <published>2016-07-09T06:16:56.000Z</published>
+    <updated>2017-05-27T07:44:37.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/img/food/2016/Taipei/SongShan/漁聞樂/生魚片綜合拼盤.jpg" alt="漁聞樂"><br>　　這個月 (六月) 是小凱蘿爸爸媽媽的結婚紀念日 (實際到店是6/26唷！)，有鑑於兩老直接點名想吃 <strong>日式料理</strong>，於是小凱蘿找到了這家名字很逗趣，網友們又大推 CP 值很高的 <span class="oaspan oaspan-red oaspan-reverse">漁聞樂</span> 來享受享受！</p>
+<a id="more"></a>
+<hr>
+<h1 id="漁聞樂"><a href="#漁聞樂" class="headerlink" title="漁聞樂"></a>漁聞樂</h1><p><span class="oaspan oaspan-reverse">推薦</span> 3.5 <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o"></i><i class="fa fa-star-o"></i></p>
+<p><img src="/img/food/2016/Taipei/SongShan/漁聞樂/店門口.jpg" alt="漁聞樂"><br>　　怕週日人潮太多，我們訂了晚上六點的時間用餐，到店時還在準備中，由於網友一致好評，還真讓人期待！</p>
+<p><img src="/img/food/2016/Taipei/SongShan/漁聞樂/招牌.jpg" alt="漁聞樂"><br>　　店家換了新招牌，從黑底加大大了樂字，換成了白底加上店家的 logo。</p>
+<img src="/img/food/2016/Taipei/SongShan/漁聞樂/漁聞樂.jpg" width="550">
+<p>　　這個 <span class="oaspan oaspan-red oaspan-reverse">漁聞樂</span> 設計得很可愛，底是一個 <strong>台灣</strong>，上頭有隻小章魚，中間有隻魚，而下面有隻小螃蟹，整體應該是強調他們用料很新鮮！ (快開飯哪 XDD)</p>
+<p><img src="/img/food/2016/Taipei/SongShan/漁聞樂/店門口-2.jpg" alt="漁聞樂"><br>　　終於六點開始營業囉！正在進門且繫著吊帶的就是可愛的凱蘿爸，哈</p>
+<p><img src="/img/food/2016/Taipei/SongShan/漁聞樂/可愛推門.jpg" alt="漁聞樂"><br>　　進門時發現門上有這個可愛的 <strong>推門小人</strong>。<br>　　<br><img src="/img/food/2016/Taipei/SongShan/漁聞樂/大黑板.jpg" alt="漁聞樂"><br>　　店內有個大大的黑板，寫著今天有什麼菜色和價格，而 <span class="oaspan oaspan-yellow oaspan-reverse">$ 680</span> 和 <span class="oaspan oaspan-yellow oaspan-reverse">$ 1200</span> 套餐就是 <span class="oaspan oaspan-reverse">無菜單料理</span> 的價位。後來在網路上發現，無菜單料理下方的可愛塗鴉，就是當前的主菜！像我們那天的主菜選擇就是 <span class="oaspan">鹽烤大明蝦</span>、<span class="oaspan">燉牛肉</span> 和 <span class="oaspan">松阪豬</span>，在看看黑板上的塗鴉，是不是真的很可愛 XDD 店家有兩個樓層的用餐空間，如果是小約會的話，建議選擇 <strong>一樓吧檯</strong> 的位置很有氣氛喔，另一個用餐空間在 B1，相較一樓就是很簡單用餐空間了。</p>
+<img src="/img/food/2016/Taipei/SongShan/漁聞樂/熱麥茶.jpg" width="550">
+<p>　　入座後服務生立刻端上 <strong>熱麥茶</strong>，為什麼要特地放一張熱麥茶，實在是因為店內服務生太辛苦了！這茶和茶杯超級無敵燙，是連碰一下都覺得燙手的燙，而服務生一杯一杯地端到我們面前，看著也覺得辛苦哪！</p>
+<div style="display: inline-flex;"><br>  <img src="/img/food/2016/Taipei/SongShan/漁聞樂/Sapporo.jpg" width="450"><br>  <img src="/img/food/2016/Taipei/SongShan/漁聞樂/Sapporo-2.jpg" width="450"><br></div>
+
+<p>　　吃日式料理就是要來點 <strong>溫清酒</strong> 或 <strong>冰啤酒</strong> 才享受，好可惜餐後還得騎車去辦事，只能看兩老暢飲了ＱＱ</p>
+<p>　　今天為了慶祝，所以我們大家都是點 <span class="oaspan oaspan-yellow oaspan-reverse">$ 1200</span> 的套餐喔！(感謝凱蘿弟大方掏錢)</p>
+<p><img src="/img/food/2016/Taipei/SongShan/漁聞樂/醃鳳螺.jpg" alt="漁聞樂"><br>　　前菜第一道是 <span class="oaspan">醃鳳螺</span>，我們都覺得蠻好吃的，不會死鹹，反而有種鮮甜味。</p>
+<p><img src="/img/food/2016/Taipei/SongShan/漁聞樂/牛蒡絲手卷.jpg" alt="漁聞樂"><br>　　<span class="oaspan">牛蒡絲手卷</span> 一定要端上來立刻吃掉！酥酥脆脆的吃起來很爽！</p>
+<img src="/img/food/2016/Taipei/SongShan/漁聞樂/水果沙拉杯.jpg" width="550">
+<p>　　對於不太愛吃生菜沙拉的我來說，<span class="oaspan">水果沙拉杯</span> 真的是好好吃！</p>
+<blockquote>
+<p>不過，這道上的時候我和小凱蘿有點疑惑… 看網路上點 <span class="oaspan oaspan-yellow oaspan-reverse">$ 1200</span> 套餐大家吃到都是精美的 <span class="oaspan">蘋果沙拉</span> … 所以雖然好吃，但卻有一點小失望︶︵︶</p>
+</blockquote>
+<p><img src="/img/food/2016/Taipei/SongShan/漁聞樂/生魚片綜合拼盤.jpg" alt="漁聞樂"><br>　　<span class="oaspan">生魚片綜合拼盤</span> 的擺盤很漂亮，有別於一般用 <strong>木板</strong> 或 <strong>瓷盤</strong> 擺盤，店家用 <strong>板岩</strong> 做精緻的生魚片擺盤。右下角的是現磨的山葵，很香而且不會嗆喔！</p>
+<p><img src="/img/food/2016/Taipei/SongShan/漁聞樂/生魚片綜合拼盤-2.jpg" alt="漁聞樂"><br>　　<strong>大頭蝦</strong> 很滑順很新鮮，超好吃的！而旁邊白色塊是醃漬蘿蔔，也意外的好吃喔！</p>
+<p><img src="/img/food/2016/Taipei/SongShan/漁聞樂/生魚片綜合拼盤-3.jpg" alt="漁聞樂"><br>　　這一小碟是 <strong>生章魚腳</strong> ，這好像還是我第一次吃 <strong>生章魚腳</strong>，口感很像 <strong>生曼波魚片</strong> QQ 的。</p>
+<p><img src="/img/food/2016/Taipei/SongShan/漁聞樂/生魚片綜合拼盤-4.jpg" alt="漁聞樂"><br>　　<strong>綜合生魚片</strong> 的部分很新鮮，我最喜歡 <strong>鮭魚</strong>！<strong>炙燒干貝</strong> 超鮮甜的，好可惜只有一顆可以吃 XDD</p>
+<blockquote>
+<p>拼盤整體來說很精緻、很新鮮也很美味，對於視覺和味覺都是很大的享受！但卻沒有滿心期待的 <strong>鮭魚卵</strong>，難免有些失望…</p>
+</blockquote>
+<p><img src="/img/food/2016/Taipei/SongShan/漁聞樂/握壽司.jpg" alt="漁聞樂"><br><img src="/img/food/2016/Taipei/SongShan/漁聞樂/握壽司-2.jpg" alt="漁聞樂"><br><img src="/img/food/2016/Taipei/SongShan/漁聞樂/握壽司-3.jpg" alt="漁聞樂"><br>　　我個人覺得 <span class="oaspan oaspan-red oaspan-reverse">漁聞樂</span> 的 <strong>握壽司</strong> 真的很好吃！生魚片的部分很新鮮沒話說，醋飯的量也抓得剛好，實在 <strong>巫麥依</strong>！</p>
+<p><img src="/img/food/2016/Taipei/SongShan/漁聞樂/握壽司-4.jpg" alt="漁聞樂"><br>　　照片由右至左，分別是 <strong>玉子燒</strong>、<strong>考玉米筍</strong> 和 <strong>海膽握壽司</strong>；我一直以為 <strong>玉子燒</strong> 就該甜甜的，所以吃到不是甜甜的反而覺得怪怪的，哈；最讓人開心的就是 <strong>海膽握壽司</strong> 了！喜歡那種海膽一口下去後，整個海味在嘴裡爆開來的感覺，舒爽 <i class="fa fa-thumbs-o-up"></i></p>
+<p><img src="/img/food/2016/Taipei/SongShan/漁聞樂/炸牡蠣唐揚.jpg" alt="漁聞樂"><br>　　<strong>炸牡蠣唐揚</strong> 算是存在感比較低的一道，不是不好吃喲！只是 <strong>生食類</strong> 打頭陣真的太搶鋒頭了，哈哈哈哈。</p>
+<p><img src="/img/food/2016/Taipei/SongShan/漁聞樂/鹽烤明蝦.jpg" alt="漁聞樂"><br>　　主餐的部分剛剛有提到當天有提供三種選擇，我和小凱蘿弟點的是 <strong>鹽烤大明蝦</strong>！</p>
+<p><img src="/img/food/2016/Taipei/SongShan/漁聞樂/鹽烤明蝦-2.jpg" alt="漁聞樂"><br>　　我個人很喜歡用嘴剝蝦，大吸蝦頭，所以蝦頭一下就被我榨乾了來不及拍 XDD <strong>大明蝦</strong> 吃起來肉質很像龍蝦，比較讓我好奇的是整管明蝦都有這個黃黃的部分，應該就是蝦卵吧？好好吃耶！</p>
+<p><img src="/img/food/2016/Taipei/SongShan/漁聞樂/燉牛肉.jpg" alt="漁聞樂"><br>　　而小凱蘿和凱蘿媽的主餐是 <strong>燉牛肉</strong>，牛肉燉的很軟爛，但吃起來蠻油的，可能是這個原因，小凱蘿並不喜歡，就被我賺到啦！但其實相對來說，這道 <strong>燉牛肉</strong> 算是整套餐點比較格格不入的一道。</p>
+<p><img src="/img/food/2016/Taipei/SongShan/漁聞樂/松阪豬.jpg" alt="漁聞樂"><br>　　<strong>松阪豬</strong> 是凱蘿爸點的主餐，大家一致好評，而且是一道非常適合配啤酒的一道餐點！</p>
+<p><img src="/img/food/2016/Taipei/SongShan/漁聞樂/味噌湯.jpg" alt="漁聞樂"><br>　　主餐後送上的是湯品 <strong>味噌湯</strong> ，湯裡除了味噌湯必備的海帶芽和豆腐外，還有好吃的 <strong>魚下巴</strong>，用吸的就可以把肉吸起來，再次 <strong>巫麥伊</strong>！</p>
+<div style="display: inline-flex;"><br>  <img src="/img/food/2016/Taipei/SongShan/漁聞樂/黑糖豆花奶酪.jpg" width="450"><br>  <img src="/img/food/2016/Taipei/SongShan/漁聞樂/黑糖豆花奶酪-2.jpg" width="450"><br></div>
+
+<p>　　最後送上的是甘物 <strong>黑糖豆花奶酪</strong>，我個人很喜歡這道甜點，微甜微甜的黑糖，加上豆花奶酪綿綿滑滑的口感，真的不錯喔！但小凱蘿不大喜歡吃豆花，所以又被我賺到啦！</p>
+<hr>
+<h1 id="後記-amp-心得"><a href="#後記-amp-心得" class="headerlink" title="後記 &amp; 心得"></a>後記 &amp; 心得</h1><p>　　店家選用的食材真的很新鮮，服務和精緻的擺盤都是看得到的用心！不過我和小凱蘿飯後還是有些失望，回家後一直翻找網友們的食記；討論了一下後，認為失望可能來自 <strong>過多的期待</strong>，我們都知道這個時節吃不到螃蟹，所以一開始就沒想過會有蟹可吃，轉而太期待精緻的 <span class="oaspan">蘋果沙拉</span> 和 <span class="oaspan">鮭魚卵</span>，而對 <strong>生魚片</strong> 和 <strong>握壽司</strong> 的份量上，以一套 <span class="oaspan oaspan-yellow oaspan-reverse">$ 1200</span> 的套餐來說也覺得稍嫌偏少。畢竟是 <strong>無菜單料理</strong>，撇開過多的期待，還是覺得 <span class="oaspan oaspan-red oaspan-reverse">漁聞樂</span> 的餐點都很好吃很推薦喔 <i class="fa fa-heart"></i></p>
+<hr>
+<h1 id="店家資訊"><a href="#店家資訊" class="headerlink" title="店家資訊"></a>店家資訊</h1><p><span class="oaspan oaspan-reverse"><i class="fa fa-clock-o"></i></span> 營業時間：<span class="oaspan oaspan-red">週一公休</span>、周二至周日 <span class="oabadge">上午</span>11:30-14:30、<span class="oabadge">晚上</span>18:00-22:00<br><span class="oaspan oaspan-reverse"><i class="fa fa-facebook"></i></span> 粉絲團：<a href="https://www.facebook.com/Fish.Smell.Love/" target="_blank" rel="external">漁聞樂</a><br><span class="oaspan oaspan-reverse"><i class="fa fa-phone"></i></span> 電話：02-2579-2760<br><span class="oaspan oaspan-reverse"><i class="fa fa-map-marker"></i></span> 地址：<a href="https://www.google.com.tw/maps/place/%E6%BC%81%E8%81%9E%E6%A8%82/@25.0462346,121.547943,17z/data=!3m1!4b1!4m5!3m4!1s0x3442abc36616b865:0xc0d3b628ac6331d1!8m2!3d25.0462346!4d121.5501317" target="_blank" rel="external">台北市松山區八德路三段12巷52弄6號</a></p>
+<div style="text-align: center;"><br>  <iframe class="oamap" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.6415877059885!2d121.54794301449637!3d25.046234583966598!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442abc36616b865%3A0xc0d3b628ac6331d1!2z5ryB6IGe5qiC!5e0!3m2!1szh-TW!2stw!4v1468047074540" width="800" height="250" frameborder="0" style="border:0" allowfullscreen></iframe><br></div>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/img/food/2016/Taipei/SongShan/漁聞樂/生魚片綜合拼盤.jpg&quot; alt=&quot;漁聞樂&quot;&gt;&lt;br&gt;　　這個月 (六月) 是小凱蘿爸爸媽媽的結婚紀念日 (實際到店是6/26唷！)，有鑑於兩老直接點名想吃 &lt;strong&gt;日式料理&lt;/strong&gt;，於是小凱蘿找到了這家名字很逗趣，網友們又大推 CP 值很高的 &lt;span class=&quot;oaspan oaspan-red oaspan-reverse&quot;&gt;漁聞樂&lt;/span&gt; 來享受享受！&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Food" scheme="https://oawan.me/categories/food/"/>
+    
+    
+      <category term="街口的美食地圖" scheme="https://oawan.me/tags/%E8%A1%97%E5%8F%A3%E7%9A%84%E7%BE%8E%E9%A3%9F%E5%9C%B0%E5%9C%96/"/>
+    
+      <category term="台北市" scheme="https://oawan.me/tags/%E5%8F%B0%E5%8C%97%E5%B8%82/"/>
+    
+      <category term="台北松山區" scheme="https://oawan.me/tags/%E5%8F%B0%E5%8C%97%E6%9D%BE%E5%B1%B1%E5%8D%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[台北大安] Mamak檔 - 平價必吃的正宗星馬料理！</title>
+    <link href="https://oawan.me/2016/%E5%8F%B0%E5%8C%97%E5%A4%A7%E5%AE%89-Mamak%E6%AA%94-%E5%B9%B3%E5%83%B9%E5%BF%85%E5%90%83%E7%9A%84%E6%AD%A3%E5%AE%97%E6%98%9F%E9%A6%AC%E6%96%99%E7%90%86%EF%BC%81/"/>
+    <id>https://oawan.me/2016/台北大安-Mamak檔-平價必吃的正宗星馬料理！/</id>
+    <published>2016-06-19T02:55:33.000Z</published>
+    <updated>2017-05-27T07:50:22.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/img/food/2016/Taipei/Daan/mamak檔/姊弟共騎.jpg" alt="Mamak檔"><br>　　自從試過 <strong>Costco</strong> <del><em>(我都念 Costco，但是我朋友都念 Costco，聽說正解是 Costco)</em></del> 的 <span class="oaspan oaspan-reverse">叻沙鍋</span> 後，就開始喜歡嘗試一些新加坡或大馬料理；有次意外在 <strong>忠孝敦化</strong> 發現這家超道地的星馬料理餐廳，而這次是二訪囉！</p>
+<a id="more"></a>
+<hr>
+<h1 id="Mamak檔"><a href="#Mamak檔" class="headerlink" title="Mamak檔"></a>Mamak檔</h1><p><span class="oaspan oaspan-reverse">推薦</span> 4.0 <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></p>
+<p><img src="/img/food/2016/Taipei/Daan/mamak檔/Top10.jpg" alt="Mamak檔"><br>　　當天陪朋友到忠孝復興買完相機後，就決定散步到忠孝敦化的 <span class="oaspan oaspan-reverse oaspan-red">Mamak檔</span> 吃個飯聊聊天！到場時大約是五點半左右，很幸運的是當時還沒行成排隊人潮，我們仨人很快的就被安排入坐。<br>　　<br>　　店內位置不算多，而且都是圓形鐵桌，營造的氣氛就像是在大馬的街頭吃小吃攤一般，桌面上還印著一些食材和醬料名稱的來由，可惜當時只顧著聊天，沒拍下這些小細節，只好下次再訪時補上囉 XP 桌上還擺著 <span class="oaspan">十大熱門<strong>必點</strong>推薦</span>，不知道要點什麼也可以照著推薦點，好方便哪！<br>　　<br><img src="/img/food/2016/Taipei/Daan/mamak檔/菜單.jpg" alt="Mamak檔"><br>　　而這是店內的菜單，菜色相當豐富，也很多特色小吃；既然來了，就要點個 <strong>人氣第一名</strong> 的 <span class="oaspan oaspan-reverse">香酥塔餅</span> 來試試，除了香酥塔餅，我們還點了一份 <strong>烤餅</strong>、一碗 <strong>叻沙</strong> 和一盤 <strong>海南雞飯</strong>。</p>
+<img src="/img/food/2016/Taipei/Daan/mamak檔/點餐區.jpg" width="550">
+<p>　　Mamak檔的 <strong>點餐區</strong> 很有趣，旁邊的路牌指向通往 <strong>二奶巷</strong>，好奇<a href="https://www.google.com.tw/search?q=%E4%BA%8C%E5%A5%B6%E5%B7%B7&amp;espv=2&amp;rlz=1C1ASRM_enTW523TW526&amp;biw=1920&amp;bih=951&amp;source=lnms&amp;tbm=isch&amp;sa=X&amp;ved=0ahUKEwi844_q6cnNAhUJjZQKHe8xD8gQ_AUIBigB#imgrc=" target="_blank" rel="external">谷哥</a>一下發現，店家很用心的裝潢，讓人好像置身 <strong>二奶巷的街口</strong> 吃著小吃呢！<br>　　<br><img src="/img/food/2016/Taipei/Daan/mamak檔/二奶巷.jpg" alt="Mamak檔" title="pic by 星洲日報"><br>　　噹啷~ 這就是大馬怡保的老街場 <span class="oaspan oaspan-red">二奶巷</span> 本人！</p>
+<hr>
+<h2 id="印度拉茶-70"><a href="#印度拉茶-70" class="headerlink" title="印度拉茶 $70"></a>印度拉茶 <span class="oabadge oabadge-yellow">$70</span></h2><img src="/img/food/2016/Taipei/Daan/mamak檔/印度拉茶.jpg" width="550">
+<p>　　在沒有說好的情況下，我們三個都點了冰的 <span class="oaspan oaspan-reverse">印度拉茶</span>，個人覺得他們家的拉茶很濃郁很好喝，而且有時大馬主廚還會出來作拉茶表演！其實拉茶的原價是 <span class="oaspan oaspan-yellow oaspan-reverse">$80</span>，但點餐 + 70 元就可以 <strong>印度拉茶</strong>、<strong>白咖啡</strong> 或 <strong>手作薏仁水</strong> 三選一。</p>
+<hr>
+<h2 id="香酥塔餅-80"><a href="#香酥塔餅-80" class="headerlink" title="香酥塔餅 $80"></a>香酥塔餅 <span class="oabadge oabadge-yellow">$80</span></h2><img src="/img/food/2016/Taipei/Daan/mamak檔/香酥塔餅.jpg" width="550">
+<p>　　這就是人氣王 <span class="oaspan oaspan-reverse">香酥塔餅</span>，端來時就像是一作白色巨塔，超吸睛的！在 <strong>Mamak檔</strong> 的餐點都可以作外帶，但唯獨這人氣王是 <span class="oaspan oaspan-red">僅限內用</span>；塔皮酥酥脆脆的，內層塗有薄薄的蜂蜜，所以本身吃起來就有點微甜，不沾醬單吃也是很好吃喔！</p>
+<p><img src="/img/food/2016/Taipei/Daan/mamak檔/香酥塔餅-2.jpg" alt="Mamak檔"><br>　　<strong>塔餅</strong> 隨盤附上三種醬料，<strong>參巴辣醬</strong>、<strong>咖哩</strong> 和 <strong>煉乳</strong>，喜歡吃辣就吃辣，吃鹹就吃鹹，吃甜也 OK，從鹹點到甜點，一道料理一次滿足XDD</p>
+<hr>
+<h2 id="囊爐烤餅-咖哩牛肉-160"><a href="#囊爐烤餅-咖哩牛肉-160" class="headerlink" title="囊爐烤餅 + 咖哩牛肉 $160"></a>囊爐烤餅 + 咖哩牛肉 <span class="oabadge oabadge-yellow">$160</span></h2><p><img src="/img/food/2016/Taipei/Daan/mamak檔/囊爐烤餅.jpg" alt="Mamak檔"><br>　　<strong>Mamak檔</strong> 有許多印度料理，而這道 <span class="oaspan oaspan-reverse">囊爐烤餅+咖哩牛肉</span> 在一訪時就超吸引我！<strong>餅皮</strong> 很特別的是外圍較厚，吃起來 ＱＱ 的像麵包，而中間較薄，吃起來脆脆的，口感很豐富。</p>
+<p><img src="/img/food/2016/Taipei/Daan/mamak檔/囊爐烤餅-2.jpg" alt="Mamak檔"><br>　　沾醬的部分附上兩種，分別是 <strong>椰奶咖哩</strong> 和 <strong>咖哩牛肉</strong>，我個人比較喜歡 <strong>咖哩牛肉</strong>，雖然比較重鹹，但配上餅吃就是爽！</p>
+<hr>
+<h2 id="海南雞飯-150"><a href="#海南雞飯-150" class="headerlink" title="海南雞飯 $150"></a>海南雞飯 <span class="oabadge oabadge-yellow">$150</span></h2><p><img src="/img/food/2016/Taipei/Daan/mamak檔/海南雞飯.jpg" alt="Mamak檔"><br>　　這是我滿心期待的 <span class="oaspan oaspan-reverse">海南雞飯</span>，米飯是用較細長的米，吃起來稍微偏硬，而上面淋了醬汁，讓飯本身吃起來有鹹味也不單調；大雞腿皮 Ｑ 肉嫩，不過本身沒什麼味道，算是靠淋上的醬來調味；可能是過度期待或個人喜好的關係，這道 <strong>海南雞飯</strong> 稍嫌平凡了點。</p>
+<hr>
+<h2 id="咖哩叻沙-150"><a href="#咖哩叻沙-150" class="headerlink" title="咖哩叻沙 $150"></a>咖哩叻沙 <span class="oabadge oabadge-yellow">$150</span></h2><p><img src="/img/food/2016/Taipei/Daan/mamak檔/咖哩叻沙.jpg" alt="Mamak檔"><br>　　這道 <span class="oaspan oaspan-reverse">咖哩叻沙</span> 是小凱蘿的最愛，每次來都必點一碗，這次其實也算是為它而來。雖然是 <strong>咖哩</strong> 叻沙，但沒有過重的咖哩味，而辣的程度就算是怕辣的人也能接受的唷！一點點酸一點點辣，搭配蝦子融進湯裡的味道，真的很適合夏天、秋天、冬天和春天 XDD 最感人的是，一碗叻沙裡就有 <strong>米粉</strong> 和 <strong>細黃麵</strong> 兩種麵，真是雙重享受，最適合我們這種小腹婆，小腹翁惹！</p>
+<hr>
+<img src="/img/food/2016/Taipei/Daan/mamak檔/爬牆小孩.jpg" width="550">
+<p>　　<strong>Mamak檔</strong> 還把 <strong>檳城喬治城老街</strong> 的一些壁畫搬到台北了！<br>　　<br><img src="/img/food/2016/Taipei/Daan/mamak檔/姊弟共騎.jpg" alt="Mamak檔"><br>　　除了店內的 <span class="oaspan">爬牆小孩</span>，店外還有一幅 <span class="oaspan">姊弟共騎</span> 喔！<strong>Mamak檔</strong> 真是為台北的這個街口，添上濃濃的檳城色彩 <i class="fa fa-heart" style="color: #F44336;"></i></p>
+<hr>
+<h1 id="店家資訊"><a href="#店家資訊" class="headerlink" title="店家資訊"></a>店家資訊</h1><p><span class="oaspan oaspan-reverse"><i class="fa fa-clock-o"></i></span> 營業時間：<strong>11:00 - 22:00</strong><br><span class="oaspan oaspan-reverse"><i class="fa fa-phone"></i></span> 電話：<strong>02-2731-6086</strong><br><span class="oaspan oaspan-reverse"><i class="fa fa-map-marker"></i></span> 地址：<a href="https://www.google.com.tw/maps/place/%E3%80%90Mamak%E6%AA%94%E3%80%91%E6%98%9F%E9%A6%AC%E6%96%99%E7%90%86/@25.0424189,121.5527614,15z/data=!4m5!3m4!1s0x0:0xd6664f4dc12c72c7!8m2!3d25.0424189!4d121.5527614" target="_blank" rel="external">台北市大安區敦化南路一段187巷72號</a></p>
+<div style="text-align: center;"><br>  <iframe class="oamap" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3614.762518705548!2d121.5525468232788!3d25.04213215175559!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xd6664f4dc12c72c7!2z44CQTWFtYWvmqpTjgJHmmJ_ppqzmlpnnkIY!5e0!3m2!1szh-TW!2stw!4v1467097511280" width="800" height="250" frameborder="0" style="border:0" allowfullscreen></iframe><br></div>
+
+
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/img/food/2016/Taipei/Daan/mamak檔/姊弟共騎.jpg&quot; alt=&quot;Mamak檔&quot;&gt;&lt;br&gt;　　自從試過 &lt;strong&gt;Costco&lt;/strong&gt; &lt;del&gt;&lt;em&gt;(我都念 Costco，但是我朋友都念 Costco，聽說正解是 Costco)&lt;/em&gt;&lt;/del&gt; 的 &lt;span class=&quot;oaspan oaspan-reverse&quot;&gt;叻沙鍋&lt;/span&gt; 後，就開始喜歡嘗試一些新加坡或大馬料理；有次意外在 &lt;strong&gt;忠孝敦化&lt;/strong&gt; 發現這家超道地的星馬料理餐廳，而這次是二訪囉！&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Food" scheme="https://oawan.me/categories/food/"/>
+    
+    
+      <category term="街口的美食地圖" scheme="https://oawan.me/tags/%E8%A1%97%E5%8F%A3%E7%9A%84%E7%BE%8E%E9%A3%9F%E5%9C%B0%E5%9C%96/"/>
+    
+      <category term="台北市" scheme="https://oawan.me/tags/%E5%8F%B0%E5%8C%97%E5%B8%82/"/>
+    
+      <category term="台北大安區" scheme="https://oawan.me/tags/%E5%8F%B0%E5%8C%97%E5%A4%A7%E5%AE%89%E5%8D%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[基隆] 鮮果汁大王、陳記泡泡冰、營養三明治 - 基隆廟口的小點心</title>
+    <link href="https://oawan.me/2016/%E5%9F%BA%E9%9A%86-%E9%AE%AE%E6%9E%9C%E6%B1%81%E5%A4%A7%E7%8E%8B%E3%80%81%E9%99%B3%E8%A8%98%E6%B3%A1%E6%B3%A1%E5%86%B0%E3%80%81%E7%87%9F%E9%A4%8A%E4%B8%89%E6%98%8E%E6%B2%BB-%E5%9F%BA%E9%9A%86%E5%BB%9F%E5%8F%A3%E7%9A%84%E5%B0%8F%E9%BB%9E%E5%BF%83/"/>
+    <id>https://oawan.me/2016/基隆-鮮果汁大王、陳記泡泡冰、營養三明治-基隆廟口的小點心/</id>
+    <published>2016-06-12T06:54:11.000Z</published>
+    <updated>2017-05-27T07:49:44.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/img/food/2016/Keelung/營養三明治.jpg" alt="營養三明治"><br>　　今天來廟口，嘗試了有名的 <span class="oaspan oaspan-red oaspan-reverse">營養三明治</span> 和每次來都一定要吃的 <span class="oaspan oaspan-red oaspan-reverse">陳記泡泡冰</span>，每次吃到泡泡冰都覺得很幸福！</p>
+<a id="more"></a>
+<hr>
+<h1 id="鮮果汁大王"><a href="#鮮果汁大王" class="headerlink" title="鮮果汁大王"></a>鮮果汁大王</h1><p><span class="oaspan oaspan-reverse">划算</span> 2.5 <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-full"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></p>
+<p><img src="/img/food/2016/Keelung/果汁店.jpg" alt="鮮果汁大王"><br>　　一到廟口，小凱蘿就指著 <span class="oaspan oaspan-red oaspan-reverse">鮮果汁大王</span> 說「這就是 <strong>Hebe</strong> 和 <strong>周杰倫</strong> 拍 MV 談戀愛的果汁店」，都這麼說了就先來一杯綜合果汁解解渴，不過到底是什麼 MV 當下真的想不起來 XDD</p>
+<img src="/img/food/2016/Keelung/果汁店-2.jpg" width="450">
+<p>　　醬醬~ 這就是帶我到處吃基隆的小凱蘿，她點的是 <strong>柳橙汁</strong>，這家果汁都是老闆現榨或現作的，而不是榨好後放冰箱賣一整天喔！我點的是 <strong>綜合果汁</strong>，不過因為當時下點小雨，又加上很熱，就完全忘了拍它…， <strong>40 元</strong> 在北部能買到現榨果汁，我覺得還蠻便宜的，不過 <strong>綜合果汁</strong> 喝起來就普普通通，算是養生的感覺 XDD</p>
+<hr>
+<h1 id="天盛鋪營養三明治"><a href="#天盛鋪營養三明治" class="headerlink" title="天盛鋪營養三明治"></a>天盛鋪營養三明治</h1><p><span class="oaspan oaspan-reverse">尚可</span> 2.0 <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></p>
+<p><img src="/img/food/2016/Keelung/營養三明治-2.jpg" alt="天盛鋪營養三明治"><br>　　現在各大夜市都會有類似的攤位，不過這可是 <strong>正宗</strong> 的 <span class="oaspan oaspan-red oaspan-reverse">天盛鋪營養三明治</span> 老攤；雖然小凱蘿說「<strong>這很有名，但我不太推薦</strong>」，但它真得頗富盛名，感覺沒吃過就沒來過廟口，所以我們還是排隊買了一個來嚐鮮！<br>　　<br><img src="/img/food/2016/Keelung/營養三明治.jpg" alt="天盛鋪營養三明治"><br>　　這家店真得很有名，才下午三四點，隊伍就已經排的長長的，<strong>三明治麵包</strong> 很特別，炸起來黃金酥脆的樣子，真的光看就讓人流口水。</p>
+<p><img src="/img/food/2016/Keelung/營養三明治-3.jpg" alt="天盛鋪營養三明治"><br>　　<span class="oaspan oaspan-red oaspan-reverse">營養三明治</span> 的內餡是 <strong>火腿、滷蛋、小黃瓜、番茄</strong> 和濃濃的 <strong>美乃滋</strong>，搭配酥酥脆脆的麵包，還挺搭的！不過那天吃的麵包可能炸的過頭了，咬起來雖然酥脆，但真的也蠻硬的 <del>咬到牙齦都疼了</del>；不過這會有名也不無道理，<strong>吃個促咪</strong> 還不賴！</p>
+<hr>
+<h1 id="陳記泡泡冰"><a href="#陳記泡泡冰" class="headerlink" title="陳記泡泡冰"></a>陳記泡泡冰</h1><p><span class="oaspan oaspan-reverse">大推薦</span> 4.5 <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-full"></i></p>
+<p><img src="/img/food/2016/Keelung/陳記泡泡冰.jpg" alt="陳記泡泡冰"><br>　　第一次在基隆吃到 <strong>泡泡冰</strong> 就愛上了，不過第一次吃的究竟是 <span class="oaspan oaspan-red oaspan-reverse">陳記</span> 還是 <span class="oaspan oaspan-red oaspan-reverse">沈記</span> 已經不記得了，哈哈哈，下次有機會再來比較看看；而這幾次來基隆我都是吃 <span class="oaspan oaspan-red oaspan-reverse">陳記泡泡冰</span>，偷偷告訴你，如果人很多又想來杯泡泡冰，記得點 <strong>花生口味</strong>！小凱蘿說在地的都知道，花生口味既好吃，又 <strong>不用等</strong>，嘿嘿！<br>　　<br><img src="/img/food/2016/Keelung/陳記泡泡冰-3.jpg" alt="陳記泡泡冰"><br>　　花生口味的泡泡冰，味道很濃郁，也甜得恰到好處，加上泡泡冰本身綿綿密密，真的超好吃的 <i class="fa fa-heart" style="color: #F44336"></i></p>
+<hr>
+<h1 id="到底是什麼-MV-呢？"><a href="#到底是什麼-MV-呢？" class="headerlink" title="到底是什麼 MV 呢？"></a>到底是什麼 MV 呢？</h1><p>　　哈哈哈，後來實在太好奇了，直接估狗 <span class="oaspan">Hebe 周杰倫 mv</span>，阿～原來是<strong>《退後》</strong>～<br>　　<div class="video-container"><iframe src="//www.youtube.com/embed/0-4mm0e2h44" frameborder="0" allowfullscreen></iframe></div><br>　　逛完基隆廟口夜市，在看 MV 感覺很有趣，好像一起喝了果汁、吃了營養三明治一樣呢 XDDD</p>
+<hr>
+<h1 id="店家資訊"><a href="#店家資訊" class="headerlink" title="店家資訊"></a>店家資訊</h1><h2 id="鮮果汁大王-1-號攤"><a href="#鮮果汁大王-1-號攤" class="headerlink" title="鮮果汁大王 (1 號攤)"></a>鮮果汁大王 (1 號攤)</h2><p><span class="oaspan oaspan-reverse"><i class="fa fa-clock-o"></i></span> 營業時間：<strong>10:30 - 02:00</strong><br><span class="oaspan oaspan-reverse"><i class="fa fa-phone"></i></span> 電話：<strong>02-2423-0079</strong><br><span class="oaspan oaspan-reverse"><i class="fa fa-map-marker"></i></span> 地址：<a href="https://www.google.com.tw/maps/place/%E9%AE%AE%E6%9E%9C%E6%B1%81%E5%A4%A7%E7%8E%8B/@25.1285252,121.7428279,15z/data=!4m2!3m1!1s0x0:0xe42bbff1ed4a9941?sa=X&amp;ved=0ahUKEwiL1Mv-_rXNAhUJk5QKHWB8BhwQ_BIIdzAP" target="_blank" rel="external">基隆市仁愛區仁三路 (1 號攤)</a></p>
+<div style="text-align: center;"><br>  <iframe class="oamap" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d4295.639794670542!2d121.74325009149035!3d25.129330619484865!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xe42bbff1ed4a9941!2z6a6u5p6c5rGB5aSn546L!5e0!3m2!1szh-TW!2stw!4v1466404652917" width="800" height="250" frameborder="0" style="border:0" allowfullscreen></iframe><br></div>
+
+<h2 id="天盛鋪營養三明治-58-號攤"><a href="#天盛鋪營養三明治-58-號攤" class="headerlink" title="天盛鋪營養三明治 (58 號攤)"></a>天盛鋪營養三明治 (58 號攤)</h2><p><span class="oaspan oaspan-reverse"><i class="fa fa-clock-o"></i></span> 營業時間：<strong>10:30 - 02:00</strong><br><span class="oaspan oaspan-reverse"><i class="fa fa-phone"></i></span> 電話：<strong>02-2423-0079</strong><br><span class="oaspan oaspan-reverse"><i class="fa fa-map-marker"></i></span> 地址：<a href="https://www.google.com.tw/maps/place/%E5%A4%A9%E7%9B%9B%E8%88%96%E5%9F%BA%E9%9A%86%E5%BB%9F%E5%8F%A3%E6%AD%A3%E5%AE%97%E8%80%81%E7%89%8C%E7%87%9F%E9%A4%8A%E4%B8%89%E6%98%8E%E6%B2%BB/@25.1229646,121.7371488,15.75z/data=!4m8!1m2!2m1!1z54ef6aSK5LiJ5piO5rK7!3m4!1s0x0000000000000000:0x871b32ff65701150!8m2!3d25.1283455!4d121.7434314" target="_blank" rel="external">基隆市仁愛區仁三路 (58 號攤)</a></p>
+<div style="text-align: center;"><br>  <iframe class="oamap" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14449.059604363194!2d121.73976663599855!3d25.126733525081942!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0000000000000000%3A0x871b32ff65701150!2z5aSp55ub6IiW5Z-66ZqG5buf5Y-j5q2j5a6X6ICB54mM54ef6aSK5LiJ5piO5rK7!5e0!3m2!1szh-TW!2stw!4v1466405358277" width="800" height="250" frameborder="0" style="border:0" allowfullscreen></iframe><br></div>
+
+<h2 id="陳記泡泡冰-41-號攤"><a href="#陳記泡泡冰-41-號攤" class="headerlink" title="陳記泡泡冰 (41 號攤)"></a>陳記泡泡冰 (41 號攤)</h2><p><span class="oaspan oaspan-reverse"><i class="fa fa-clock-o"></i></span> 營業時間：<strong>10:00 - 00:00</strong><br><span class="oaspan oaspan-reverse"><i class="fa fa-phone"></i></span> 電話：<strong>02-2428-6270</strong><br><span class="oaspan oaspan-reverse"><i class="fa fa-map-marker"></i></span> 地址：<a href="https://www.google.com.tw/maps/place/%E9%99%B3%E8%A8%98%E6%B3%A1%E6%B3%A1%E5%86%B0/@25.128053,121.7434754,18z/data=!4m5!3m4!1s0x0:0x8b2631ee845a8912!8m2!3d25.1282736!4d121.7433959" target="_blank" rel="external">基隆市仁愛區仁三路 (41 號攤)</a></p>
+<div style="text-align: center;"><br>  <iframe class="oamap" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1806.1129429917062!2d121.74347544589456!3d25.12805296391956!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x8b2631ee845a8912!2z6Zmz6KiY5rOh5rOh5Yaw!5e0!3m2!1szh-TW!2stw!4v1466405603312" width="800" height="250" frameborder="0" style="border:0" allowfullscreen></iframe><br></div>
+
+<hr>
+<h1 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h1><ul>
+<li><a href="/2016/基隆-天一香肉羹順-基隆廟口必吃美食/">[基隆] 天一香肉羹順 - 基隆廟口必吃美食</a></li>
+<li><a href="/2016/基隆-十攤。螃蟹羹、油飯-在地人大推的好味道/">[基隆] 十攤。螃蟹羹、油飯 - 在地人大推的好味道</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/img/food/2016/Keelung/營養三明治.jpg&quot; alt=&quot;營養三明治&quot;&gt;&lt;br&gt;　　今天來廟口，嘗試了有名的 &lt;span class=&quot;oaspan oaspan-red oaspan-reverse&quot;&gt;營養三明治&lt;/span&gt; 和每次來都一定要吃的 &lt;span class=&quot;oaspan oaspan-red oaspan-reverse&quot;&gt;陳記泡泡冰&lt;/span&gt;，每次吃到泡泡冰都覺得很幸福！&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Food" scheme="https://oawan.me/categories/food/"/>
+    
+    
+      <category term="街口的美食地圖" scheme="https://oawan.me/tags/%E8%A1%97%E5%8F%A3%E7%9A%84%E7%BE%8E%E9%A3%9F%E5%9C%B0%E5%9C%96/"/>
+    
+      <category term="基隆" scheme="https://oawan.me/tags/%E5%9F%BA%E9%9A%86/"/>
+    
+      <category term="基隆廟口" scheme="https://oawan.me/tags/%E5%9F%BA%E9%9A%86%E5%BB%9F%E5%8F%A3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[基隆] 十攤。螃蟹羹油飯 - 在地人大推的好味道</title>
+    <link href="https://oawan.me/2016/%E5%9F%BA%E9%9A%86-%E5%8D%81%E6%94%A4%E3%80%82%E8%9E%83%E8%9F%B9%E7%BE%B9%E3%80%81%E6%B2%B9%E9%A3%AF-%E5%9C%A8%E5%9C%B0%E4%BA%BA%E5%A4%A7%E6%8E%A8%E7%9A%84%E5%A5%BD%E5%91%B3%E9%81%93/"/>
+    <id>https://oawan.me/2016/基隆-十攤。螃蟹羹、油飯-在地人大推的好味道/</id>
+    <published>2016-06-12T06:39:13.000Z</published>
+    <updated>2017-05-27T07:50:04.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/img/food/2016/Keelung/油飯螃蟹羹-3.jpg" alt="十攤。螃蟹羹油飯"><br>　　基隆廟口夜市有別於其他夜市的地方，就在它沒有過多的 <em>連鎖攤販</em>，而且還可以吃到很多特色美食！<strong>螃蟹羹。油飯</strong> 就是一樣特別的好味道。</p>
+<a id="more"></a>
+<hr>
+<h1 id="十攤。螃蟹羹油飯"><a href="#十攤。螃蟹羹油飯" class="headerlink" title="十攤。螃蟹羹油飯"></a>十攤。螃蟹羹油飯</h1><p><span class="oaspan oaspan-reverse">大推薦</span> 4.0 <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></p>
+<p><img src="/img/food/2016/Keelung/油飯螃蟹羹.jpg" alt="十攤。螃蟹羹油飯"><br>　　這家 <strong>螃蟹羹。油飯</strong> 是在地人都大推的好味道！不過我找來找去就是找不到店名…也可能他就是叫 <span class="oaspan oaspan-red oaspan-reverse">螃蟹羹。油飯</span> 吧XDD<br>　　<br><img src="/img/food/2016/Keelung/油飯螃蟹羹-2.jpg" alt="十攤。螃蟹羹油飯"><br>　　可能這時候肚子已經咕嚕咕嚕叫，看到老闆從木板上盛熱騰騰的油飯時，口水都快噴出來了。</p>
+<p><img src="/img/food/2016/Keelung/油飯螃蟹羹-3.jpg" alt="十攤。螃蟹羹油飯"><br>　　雖然小凱蘿對於油飯沒特別推薦，不過看 <em>店名</em> 招牌當然還是得先 <strong>油飯</strong> + <strong>螃蟹羹</strong> 各來了一碗！<br>　　<br><img src="/img/food/2016/Keelung/油飯螃蟹羹-4.jpg" alt="十攤。螃蟹羹油飯"><br>　　<strong>油飯</strong> 本人在木板上時，賣相真的超好，雖然沒有被特別推薦，但我覺得還不錯吃，米粒夠黏又不會太黏，油飯還淋上一點甜辣醬，還算美賣！<br>　　<br><img src="/img/food/2016/Keelung/油飯螃蟹羹-5.jpg" alt="十攤。螃蟹羹油飯"><br>　　這碗 <strong>螃蟹羹</strong> 就真的厲害了！我本身對於羹湯類沒有特別的喜好，之前吃過網友大推的 <span class="oaspan">吳記螃蟹羹</span>，覺得羹差不多就那味道，所以原本沒抱有太大期待，結果！<strong>不喝不知道，喝了嚇一跳</strong>！真的很好喝！羹湯本身不會太稠，而湯頭因為各種菇類變得格外鮮甜，蟹管肉也很肥嫩，整個大滿足！點一碗兩個人分真的不夠阿XDD<br>　　<br>　　這家 <span class="oaspan oaspan-red oaspan-reverse">螃蟹羹。油飯</span> 沒個好記的店名真的很吃虧，有些在地人或在基隆讀過書的朋友也都蠻推薦他們家的 <strong>螃蟹羹</strong>，只是一時也叫不出名字，如果下次到基隆廟口，可以來嚐一下基隆特有的 <strong>螃蟹羹。油飯</strong>，我推薦這家 – <span class="oaspan oaspan-red oaspan-reverse">十攤。螃蟹羹油飯</span>！</p>
+<hr>
+<h1 id="店家資訊"><a href="#店家資訊" class="headerlink" title="店家資訊"></a>店家資訊</h1><p><span class="oaspan oaspan-reverse"><i class="fa fa-clock-o"></i></span> 營業時間：<strong>11:00 - 02:00</strong><br><span class="oaspan oaspan-reverse"><i class="fa fa-phone"></i></span> 電話：<strong>02-2428-7664</strong><br><span class="oaspan oaspan-reverse"><i class="fa fa-map-marker"></i></span> 地址：<strong>基隆市仁愛區仁三路 10 號攤</strong></p>
+<div style="text-align: center;"><br>  <iframe class="oamap" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1277.1075137429316!2d121.74359254764535!3d25.128741245966108!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xf567e0b145940e00!2z6J6D6J-557654oCn5rK56aOv!5e0!3m2!1szh-TW!2stw!4v1466360997092" width="800" height="250" frameborder="0" style="border:0" allowfullscreen></iframe><br></div>
+
+<blockquote>
+<p><em>註：地圖標示的不正確，反正只要找到 10 號攤就對啦！</em></p>
+</blockquote>
+<hr>
+<h1 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h1><ul>
+<li><a href="/2016/基隆-天一香肉羹順-基隆廟口必吃美食/">[基隆] 天一香肉羹順 - 基隆廟口必吃美食</a></li>
+<li><a href="/2016/基隆-鮮果汁大王、陳記泡泡冰、營養三明治-基隆廟口的小點心/">[基隆] 鮮果汁大王、陳記泡泡冰、營養三明治 - 基隆廟口的小點心</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/img/food/2016/Keelung/油飯螃蟹羹-3.jpg&quot; alt=&quot;十攤。螃蟹羹油飯&quot;&gt;&lt;br&gt;　　基隆廟口夜市有別於其他夜市的地方，就在它沒有過多的 &lt;em&gt;連鎖攤販&lt;/em&gt;，而且還可以吃到很多特色美食！&lt;strong&gt;螃蟹羹。油飯&lt;/strong&gt; 就是一樣特別的好味道。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Food" scheme="https://oawan.me/categories/food/"/>
+    
+    
+      <category term="街口的美食地圖" scheme="https://oawan.me/tags/%E8%A1%97%E5%8F%A3%E7%9A%84%E7%BE%8E%E9%A3%9F%E5%9C%B0%E5%9C%96/"/>
+    
+      <category term="基隆" scheme="https://oawan.me/tags/%E5%9F%BA%E9%9A%86/"/>
+    
+      <category term="基隆廟口" scheme="https://oawan.me/tags/%E5%9F%BA%E9%9A%86%E5%BB%9F%E5%8F%A3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[基隆] 天一香肉羹順 - 基隆廟口必吃美食</title>
+    <link href="https://oawan.me/2016/%E5%9F%BA%E9%9A%86-%E5%A4%A9%E4%B8%80%E9%A6%99%E8%82%89%E7%BE%B9%E9%A0%86-%E5%9F%BA%E9%9A%86%E5%BB%9F%E5%8F%A3%E5%BF%85%E5%90%83%E7%BE%8E%E9%A3%9F/"/>
+    <id>https://oawan.me/2016/基隆-天一香肉羹順-基隆廟口必吃美食/</id>
+    <published>2016-06-12T06:23:59.000Z</published>
+    <updated>2017-05-27T07:49:52.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/img/food/2016/Keelung/天一香肉羹順-3.jpg" alt="天一香肉羹順"><br>　　每次到基隆廟口，都有幾樣 <strong>就算很飽也想要吃上一口</strong> 的美食，沒錯，其中一項就是百年老店 <span class="oaspan oaspan-red oaspan-reverse">天一香肉羹順</span>！喜歡吃滷肉飯嗎？如果你也跟我一樣是 <strong>滷飯客</strong>，到基隆別忘了來這扒上一碗喔！</p>
+<a id="more"></a>
+<hr>
+<h1 id="天一香肉羹順-大推薦"><a href="#天一香肉羹順-大推薦" class="headerlink" title="天一香肉羹順 大推薦"></a>天一香肉羹順 <span class="oabadge oabadge-red">大推薦</span></h1><p><span class="oaspan oaspan-reverse">大推薦</span> 4.0 <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></p>
+<p><img src="/img/food/2016/Keelung/天一香肉羹順.jpg" alt="天一香肉羹順"><br>　　從招牌上就可以看到斗大的菜單，最貴的肉羹湯也才 <strong>40 元</strong>，真是俗擱大碗，但其實每次我都是吃滷肉飯而已，<span class="oaspan">肉羹湯</span> 的部分下次有機會再好好嚐嚐XDD<br>　　<br><img src="/img/food/2016/Keelung/天一香肉羹順-2.jpg" alt="天一香肉羹順"><br>　　這天大約是下午四五點到廟口，由於人潮開始多了，一進到店裡就可以看到姊姊們已經盛好熱騰騰的飯備戰！<br>　　<br><img src="/img/food/2016/Keelung/天一香肉羹順-3.jpg" alt="天一香肉羹順"><br>　　丟係這味！他們家的飯吃起來 <strong>飽滿偏黏</strong>，而滷肉汁屬於 <strong>半肥偏瘦</strong>， 吃起來爽口不油膩，個人覺得這碗滷肉飯在我心裡可是排上 <span class="oaspan oaspan-reverse">前五名</span> 的唷！</p>
+<div style="display: inline-flex;"><br>  <img src="/img/food/2016/Keelung/天一香肉羹順-4.jpg" width="450"><br>  <img src="/img/food/2016/Keelung/天一香肉羹順-5.jpg" width="450"><br></div>
+
+<p>　　這次除了滷肉飯外，還叫了 <strong>筍絲</strong> 和 <strong>油豆腐</strong> 來配，油豆腐個人覺得還好，<em><del>算是家常口味</del></em>，不過筍絲還蠻好吃的，看照片可能會覺得淋上的醬會很重鹹，但其實不會呢！提味的嘟嘟好 <i class="fa fa-thumbs-o-up"></i></p>
+<p>　　<span class="oaspan oaspan-red oaspan-reverse">天一香肉羹順</span> 已經是 <strong>百年老字號</strong>，能傳承至今真的很厲害，東西好吃外，價格也很便宜，標準的物美價廉哪！喜歡滷肉飯的人，到基隆廟口千萬要記得來扒上一碗喔！</p>
+<hr>
+<h1 id="店家資訊"><a href="#店家資訊" class="headerlink" title="店家資訊"></a>店家資訊</h1><p><span class="oaspan oaspan-reverse"><i class="fa fa-clock-o"></i></span> 營業時間：<strong>10:30 - 02:00</strong><br><span class="oaspan oaspan-reverse"><i class="fa fa-phone"></i></span> 電話：<strong>02-2428-3027</strong><br><span class="oaspan oaspan-reverse"><i class="fa fa-map-marker"></i></span> 地址：<a href="https://www.google.com.tw/maps/place/%E5%A4%A9%E4%B8%80%E9%A6%99%E8%82%89%E7%BE%B9%E9%A0%86/@25.1282781,121.7409777,17z/data=!3m1!4b1!4m5!3m4!1s0x345d4e3e19dd262b:0x5978419f31c63a2a!8m2!3d25.1282733!4d121.7431664" target="_blank" rel="external"><strong>基隆市仁愛區仁三路27-1號 (31 號攤)</strong></a></p>
+<div style="text-align: center;"><br>  <iframe class="oamap" height="250" frameborder="0" style="border:0 ;" allowfullscreen src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3612.2192274351837!2d121.74097771550007!3d25.128278140658505!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x345d4e3e19dd262b%3A0x5978419f31c63a2a!2z5aSp5LiA6aaZ6IKJ57656aCG!5e0!3m2!1szh-TW!2stw!4v1466071826111"></iframe><br></div>
+
+<hr>
+<h1 id="延伸閱讀"><a href="#延伸閱讀" class="headerlink" title="延伸閱讀"></a>延伸閱讀</h1><ul>
+<li><a href="/2016/基隆-十攤。螃蟹羹、油飯-在地人大推的好味道/">[基隆] 十攤。螃蟹羹、油飯 - 在地人大推的好味道</a></li>
+<li><a href="/2016/基隆-鮮果汁大王、陳記泡泡冰、營養三明治-基隆廟口的小點心/">[基隆] 鮮果汁大王、陳記泡泡冰、營養三明治 - 基隆廟口的小點心</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/img/food/2016/Keelung/天一香肉羹順-3.jpg&quot; alt=&quot;天一香肉羹順&quot;&gt;&lt;br&gt;　　每次到基隆廟口，都有幾樣 &lt;strong&gt;就算很飽也想要吃上一口&lt;/strong&gt; 的美食，沒錯，其中一項就是百年老店 &lt;span class=&quot;oaspan oaspan-red oaspan-reverse&quot;&gt;天一香肉羹順&lt;/span&gt;！喜歡吃滷肉飯嗎？如果你也跟我一樣是 &lt;strong&gt;滷飯客&lt;/strong&gt;，到基隆別忘了來這扒上一碗喔！&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Food" scheme="https://oawan.me/categories/food/"/>
+    
+    
+      <category term="街口的美食地圖" scheme="https://oawan.me/tags/%E8%A1%97%E5%8F%A3%E7%9A%84%E7%BE%8E%E9%A3%9F%E5%9C%B0%E5%9C%96/"/>
+    
+      <category term="基隆" scheme="https://oawan.me/tags/%E5%9F%BA%E9%9A%86/"/>
+    
+      <category term="基隆廟口" scheme="https://oawan.me/tags/%E5%9F%BA%E9%9A%86%E5%BB%9F%E5%8F%A3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[5月] 街口的電影院 - 月總覽</title>
+    <link href="https://oawan.me/2016/2016-may-movie-list/"/>
+    <id>https://oawan.me/2016/2016-may-movie-list/</id>
+    <published>2016-05-31T15:52:17.000Z</published>
+    <updated>2016-06-06T06:47:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/img/movie/2016/05/2016-05.jpg" alt="5月品影總覽" title="「如果一起老去，我允許你先走。」"><br>　　<strong>5</strong> 部韓國電影，<strong>2</strong> 部好萊塢電影，<strong>2</strong> 部中國電影，<strong>1</strong> 部台灣電影，<strong>1</strong> 部印度電影，共 <strong>11</strong> 部，這個五月看了不少韓國電影呢！下面，就讓我們用 <strong>比較不雷</strong> 的方式，分享這個月看了哪些電影吧！<br><a id="more"></a></p>
+<hr>
+<h1 id="盲證-Blind-2011"><a href="#盲證-Blind-2011" class="headerlink" title="盲證 (Blind) 2011"></a>盲證 (Blind) 2011</h1><p><img src="/img/movie/2016/05/blind.jpg" alt="盲證"></p>
+<ul>
+<li>驚悚 / 懸疑</li>
+<li>主要演員：<a href="https://zh.wikipedia.org/zh-tw/%E9%87%91%E8%8D%B7%E5%A8%9C" target="_blank" rel="external">金荷娜</a><em>《樂園》</em>、<a href="https://zh.wikipedia.org/wiki/%E4%BF%9E%E6%89%BF%E8%B1%AA" target="_blank" rel="external">俞承浩</a><em>《有你真好》</em></li>
+<li><span style="background: #FFC107; padding: 2px 3px; border-radius: 4px;">IMDb</span> <strong>6.8</strong> │ <span style="background: #F44336; color: white; border-radius:50%; padding: 3px 4px;">爛</span><span style="color: #388E3C; font-size: 15px;">番茄</span> <strong>暫無</strong> │ <span style="background: #555555; color: white; border-radius: 4px; padding: 1px 2px;">OA</span> <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-full"></i><i class="fa fa-star-o"></i></li>
+</ul>
+<p>　　整部片營造的氛圍，如同盲眼的女主角一樣，就是<strong>「不安」</strong>！這部片充分讓人感受到那種<strong>背脊發涼</strong>的感覺。<br><img src="/img/movie/2016/05/blind-2.jpg" alt="盲證"><br>　　除了<strong>不安氛圍</strong>營造得很好，還有演技超群的女主角 <strong>金荷娜</strong> 外，讓我感到驚喜的就是長大後還是演小屁孩的 <strong>俞承浩</strong>！來幫大家回味一下經典好片《有你真好》中可愛又欠揍的小屁孩。<br><img src="/img/movie/2016/05/blind-3.1.jpg" alt="盲證"><br>　　但在盲證裡，他已經是帥帥的小鮮肉了！可能是只看過他這兩部作品，所以真心覺得他是演小屁孩界的翹楚 (蓋章) XDD<br><img src="/img/movie/2016/05/blind-3.2.jpg" alt="盲證"><br>　　整體上這部片是不錯的，如果會害怕，推薦你選個風和日麗的下午茶時間欣賞，哈哈哈。</p>
+<hr>
+<h1 id="檢察官外傳-A-Violent-Prosecutor-2016"><a href="#檢察官外傳-A-Violent-Prosecutor-2016" class="headerlink" title="檢察官外傳 (A Violent Prosecutor) 2016"></a>檢察官外傳 (A Violent Prosecutor) 2016</h1><p><img src="/img/movie/2016/05/geomsawejeon.jpg" style="width: 450px" alt="檢察官外傳"></p>
+<ul>
+<li>喜劇 / 犯罪</li>
+<li>主要演員：<a href="https://zh.wikipedia.org/wiki/%E5%A7%9C%E6%A3%9F%E5%85%83" target="_blank" rel="external">姜棟元</a>、<a href="https://zh.wikipedia.org/wiki/%E9%BB%84%E6%AD%A3%E6%B0%91" target="_blank" rel="external">黃正民</a></li>
+<li><span style="background: #FFC107; padding: 2px 3px; border-radius: 4px;">IMDb</span> <strong>5.9</strong> │ <span style="background: #F44336; color: white; border-radius:50%; padding: 3px 4px;">爛</span><span style="color: #388E3C; font-size: 15px;">番茄</span> <strong>暫無</strong> │ <span style="background: #555555; color: white; border-radius: 4px; padding: 1px 2px;">OA</span> <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-full"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></li>
+</ul>
+<p>　　雖然劇情稍嫌平淡，但不得不說 <strong>黃正民</strong> 和 <strong>姜棟元</strong> 的演技生動的帶領整部電影，他們在這各自角色的設定上完整發揮了！<br><img src="/img/movie/2016/05/geomsawejeon-2.jpg" alt="檢察官外傳"><br>　　除了這兩位主角外，配角 <strong>李聖旻</strong> 也讓我很驚喜，就是《未生》中的吳相植次長，看他演戲真的很有趣。<br><img src="/img/movie/2016/05/geomsawejeon-3.jpg" alt="檢察官外傳"><br>　　這部片雖然只給了兩顆半的推薦，但還是很適合閒暇時，配個晚餐輕鬆一下的電影。</p>
+<hr>
+<h1 id="地獄奶奶-Granny’s-Got-Talent-2015"><a href="#地獄奶奶-Granny’s-Got-Talent-2015" class="headerlink" title="地獄奶奶 (Granny’s Got Talent) 2015"></a>地獄奶奶 (Granny’s Got Talent) 2015</h1><p><img src="/img/movie/2016/05/granny.jpg" style="width: 450px" alt="地獄奶奶"></p>
+<ul>
+<li>喜劇 / 家庭</li>
+<li>主要演員：<a href="https://zh.wikipedia.org/wiki/%E9%87%91%E5%AE%88%E7%BE%8E" target="_blank" rel="external">金秀美</a><em>《奶奶強盜團》</em>、<a href="https://zh.wikipedia.org/wiki/%E6%9D%8E%E6%B3%B0%E8%98%AD" target="_blank" rel="external">李泰蘭</a><em>《家有七公主》</em>、鄭萬植</li>
+<li><span style="background: #FFC107; padding: 2px 3px; border-radius: 4px;">IMDb</span> <strong>暫無</strong> │ <span style="background: #F44336; color: white; border-radius:50%; padding: 3px 4px;">爛</span><span style="color: #388E3C; font-size: 15px;">番茄</span> <strong>暫無</strong> │ <span style="background: #555555; color: white; border-radius: 4px; padding: 1px 2px;">OA</span> <i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></li>
+</ul>
+<p>　　說實在我不太記得詳細的劇情發生了什麼事，可能是劇情安排過於老派，也可能是對於<strong>「韓國髒話」</strong>的理解不是那麼深，所以也比較難融入，而感情的部份也覺得沒到點上 …。不過，意外的在劇中看到應該穿著軍服的 <strong>羅雪七(李泰蘭)</strong> XDDD<br>　　總而言之，不太推薦。</p>
+<hr>
+<h1 id="我愛你-I-Love-You-2011-大推薦"><a href="#我愛你-I-Love-You-2011-大推薦" class="headerlink" title="我愛你 (I Love You) 2011 大推薦"></a>我愛你 (I Love You) 2011 <span style="background: #F44336; color: white; font-size:12px; padding: 2px 6px; border-radius: 10px; vertical-align: text-top;">大推薦</span></h1><p><img src="/img/movie/2016/05/iloveyou.jpg" style="width: 450px" alt="我愛你"></p>
+<ul>
+<li>家庭 / 愛情</li>
+<li>主要演員：<a href="https://zh.wikipedia.org/wiki/%E6%9D%8E%E9%A0%86%E8%BC%89" target="_blank" rel="external">李順載</a><em>《摘星星給我》</em>、<a href="https://zh.wikipedia.org/wiki/%E9%87%91%E5%AE%88%E7%BE%8E" target="_blank" rel="external">金秀美</a><em>《奶奶強盜團》</em>、宋在浩<em>《相信愛情》</em>、<a href="https://zh.wikipedia.org/wiki/%E5%AE%8B%E6%99%BA%E5%AD%9D" target="_blank" rel="external">宋智孝</a><em>《Running Man》、《霜花店》</em></li>
+<li><span style="background: #FFC107; padding: 2px 3px; border-radius: 4px;">IMDb</span> <strong>暫無</strong> │ <span style="background: #F44336; color: white; border-radius:50%; padding: 3px 4px;">爛</span><span style="color: #388E3C; font-size: 15px;">番茄</span> <strong>暫無</strong> │ <span style="background: #555555; color: white; border-radius: 4px; padding: 1px 2px;">OA</span> <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></li>
+</ul>
+<p>　　沒有轟轟烈烈的激盪、也沒有過度煽情的話語，這個故事裡，只有 <strong>4</strong> 個老人，<strong>2</strong> 份深刻的感情，執手相老。<br>　　很開心在 小凱蘿 的極力推薦下看了這部作品，這部作品中有太多讓人掉眼淚的地方，請記得準備多點衛生紙 (擦)。<br><img src="/img/movie/2016/05/2016-05.jpg" alt="我愛你"><br>　　在銀髮族的愛情世界裡，很多事情都變得不那麼複雜，但其實愛情本身，何嘗不是如此呢？<br><img src="/img/movie/2016/05/iloveyou-2.jpg" alt="我愛你"><br>　　除了深刻的描寫 <strong>愛情</strong> 外，<strong>家庭</strong> 和 <strong>友情</strong> 也恰到好處的點亮整部作品。<br><img src="/img/movie/2016/05/iloveyou-3.jpg" alt="我愛你" title="「曾經，我們也是一個家。」"><br>　　當然這不單單只是讓人哭哭啼啼的電影，在人物與人物間的設定上，巧妙的加入一些詼諧當點綴，不多不少，剛剛好！<br><img src="/img/movie/2016/05/iloveyou-4.jpg" alt="我愛你"><br>　　現在，換我極力推薦這部作品給大家，千萬別因為是老人家當男女主角就先拒於門外唷！</p>
+<hr>
+<h1 id="窒命地-Colonia-2015"><a href="#窒命地-Colonia-2015" class="headerlink" title="窒命地 (Colonia) 2015"></a>窒命地 (Colonia) 2015</h1><p><img src="/img/movie/2016/05/colonia.jpg" style="width: 450px" alt="窒命地"></p>
+<ul>
+<li>劇情 / 愛情 / 驚悚 / 歷史</li>
+<li>主要演員：<a href="https://zh.wikipedia.org/wiki/%E8%89%BE%E7%91%AA%C2%B7%E6%B2%83%E7%89%B9%E6%A3%AE" target="_blank" rel="external">艾瑪華森</a><em>《哈利波特》</em>、<a href="https://zh.wikipedia.org/wiki/%E4%B8%B9%E5%B0%BC%E7%88%BE%C2%B7%E5%B8%83%E7%88%BE" target="_blank" rel="external">丹尼爾布爾</a><em>《決戰終點線》</em></li>
+<li><span style="background: #FFC107; padding: 2px 3px; border-radius: 4px;">IMDb</span> <strong>7.2</strong> │ <span style="background: #F44336; color: white; border-radius:50%; padding: 3px 4px;">爛</span><span style="color: #388E3C; font-size: 15px;">番茄</span> <strong>23%</strong> │ <span style="background: #555555; color: white; border-radius: 4px; padding: 1px 2px;">OA</span> <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-full"></i><i class="fa fa-star-o"></i></li>
+</ul>
+<p>　　有些朋友聽到電影名稱或看到電影海報，都會誤以為是一部 <strong>鬼片</strong>，但其實這是一部真人真事改編的 <strong>驚悚片</strong>！對於場景和人物 (除了男女主角) 的還原度沒有 <strong>100%</strong> 也已經 <strong>99.9%</strong> 了，看到片尾的真實照片，整個汗毛豎到頭頂了都。<br><img src="/img/movie/2016/05/colonia-2.jpg" alt="窒命地" title="空姐服"><br>　　劇中最大的賣點之一就是造型多端的 <strong>艾瑪華森</strong> 和她精湛的演技，到底怎麼可以讓人這麼漂亮、這麼會唸書又把自己管理得這麼好(怒)。<br><img src="/img/movie/2016/05/colonia-3.jpg" alt="窒命地" title="修女服"><br>　　這部片所描述的事件，背景是在 1973 年的智利政變，一個德式小農莊 (Colonia Dignidad) 背後所掩藏的駭人秘密，可參考 <a href="http://www.biosmonthly.com/contactd.php?id=7198" target="_blank" rel="external"><strong>尊嚴殖民地：智利歷史上最黑暗的一頁</strong></a>。<br><img src="/img/movie/2016/05/colonia-4.jpg" alt="窒命地"><br>　　其實還蠻推薦去看的，不過，可能是真人真事改編，看完心有餘悸了一兩天呢…！</p>
+<hr>
+<h1 id="北京遇上西雅圖-Finding-Mr-Right-2013"><a href="#北京遇上西雅圖-Finding-Mr-Right-2013" class="headerlink" title="北京遇上西雅圖 (Finding Mr. Right) 2013"></a>北京遇上西雅圖 (Finding Mr. Right) 2013</h1><p><img src="/img/movie/2016/05/finding_mr_right.jpg" style="width: 450px" alt="北京遇上西雅圖"></p>
+<ul>
+<li>愛情</li>
+<li>主要演員：<a href="https://zh.wikipedia.org/wiki/%E5%90%B4%E7%A7%80%E6%B3%A2" target="_blank" rel="external">吳秀波</a><em>《黎明之前》</em>、<a href="https://zh.wikipedia.org/wiki/%E6%B1%A4%E5%94%AF" target="_blank" rel="external">湯唯</a><em>《色，戒》</em></li>
+<li><span style="background: #FFC107; padding: 2px 3px; border-radius: 4px;">IMDb</span> <strong>6.4</strong> │ <span style="background: #F44336; color: white; border-radius:50%; padding: 3px 4px;">爛</span><span style="color: #388E3C; font-size: 15px;">番茄</span> <strong>67%</strong> │ <span style="background: #555555; color: white; border-radius: 4px; padding: 1px 2px;">OA</span> <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></li>
+</ul>
+<p>　　我是在看完《不二情書》的隔天才立馬追了這部作品，雖然都是片名和演員都是一樣的，但故事內容 <strong>完全不同</strong> 且不馬虎！<br><img src="/img/movie/2016/05/finding_mr_right-2.jpg" alt="北京遇上西雅圖"><br>　　這部作品很有趣，北京和西雅圖完全刻化在男女主角的身上，<strong>保守、傳統、固執卻紳士</strong>，遇上　<strong>拜金、膚淺、無賴卻正直</strong>，雖然算是蠻典型的浪漫故事，但劇本編寫得很流暢很舒服。<br><img src="/img/movie/2016/05/finding_mr_right-3.jpg" alt="北京遇上西雅圖"><br>　　一開始除了對湯唯有點印象外，對吳秀波一點都不認識，但這兩部片後讓我覺得他根本就是亞洲小勞勃，帥屎了！<br><img src="/img/movie/2016/05/finding_mr_right-4.jpg" alt="北京遇上西雅圖"></p>
+<hr>
+<h1 id="北京遇上西雅圖之不二情書-Book-of-Love-2016"><a href="#北京遇上西雅圖之不二情書-Book-of-Love-2016" class="headerlink" title="北京遇上西雅圖之不二情書 (Book of Love) 2016"></a>北京遇上西雅圖之不二情書 (Book of Love) 2016</h1><p><img src="/img/movie/2016/05/book_of_love.jpg" style="width: 450px" alt="北京遇上西雅圖之不二情書"></p>
+<ul>
+<li>愛情 / 劇情</li>
+<li>主要演員：<a href="https://zh.wikipedia.org/wiki/%E5%90%B4%E7%A7%80%E6%B3%A2" target="_blank" rel="external">吳秀波</a><em>《黎明之前》</em>、<a href="https://zh.wikipedia.org/wiki/%E6%B1%A4%E5%94%AF" target="_blank" rel="external">湯唯</a><em>《色，戒》</em></li>
+<li><span style="background: #FFC107; padding: 2px 3px; border-radius: 4px;">IMDb</span> <strong>6.9</strong> │ <span style="background: #F44336; color: white; border-radius:50%; padding: 3px 4px;">爛</span><span style="color: #388E3C; font-size: 15px;">番茄</span> <strong>暫無</strong> │ <span style="background: #555555; color: white; border-radius: 4px; padding: 1px 2px;">OA</span> <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-full"></i></li>
+</ul>
+<p>　　不得不說，這是我很喜歡的一部作品！雖然直直白白的把電影內容打在標題上，但卻能給出超值的感動！這次的故事背景就不再是北京和西雅圖，而是 <strong>澳門遇上舊金山</strong> XDD<br><img src="/img/movie/2016/05/book_of_love-2.jpg" alt="北京遇上西雅圖之不二情書"><br>　　我想，或多或少許是為了宣傳澳門賭場和促進澳門觀光，在這部作品的場景中除了賭場外，吸引我的還有那些街道巷弄，雖然壅塞但卻很美；有發現劇照中的湯唯，又更美了嗎！(這是什麼巫術)<br><img src="/img/movie/2016/05/book_of_love-3.jpg" alt="北京遇上西雅圖之不二情書"><br>　　現代人的步調越來越快，通訊已是一兩秒的事，雖然方便，但，我們也因此失去等待、揣測和深層交流的感動。<br><img src="/img/movie/2016/05/book_of_love-4.jpg" alt="北京遇上西雅圖之不二情書"><br>　　很推薦撥一點時間欣賞這部作品，讓自己沉澱一下，慢下來，細嚼生活中的一言一語，為自己的浪漫找一個伴。<br>　　<br>　　有些人，遇見就好。</p>
+<hr>
+<h1 id="按讚情人-Like-for-likes-2016"><a href="#按讚情人-Like-for-likes-2016" class="headerlink" title="按讚情人 (Like for likes) 2016"></a>按讚情人 (Like for likes) 2016</h1><p><img src="/img/movie/2016/05/likeforlikes.jpg" style="width: 450px" alt="請點讚"></p>
+<ul>
+<li>喜劇 / 愛情</li>
+<li>主要演員：<a href="https://zh.wikipedia.org/zh-tw/%E5%A7%9C%E6%B2%B3%E9%82%A3" target="_blank" rel="external">姜河那</a><em>《未生》、《二十》</em>、<a href="https://zh.wikipedia.org/wiki/%E9%87%91%E6%9F%B1%E8%B5%AB" target="_blank" rel="external">金柱赫</a><em>《請回答1988》</em>、<a href="https://zh.wikipedia.org/wiki/%E6%9D%8E%E7%B5%AE" target="_blank" rel="external">李絮</a><em>《布拉芙夫人》</em>、<a href="https://zh.wikipedia.org/wiki/%E5%B4%94%E5%BF%97%E5%AE%87" target="_blank" rel="external">崔智友</a><em>《天國的階梯》</em>、<a href="https://zh.wikipedia.org/wiki/%E6%9D%8E%E7%BE%8E%E5%A6%8D" target="_blank" rel="external">李美妍</a><em>《請回答 1988》</em>、<a href="https://zh.wikipedia.org/wiki/%E5%8A%89%E4%BA%9E%E4%BB%81" target="_blank" rel="external">劉亞仁</a></li>
+<li><span style="background: #FFC107; padding: 2px 3px; border-radius: 4px;">IMDb</span> <strong>7.1</strong> │ <span style="background: #F44336; color: white; border-radius:50%; padding: 3px 4px;">爛</span><span style="color: #388E3C; font-size: 15px;">番茄</span> <strong>暫無</strong> │ <span style="background: #555555; color: white; border-radius: 4px; padding: 1px 2px;">OA</span> <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-full"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></li>
+</ul>
+<p>　　劇情整體來說，故事得進行很流暢，但比較平淡簡單。</p>
+<p>　　劇中 6 對男女的角色設定都很可愛，有一種說不出來的特質，可能就是單純的 <strong>可愛</strong> 吧！<br><img src="/img/movie/2016/05/likeforlikes-2.jpg" alt="按讚情人"><br>　　這部小品還是很適合選一個週末悠閒的品嚐，很輕鬆很愉快，也帶給人情竇初開得幸福感！</p>
+<hr>
+<h1 id="我們全家不太熟-We-Are-Family-2015-請三思"><a href="#我們全家不太熟-We-Are-Family-2015-請三思" class="headerlink" title="我們全家不太熟 (We Are Family) 2015 請三思"></a>我們全家不太熟 (We Are Family) 2015 <span style="background: #009688; color: white; font-size:12px; padding: 2px 6px; border-radius: 10px; vertical-align: text-top;">請三思</span></h1><p><img src="/img/movie/2016/05/wearefamily.jpg" style="width: 450px" alt="我們全家不太熟"></p>
+<ul>
+<li>喜劇 / 愛情 / 家庭</li>
+<li>主要演員：<a href="https://zh.wikipedia.org/zh-tw/%E5%BC%B5%E6%A6%95%E5%AE%B9" target="_blank" rel="external">張榕容</a><em>《逆光飛翔》、《渺渺》</em>、<a href="https://zh.wikipedia.org/wiki/%E5%BC%B5%E6%9B%B8%E8%B1%AA" target="_blank" rel="external">張書豪</a><em>《女朋友，男朋友》</em>、<a href="https://zh.wikipedia.org/wiki/%E9%83%9D%E5%8A%AD%E6%96%87" target="_blank" rel="external">郝劭文</a><em>《那些年，我們一起追的女孩》</em>、<a href="https://zh.wikipedia.org/wiki/%E9%99%B3%E6%9D%BE%E5%8B%87" target="_blank" rel="external">陳松勇</a></li>
+<li><span style="background: #FFC107; padding: 2px 3px; border-radius: 4px;">IMDb</span> <strong>暫無</strong> │ <span style="background: #F44336; color: white; border-radius:50%; padding: 3px 4px;">爛</span><span style="color: #388E3C; font-size: 15px;">番茄</span> <strong>暫無</strong> │ <span style="background: #555555; color: white; border-radius: 4px; padding: 1px 2px;">OA</span> <i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></li>
+</ul>
+<p>　　在這部作品裡，我看到很會演戲的實力派演員 <strong>張榕容</strong>、<strong>陳松勇</strong> 和復出後演戲越來越自然的兒時最愛 <strong>郝劭文</strong>，但只能說好的演員儘管在努力，也不敵劇本和角色設定上的缺陷！或許是我滿心期待的挑了部台片來看，開頭的動畫也相當可愛，讓我把期待拉得太高了，所以才會如此失望吧(？) 雖然給了超低分，但也很高興至少台片的製作有越來越優質取向！<br><img src="/img/movie/2016/05/wearefamily-2.jpg" alt="我們全家不太熟"><br>　　雖然不是很推薦看，但裡面有可愛的 <strong>豆寶</strong> 和 <strong>張榕容</strong> 唷！</p>
+<hr>
+<h1 id="刺激1995-The-Shawshank-Redemption-1994-必看"><a href="#刺激1995-The-Shawshank-Redemption-1994-必看" class="headerlink" title="刺激1995 (The Shawshank Redemption) 1994 必看"></a>刺激1995 (The Shawshank Redemption) 1994 <span style="background: #F44336; color: white; font-size:12px; padding: 2px 6px; border-radius: 10px; vertical-align: text-top;">必看</span></h1><p><img src="/img/movie/2016/05/1995.jpg" style="width: 450px" alt="刺激1995"></p>
+<ul>
+<li>劇情 / 犯罪</li>
+<li>主要演員：<a href="https://zh.wikipedia.org/wiki/%E6%91%A9%E6%A0%B9%C2%B7%E8%B2%BB%E9%87%8C%E6%9B%BC" target="_blank" rel="external">摩根費里曼</a><em>《王牌天神》</em>、<a href="https://zh.wikipedia.org/wiki/%E8%92%82%E5%A7%86%C2%B7%E7%BD%97%E5%AE%BE%E6%96%AF" target="_blank" rel="external">Tim Robbins</a><em>《神秘河流》</em></li>
+<li><span style="background: #FFC107; padding: 2px 3px; border-radius: 4px;">IMDb</span> <strong>9.3</strong> │ <span style="background: #F44336; color: white; border-radius:50%; padding: 3px 4px;">爛</span><span style="color: #388E3C; font-size: 15px;">番茄</span> <strong>98%</strong> │ <span style="background: #555555; color: white; border-radius: 4px; padding: 1px 2px;">OA</span> <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></li>
+</ul>
+<p>　　因為很喜歡看電影，平時除了挖掘一些冷門片外，也會找經典必看的作品來看看，這次的經典好片真的不讓人失望！還沒看過的或正想看的人不要再猶豫了，<strong>必看</strong>！無論是演員的演技、劇情的編寫和節奏還是畫面的美感，都讓人感到舒服且記憶深刻。<br><img src="/img/movie/2016/05/1995-2.jpg" alt="刺激1995"><br>　　<strong>「眨眼間，整個生活都被毀了。你一無所有，除了餘生的時間來思考。大多數新來的人第一晚都幾近發瘋，總有人會哭出來，每次都是。問題是，會是誰呢？」</strong><br><img src="/img/movie/2016/05/1995-3.jpg" alt="刺激1995"><br>　　<strong>「監獄裡的高牆實在是很有趣。剛入獄的時候，你痛恨周圍的高牆；慢慢地，你習慣了生活在其中；最終你會發現自己不得不依靠它而生存，這就是體制化。」</strong><br><img src="/img/movie/2016/05/1995-4.jpg" alt="刺激1995"><br>　　<strong>「生命可以歸結為一種簡單的選擇：要麼忙於生存，要麼趕著去死。」</strong><br><img src="/img/movie/2016/05/1995-5.jpg" alt="刺激1995"><br>　　<strong>“It takes a strong man to save himself，and a great man to save another.”</strong><br>　　<br>　　整部作品的起承轉合都很完美，推薦推薦！！</p>
+<hr>
+<h1 id="對不起我愛你-Sanam-Teri-Kasam-2016-請三三三思"><a href="#對不起我愛你-Sanam-Teri-Kasam-2016-請三三三思" class="headerlink" title="對不起我愛你 (Sanam Teri Kasam) 2016 請三三三思"></a>對不起我愛你 (Sanam Teri Kasam) 2016 <span style="background: #009688; color: white; font-size:12px; padding: 2px 6px; border-radius: 10px; vertical-align: text-top;">請三三三思</span></h1><p><img src="/img/movie/2016/05/sanam_teri_kasam.jpg" style="width: 450px" alt="對不起我愛你"></p>
+<ul>
+<li>愛情</li>
+<li>主要演員： Harshvardhan Rane、Mawra Hocane</li>
+<li><span style="background: #FFC107; padding: 2px 3px; border-radius: 4px;">IMDb</span> <strong>7.5</strong> │ <span style="background: #F44336; color: white; border-radius:50%; padding: 3px 4px;">爛</span><span style="color: #388E3C; font-size: 15px;">番茄</span> <strong>98%</strong> │ <span style="background: #555555; color: white; border-radius: 4px; padding: 1px 2px;">OA</span> <i class="fa fa-star-half-full"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></li>
+</ul>
+<p>　　怎麼說呢…除了男主角 <strong>身材超好</strong>，女主角 <strong>長的美美der</strong> 外，無論是劇情、配樂還是演技方面，我真的有看沒有懂︶︵︶<br>　　就讓我們放上一張猛男照，結束這回合。<br><img src="/img/movie/2016/05/sanam_teri_kasam-2.jpg" style="width: 600px" alt="對不起我愛你"></p>
+<hr>
+<h1 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h1><p>　　終於打完了！透過撰寫點評心得的方式來回味這個月看的電影還蠻值得的，除了能夠品嚐更多的細節外，還能夠為自己留下點什麼！但是，真的好累RRRRR！</p>
+<blockquote>
+<p><em>以上，所有電影海報版權皆屬於原發行公司所有。</em></p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/img/movie/2016/05/2016-05.jpg&quot; alt=&quot;5月品影總覽&quot; title=&quot;「如果一起老去，我允許你先走。」&quot;&gt;&lt;br&gt;　　&lt;strong&gt;5&lt;/strong&gt; 部韓國電影，&lt;strong&gt;2&lt;/strong&gt; 部好萊塢電影，&lt;strong&gt;2&lt;/strong&gt; 部中國電影，&lt;strong&gt;1&lt;/strong&gt; 部台灣電影，&lt;strong&gt;1&lt;/strong&gt; 部印度電影，共 &lt;strong&gt;11&lt;/strong&gt; 部，這個五月看了不少韓國電影呢！下面，就讓我們用 &lt;strong&gt;比較不雷&lt;/strong&gt; 的方式，分享這個月看了哪些電影吧！&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Movie" scheme="https://oawan.me/categories/movie/"/>
+    
+    
+      <category term="街口的電影院" scheme="https://oawan.me/tags/%E8%A1%97%E5%8F%A3%E7%9A%84%E9%9B%BB%E5%BD%B1%E9%99%A2/"/>
+    
+      <category term="每月看電影" scheme="https://oawan.me/tags/%E6%AF%8F%E6%9C%88%E7%9C%8B%E9%9B%BB%E5%BD%B1/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[Git] 命令筆記本</title>
+    <link href="https://oawan.me/2016/all-about-git-command/"/>
+    <id>https://oawan.me/2016/all-about-git-command/</id>
+    <published>2016-05-30T09:14:09.000Z</published>
+    <updated>2016-06-06T07:32:32.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/img/program/Git.jpg" alt="命令筆記本" title="Pic by ChristianEngvall"></p>
+<h1 id="目的"><a href="#目的" class="headerlink" title="目的"></a><strong>目的</strong></h1><p>　　快來翻翻你要的 Git Command 喔！</p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h1><p>　　一開始接觸 Git 是使用 <a href="https://desktop.github.com/" target="_blank" rel="external"><strong>GitHub Desktop</strong></a>，但隨著開發環境轉到 Linux 上後，就習慣用 Command-line 的方式操作了，這篇就來筆記一下常用的命令；說來也怪，有時後就是會突然想不起來，如果你也有這種<strong>腦容量有限</strong>的老症頭，歡迎隨時來翻翻XDD</p>
+<a id="more"></a>
+<h1 id="筆記"><a href="#筆記" class="headerlink" title="筆記"></a><strong>筆記</strong></h1><h2 id="Git-設定"><a href="#Git-設定" class="headerlink" title=" Git 設定"></a><i class="fa fa-code-fork" style="text-align:center; width:20px; padding: 4px 1px 0 3px; background: #F04F33; color: white;border-radius:4px;transform: rotate(135deg);margin-right: 6px;"></i> Git 設定</h2><h3 id="設定名稱-amp-電子郵件"><a href="#設定名稱-amp-電子郵件" class="headerlink" title="設定名稱 &amp; 電子郵件"></a>設定<strong>名稱</strong> &amp; <strong>電子郵件</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git config --global user.name &lt;username&gt;</div><div class="line">git config --global user.email &lt;email@address&gt;</div></pre></td></tr></table></figure>
+<h3 id="Git-ui-顏色"><a href="#Git-ui-顏色" class="headerlink" title="Git ui 顏色"></a>Git ui 顏色</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git config --global color.ui <span class="literal">true</span></div></pre></td></tr></table></figure>
+<h3 id="命令設定別名"><a href="#命令設定別名" class="headerlink" title="命令設定別名"></a>命令設定別名</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git config --global alias.&lt;aliasname&gt; &lt;命令名稱&gt;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>例如：<code>git config --global alias.st status</code><br>之後只要下 <code>git st</code> 就等於是 <code>git status</code>。</p>
+</blockquote>
+<h3 id="列出設定清單"><a href="#列出設定清單" class="headerlink" title="列出設定清單"></a>列出設定清單</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git config --global --list</div></pre></td></tr></table></figure>
+<h2 id="Git-基本功"><a href="#Git-基本功" class="headerlink" title=" Git 基本功"></a><i class="fa fa-code-fork" style="text-align:center; width:20px; padding: 4px 1px 0 3px; background: #F04F33; color: white;border-radius:4px;transform: rotate(135deg);margin-right: 6px;"></i> Git 基本功</h2><h3 id="建立數據庫-init"><a href="#建立數據庫-init" class="headerlink" title="建立數據庫 ( init )"></a>建立數據庫 ( init )</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git init</div></pre></td></tr></table></figure>
+<h3 id="複製數據庫到本地端-clone"><a href="#複製數據庫到本地端-clone" class="headerlink" title="複製數據庫到本地端 ( clone )"></a>複製數據庫到本地端 ( clone )</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">clone</span> &lt;repo 連結&gt;</div></pre></td></tr></table></figure>
+<h3 id="顯示修改檔案清單-status"><a href="#顯示修改檔案清單-status" class="headerlink" title="顯示修改檔案清單 ( status )"></a>顯示修改檔案清單 ( status )</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git status</div></pre></td></tr></table></figure>
+<blockquote>
+<p><code>-s</code>：僅顯示已修改檔案名稱<br><code>-s -b</code>：顯示分支名稱</p>
+</blockquote>
+<h3 id="將檔案加入索引-add"><a href="#將檔案加入索引-add" class="headerlink" title="將檔案加入索引 ( add )"></a>將檔案加入索引 ( add )</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git add &lt;file&gt;...</div></pre></td></tr></table></figure>
+<blockquote>
+<p>可以使用 <code>git add .</code> 將當前目錄下的所有修改檔案加入索引</p>
+</blockquote>
+<h3 id="還原已修改檔案-checkout-–"><a href="#還原已修改檔案-checkout-–" class="headerlink" title="還原已修改檔案 ( checkout – )"></a>還原已修改檔案 ( checkout – )</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git checkout -- &lt;file&gt;</div></pre></td></tr></table></figure>
+<h3 id="提交檔案-commit"><a href="#提交檔案-commit" class="headerlink" title="提交檔案 ( commit )"></a>提交檔案 ( commit )</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git commit</div></pre></td></tr></table></figure>
+<blockquote>
+<p><code>-m &lt;message&gt;</code>：訊息提交<br><code>--amend &lt;message&gt;</code>：修改上一次 commit 內容</p>
+</blockquote>
+<h3 id="上傳-或更新-本地端分支"><a href="#上傳-或更新-本地端分支" class="headerlink" title="上傳(或更新)本地端分支"></a>上傳(或更新)本地端分支</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git push</div></pre></td></tr></table></figure>
+<h3 id="合併-或更新-遠端至本地端分支"><a href="#合併-或更新-遠端至本地端分支" class="headerlink" title="合併(或更新)遠端至本地端分支"></a>合併(或更新)遠端至本地端分支</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git pull</div></pre></td></tr></table></figure>
+<h3 id="顯示提交紀錄-log"><a href="#顯示提交紀錄-log" class="headerlink" title="顯示提交紀錄 ( log )"></a>顯示提交紀錄 ( log )</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">log</span></div></pre></td></tr></table></figure>
+<h2 id="Git-分支-Branch"><a href="#Git-分支-Branch" class="headerlink" title=" Git 分支 (Branch)"></a><i class="fa fa-code-fork" style="text-align:center; width:20px; padding: 4px 1px 0 3px; background: #F04F33; color: white;border-radius:4px;transform: rotate(135deg);margin-right: 6px;"></i> Git 分支 (Branch)</h2><h3 id="顯示分支清單"><a href="#顯示分支清單" class="headerlink" title="顯示分支清單"></a>顯示分支清單</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git branch</div></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>-r</strong>：顯示<strong>遠端分支</strong><br><strong>-a</strong>：顯示<strong>所有分支</strong></p>
+</blockquote>
+<h3 id="建立分支"><a href="#建立分支" class="headerlink" title="建立分支"></a>建立分支</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git branch &lt;分支名稱&gt;</div></pre></td></tr></table></figure>
+<h3 id="修改分支名稱"><a href="#修改分支名稱" class="headerlink" title="修改分支名稱"></a>修改分支名稱</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git branch -m &lt;舊分支名稱&gt; &lt;新分支名稱&gt;</div></pre></td></tr></table></figure>
+<h3 id="刪除分支"><a href="#刪除分支" class="headerlink" title="刪除分支"></a>刪除分支</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git branch <span class="_">-d</span> &lt;分支名稱&gt;</div></pre></td></tr></table></figure>
+<h3 id="切換分支-checkout"><a href="#切換分支-checkout" class="headerlink" title="切換分支 ( checkout )"></a>切換分支 ( checkout )</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git checkout</div></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>-b &lt;分支名稱&gt;</strong>：表示 <strong>建立並切換</strong> 至該分支</p>
+</blockquote>
+<h3 id="合併分支"><a href="#合併分支" class="headerlink" title="合併分支"></a>合併分支</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git merge &lt;分支名稱&gt;</div></pre></td></tr></table></figure>
+<h2 id="遠端操作"><a href="#遠端操作" class="headerlink" title=" 遠端操作"></a><i class="fa fa-code-fork" style="text-align:center; width:20px; padding: 4px 1px 0 3px; background: #F04F33; color: white;border-radius:4px;transform: rotate(135deg);margin-right: 6px;"></i> 遠端操作</h2><h3 id="顯示遠端數據庫列表"><a href="#顯示遠端數據庫列表" class="headerlink" title="顯示遠端數據庫列表"></a>顯示遠端數據庫列表</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git remote</div></pre></td></tr></table></figure>
+<h3 id="添加遠端數據庫"><a href="#添加遠端數據庫" class="headerlink" title="添加遠端數據庫"></a>添加遠端數據庫</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git remote add &lt;名稱&gt; &lt;repo 連結&gt;</div></pre></td></tr></table></figure>
+<h3 id="取遠端分支建立本地端分支"><a href="#取遠端分支建立本地端分支" class="headerlink" title="取遠端分支建立本地端分支"></a>取遠端分支建立本地端分支</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git checkout &lt;本地分支名稱&gt; origin/&lt;遠端分支名稱&gt;</div></pre></td></tr></table></figure>
+<h3 id="在遠端建立分支-上傳-或更新-內容至遠端分支"><a href="#在遠端建立分支-上傳-或更新-內容至遠端分支" class="headerlink" title="在遠端建立分支 / 上傳(或更新)內容至遠端分支"></a>在遠端建立分支 / 上傳(或更新)內容至遠端分支</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git push &lt;repo 名稱&gt; &lt;分支名稱&gt;</div></pre></td></tr></table></figure>
+<h3 id="查看遠端數據庫分支的修改內容"><a href="#查看遠端數據庫分支的修改內容" class="headerlink" title="查看遠端數據庫分支的修改內容"></a>查看遠端數據庫分支的修改內容</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git fetch &lt;repo 名稱&gt; &lt;分支名稱&gt;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>可以透過 <code>git fetch -p</code> 來更新遠端分支資訊<br>例如在 GitHub 上操作玩一套 merge 流程後，已經在 GitHub 上刪除該分支<br>就可以利用這到命令更新本地端的遠端分支資訊</p>
+</blockquote>
+<h3 id="合併-或更新-遠端至本地端分支-1"><a href="#合併-或更新-遠端至本地端分支-1" class="headerlink" title="合併(或更新)遠端至本地端分支"></a>合併(或更新)遠端至本地端分支</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git pull &lt;repo 名稱&gt; &lt;分支名稱&gt;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>註：<code>pull</code> = <code>fetch</code> + <code>merge</code>。</p>
+</blockquote>
+<h3 id="刪除遠端分支"><a href="#刪除遠端分支" class="headerlink" title="刪除遠端分支"></a>刪除遠端分支</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git push &lt;repo 名稱&gt; :&lt;分支名稱&gt;</div></pre></td></tr></table></figure>
+<h3 id="修該遠端數據庫位址"><a href="#修該遠端數據庫位址" class="headerlink" title="修該遠端數據庫位址"></a>修該遠端數據庫位址</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git remote <span class="built_in">set</span>-url &lt;名稱&gt; &lt;新連結位址&gt;</div></pre></td></tr></table></figure>
+<h3 id="修改遠端數據庫名稱"><a href="#修改遠端數據庫名稱" class="headerlink" title="修改遠端數據庫名稱"></a>修改遠端數據庫名稱</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git remote rename &lt;舊名稱&gt; &lt;新名稱&gt;</div></pre></td></tr></table></figure>
+<h2 id="暫存-Stash"><a href="#暫存-Stash" class="headerlink" title=" 暫存 (Stash)"></a><i class="fa fa-code-fork" style="text-align:center; width:20px; padding: 4px 1px 0 3px; background: #F04F33; color: white;border-radius:4px;transform: rotate(135deg);margin-right: 6px;"></i> 暫存 (Stash)</h2><h3 id="暫存現在的修改狀況"><a href="#暫存現在的修改狀況" class="headerlink" title="暫存現在的修改狀況"></a>暫存現在的修改狀況</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git stash</div></pre></td></tr></table></figure>
+<h3 id="列出暫存清單"><a href="#列出暫存清單" class="headerlink" title="列出暫存清單"></a>列出暫存清單</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git stash list</div></pre></td></tr></table></figure>
+<h3 id="取出上一次暫存"><a href="#取出上一次暫存" class="headerlink" title="取出上一次暫存"></a>取出上一次暫存</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git stash apply</div></pre></td></tr></table></figure>
+<h3 id="取出上一次暫存-該暫存會被移除"><a href="#取出上一次暫存-該暫存會被移除" class="headerlink" title="取出上一次暫存(該暫存會被移除)"></a>取出上一次暫存(該暫存會被移除)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git stash pop</div></pre></td></tr></table></figure>
+<blockquote>
+<p>可利用 <code>stash@{id}</code> 指定特定暫存</p>
+</blockquote>
+<h3 id="清空所有暫存"><a href="#清空所有暫存" class="headerlink" title="清空所有暫存"></a>清空所有暫存</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git stash clear</div></pre></td></tr></table></figure>
+<h2 id="操作提交紀錄"><a href="#操作提交紀錄" class="headerlink" title=" 操作提交紀錄"></a><i class="fa fa-code-fork" style="text-align:center; width:20px; padding: 4px 1px 0 3px; background: #F04F33; color: white;border-radius:4px;transform: rotate(135deg);margin-right: 6px;"></i> 操作提交紀錄</h2><h3 id="修改上一次-commit"><a href="#修改上一次-commit" class="headerlink" title="修改上一次 commit"></a>修改上一次 commit</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git commit --amend</div></pre></td></tr></table></figure>
+<h3 id="放棄修改紀錄-reset"><a href="#放棄修改紀錄-reset" class="headerlink" title="放棄修改紀錄 (reset)"></a>放棄修改紀錄 (reset)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git reset HEAD^</div></pre></td></tr></table></figure>
+<blockquote>
+<p><code>--soft</code>：取消上一次 commit，並 <strong>保留</strong> 修改紀錄<br><code>--hard</code>：取消上一次 commit，並 <strong>刪除</strong> 修改紀錄</p>
+</blockquote>
+<p>以上，是目前常用的命令，有什麼疑問都歡迎留言提問！</p>
+<p>That’s it, <strong>DONE!</strong></p>
+<p><strong>【參考資料】</strong></p>
+<ul>
+<li>GitHub Help：<a href="https://help.github.com/articles/set-up-git/#platform-linux" target="_blank" rel="external">https://help.github.com/articles/set-up-git/#platform-linux</a></li>
+<li>Basic Git commands：<a href="https://confluence.atlassian.com/bitbucketserver/basic-git-commands-776639767.html" target="_blank" rel="external">https://confluence.atlassian.com/bitbucketserver/basic-git-commands-776639767.html</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/img/program/Git.jpg&quot; alt=&quot;命令筆記本&quot; title=&quot;Pic by ChristianEngvall&quot;&gt;&lt;/p&gt;
+&lt;h1 id=&quot;目的&quot;&gt;&lt;a href=&quot;#目的&quot; class=&quot;headerlink&quot; title=&quot;目的&quot;&gt;&lt;/a&gt;&lt;strong&gt;目的&lt;/strong&gt;&lt;/h1&gt;&lt;p&gt;　　快來翻翻你要的 Git Command 喔！&lt;/p&gt;
+&lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;&lt;strong&gt;前言&lt;/strong&gt;&lt;/h1&gt;&lt;p&gt;　　一開始接觸 Git 是使用 &lt;a href=&quot;https://desktop.github.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;&lt;strong&gt;GitHub Desktop&lt;/strong&gt;&lt;/a&gt;，但隨著開發環境轉到 Linux 上後，就習慣用 Command-line 的方式操作了，這篇就來筆記一下常用的命令；說來也怪，有時後就是會突然想不起來，如果你也有這種&lt;strong&gt;腦容量有限&lt;/strong&gt;的老症頭，歡迎隨時來翻翻XDD&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Programmer" scheme="https://oawan.me/categories/programmer/"/>
+    
+    
+      <category term="攻城獅筆記" scheme="https://oawan.me/tags/%E6%94%BB%E5%9F%8E%E7%8D%85%E7%AD%86%E8%A8%98/"/>
+    
+      <category term="Git" scheme="https://oawan.me/tags/Git/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[Hexo] 快速上手 Hexo 網誌框架</title>
+    <link href="https://oawan.me/2016/easy-hexo-easy-blog/"/>
+    <id>https://oawan.me/2016/easy-hexo-easy-blog/</id>
+    <published>2016-05-27T03:42:50.000Z</published>
+    <updated>2016-05-29T18:27:10.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/img/program/github_hexo.png" alt="輕鬆上手 Hexo 網誌框架" title="Pic by wsgzao"></p>
+<h1 id="目的"><a href="#目的" class="headerlink" title="目的"></a><strong>目的</strong></h1><p>　　使用 Hexo 網誌框架，搭配 GitHub Page，快速架設屬於、管理自己的部落格！</p>
+<h1 id="開發版本與環境"><a href="#開發版本與環境" class="headerlink" title="開發版本與環境"></a><strong>開發版本與環境</strong></h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">　　NodeJS: v4.4.5</div><div class="line">　　IDE: Cloud9</div></pre></td></tr></table></figure>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a><strong>前言</strong></h1><p>　　我的攻城獅筆記一路從 <a href="https://georgiosky2000.wordpress.com/author/georgiola/" target="_blank" rel="external">Wordpress</a> 到 <a href="http://georgiowan.logdown.com/" target="_blank" rel="external">Logdown</a>，再到現在使用 Hexo 自架，一路走來很有趣，從對於網站相關一竅不通，到現在各方面略懂略懂，真的很開心！至於為什麼一直換呢？只能說是為了滿足自己的爽感，哈，不多說，現在就來筆記一下怎麼使用 Hexo 和 Github Page 自架部落格吧！</p>
+<a id="more"></a>
+<h1 id="筆記"><a href="#筆記" class="headerlink" title="筆記"></a><strong>筆記</strong></h1><h2 id="0-Cloud-9-起手式"><a href="#0-Cloud-9-起手式" class="headerlink" title="0. Cloud 9 起手式"></a>0. Cloud 9 起手式</h2><p>　　只要在 create new workspace 時選擇 <strong>HTML 5</strong> 就完成了。</p>
+<blockquote>
+<p><em>要選 Node.js 也可以，但它本身有預設一個 Chat Demo，所以為了乾淨，我選擇 HTML 5 起手</em></p>
+</blockquote>
+<p><img src="/img/program/hexo-html5.png" alt=""></p>
+<h2 id="1-開始-Hexo！"><a href="#1-開始-Hexo！" class="headerlink" title="1. 開始 Hexo！"></a>1. 開始 Hexo！</h2><p>　　如果還沒安裝 Node.js，記得先裝 <a href="https://nodejs.org/en/" target="_blank" rel="external">Node.js</a>，使用 Cloud 9 開發的話，Node.js 已經有預設安裝了，所以直接安裝 Hexo 即可：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install hexo-cli -g</div></pre></td></tr></table></figure></p>
+<p>　　接著，我們用 <code>hexo init</code> 來初始化一個部落格工作環境：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo init blog</div></pre></td></tr></table></figure></p>
+<p>　　最後，我們切到 <code>blog</code>，並安裝環境依賴及需求：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> blog</div><div class="line">npm install</div></pre></td></tr></table></figure></p>
+<p>　　現在可以先 run 一下 server 來看看網誌：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo s -p 8080</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p><strong>s (server)</strong>：啟動伺服器<br>  <strong>-p (–port)</strong>：設定你要的port</p>
+</blockquote>
+<p>　　</p>
+<h2 id="2-開始用-Hexo-寫網誌"><a href="#2-開始用-Hexo-寫網誌" class="headerlink" title="2. 開始用 Hexo 寫網誌"></a>2. 開始用 Hexo 寫網誌</h2><p>　　其實整體流程很簡單：<span style="border: 1px solid black;border-radius: 4px;padding: 1px 5px;">創建一篇新文章 (<strong>new</strong>)</span> → <span style="border: 1px solid black;border-radius: 4px;padding: 1px 5px;">編輯文章</span> → <span style="border: 1px solid black;border-radius: 4px;padding: 1px 5px;">產生靜態檔 (<strong>generate</strong>)</span> → <span style="border: 1px solid black;border-radius: 4px;padding: 1px 5px;">佈署到 GitHub (<strong>deploy</strong>)</span><br>　　<br><span style="border: 1px solid black;border-radius: 4px;padding: 1px 5px;">創建一篇新文章 (<strong>new</strong>)</span><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo new [layout] your-article-title</div></pre></td></tr></table></figure></p>
+<p>　　這邊生出來的文章檔案會在 <code>source/_drafts/</code>、<code>source/_posts/</code> 或 <code>source/</code> 下，單看你選擇什麼 layout 的模板。</p>
+<blockquote>
+<p>Hexo 有三種預設 layout: <strong>draft(草稿)</strong>、<strong>post(公開文章)</strong> 和<strong>page(頁面)</strong>，下指令時沒填 layout 預設是 <strong>post</strong>。<br>  你也可以在 <strong>scaffolds</strong> 中編輯或添加你要的模板！</p>
+</blockquote>
+<p><span style="border: 1px solid black;border-radius: 4px;padding: 1px 5px;">編輯文章</span><br>　　產生出來的文章會是 <strong>Markdown(.md)</strong> 的格式，這也是 Hexo 的一大特點！如果還不是太熟，可以順便看 <a href="http://markdown.tw/" target="_blank" rel="external">文件</a> 練習一下。
+　　</p>
+<h3 id="如何在文章中插入圖片？"><a href="#如何在文章中插入圖片？" class="headerlink" title="如何在文章中插入圖片？"></a>如何在文章中插入圖片？</h3><p>　　我們可以先在 <code>blog/source/</code> 下建立 <code>img</code> 資料夾，將你要使用的圖檔放在這資料夾中後，就可以在文章中引用：<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">![](/img/your-image.png)</div></pre></td></tr></table></figure></p>
+<p>　　<br><span style="border: 1px solid black;border-radius: 4px;padding: 1px 5px;">產生靜態檔 (<strong>generate</strong>)</span><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo generate</div></pre></td></tr></table></figure></p>
+<p>　　生成的靜態檔案會在 <code>/public/</code> 下。</p>
+<blockquote>
+<p>p.s. 寫完網誌準備佈署前，Hexo 得先幫我們生成靜態檔 (因為你的部落格會是靜態網站)。</p>
+</blockquote>
+<p><span style="border: 1px solid black;border-radius: 4px;padding: 1px 5px;">佈署到 GitHub (<strong>deploy</strong>)</span><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo deploy</div></pre></td></tr></table></figure></p>
+<p>　　這邊佈署指令會依照 <code>_config.yml</code> 中所設定的 <strong>deploy</strong> 作佈署，由於我們要佈署到 GitHub Page，所以我們可以這樣設定：<br><figure class="highlight yaml"><figcaption><span>blog/_config.yml</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Deployment</span></div><div class="line"><span class="attr">deploy:</span></div><div class="line"><span class="attr">  type:</span> <span class="string">git</span></div><div class="line"><span class="attr">  repo:</span> <span class="attr">https://github.com/your-github-username/your-github-username.github.io.git</span></div><div class="line"><span class="attr">  branch:</span> <span class="string">master</span></div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>記得先在你的 GitHub 開一個名為 <strong>your-github-username.github.io.git</strong> 的 repo<br>  當然 your-github-username 要換成你的<strong>帳號名稱</strong>。</p>
+</blockquote>
+<p>　　其實為了方便起見，<code>generate</code> 和 <code>deploy</code> 兩道指令都提供了選項，讓你可以 <strong>產生靜態檔後就佈署</strong> 或 <strong>佈署前產生靜態檔</strong>：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">hexo g <span class="_">-d</span>  <span class="comment">#=&gt; 產生靜態檔後佈署</span></div><div class="line"></div><div class="line">hexo d -g  <span class="comment">#=&gt; 佈署前產生靜態檔</span></div></pre></td></tr></table></figure></p>
+<p>　　使用 Hexo 搭配 GitHub Page 就是這麼簡單！
+　　
+　　</p>
+<h2 id="3-更換佈景主題"><a href="#3-更換佈景主題" class="headerlink" title="3. 更換佈景主題"></a>3. 更換佈景主題</h2><p>　　Hexo 有很多好看的主題可以選擇，請先到 <a href="https://hexo.io/themes/" target="_blank" rel="external"><strong>Hexo Theme</strong></a> 參觀並選擇你要的主題，然後就可以輕鬆的作更換囉！<br>　　更換主題流程很簡單：<span style="border: 1px solid black;border-radius: 4px;padding: 1px 5px;">複製你要的主題 (<strong>git clone</strong>)</span> → <span style="border: 1px solid black;border-radius: 4px;padding: 1px 5px;">編輯設定 (<strong>_config.yml</strong>)</span></p>
+<p><span style="border: 1px solid black;border-radius: 4px;padding: 1px 5px;">複製你要的主題 (<strong>git clone</strong>)</span><br>　　以我為例，我選用得主題是 <a href="http://theme-next.iissnan.com/" target="_blank" rel="external"><strong>nexT</strong></a>：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">clone</span> https://github.com/iissnan/hexo-theme-next.git ./themes/next</div></pre></td></tr></table></figure></p>
+<p><span style="border: 1px solid black;border-radius: 4px;padding: 1px 5px;">編輯設定 (<strong>_config.yml</strong>)</span><br><figure class="highlight yaml"><figcaption><span>_config.yml</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attr">theme:</span> <span class="string">next</span></div></pre></td></tr></table></figure></p>
+<p>　　就簡單兩個步驟，就有美美的主題可以用啦！然而，每個主題都有他自己的小世界，提供的功能也不一定都相同喔。
+　　</p>
+<h2 id="4-增加其他功能"><a href="#4-增加其他功能" class="headerlink" title="4. 增加其他功能"></a>4. 增加其他功能</h2><h3 id="Google-Analytics"><a href="#Google-Analytics" class="headerlink" title="Google Analytics"></a>Google Analytics</h3><p>　　在 <code>/themes/_config.yml</code> 中找到 <code>google_analytics</code>，將你的 ga ID 填上即可。<br><figure class="highlight yaml"><figcaption><span>blog/themes/_config.yml</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Google Analytics</span></div><div class="line"><span class="attr">google_analytics:</span> <span class="string">your-ga-id</span></div></pre></td></tr></table></figure></p>
+<h3 id="Disqus"><a href="#Disqus" class="headerlink" title="Disqus"></a>Disqus</h3><p>　　在 <code>/_config.yml</code> 中找到 <code>disqus_shortname</code>，填上你的 ID 即可。<br><figure class="highlight yaml"><figcaption><span>blog/_config.yml</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Disqus</span></div><div class="line"><span class="attr">disqus_shortname:</span> <span class="string">your-disqus-id</span></div></pre></td></tr></table></figure></p>
+<h3 id="加入-sitemap"><a href="#加入-sitemap" class="headerlink" title="加入 sitemap"></a>加入 sitemap</h3><p>　　先安裝 <code>hexo-generator-sitemap</code>：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install hexo-generator-sitemap --save</div></pre></td></tr></table></figure></p>
+<p>　　接著在 <code>_config.yml</code> 中加入此設定即可：<br><figure class="highlight yaml"><figcaption><span>blog/_config.yml</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="attr">sitemap:</span></div><div class="line"><span class="attr">  path:</span> <span class="string">sitemap.xml</span></div></pre></td></tr></table></figure></p>
+<h1 id="後記"><a href="#後記" class="headerlink" title="後記"></a><strong>後記</strong></h1><p>　　其實 <a href="https://hexo.io/zh-tw/docs/index.html" target="_blank" rel="external">Hexo 官方文件</a> 寫的都很仔細，也很易懂，如果有問題都可以看看或留言喔！
+　　</p>
+<h1 id="補充"><a href="#補充" class="headerlink" title="補充"></a><strong>補充</strong></h1><p>　　由於每次要 run <code>server</code> 或 <code>deploy</code> 時，我為了乾凈都會重新 build 過一次，這樣就得下兩道三次指令，秉持著攻城獅一定要偷懶的理念，所以就只好把他們各自包成一道指令，請服用這包 <a href="/src/Makefile"><strong>懶人Makefile</strong></a>，把它放在你的 <code>blog</code> 下即可，順便說明一下：</p>
+<ul>
+<li><p>run server (port 預設為 8080，可自行更改)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make server</div></pre></td></tr></table></figure>
+</li>
+<li><p>Deploy (沒有自己的 Domain 請用此道)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make deploy_without_cname</div></pre></td></tr></table></figure>
+</li>
+<li><p>Deploy (有 Domain 請用此道，自行更改 DOMAIN 為你的 domain 即可)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make deploy</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>That’s it, <strong>DONE!</strong></p>
+<p><strong>【參考資料】</strong></p>
+<ul>
+<li>阿本仔網誌(環境篇)：<a href="http://webhacck.net/archives/245145.html" target="_blank" rel="external">http://webhacck.net/archives/245145.html</a></li>
+<li>阿本仔網誌(佈署篇)：<a href="http://webhacck.net/archives/261059.html" target="_blank" rel="external">http://webhacck.net/archives/261059.html</a></li>
+<li>Hexo 官方文件：<a href="https://hexo.io/zh-tw/docs/index.html" target="_blank" rel="external">https://hexo.io/zh-tw/docs/index.html</a></li>
+<li>EricWang 網誌：<a href="https://wwssllabcd.github.io/blog/2014/12/22/how-to-install-hexo/" target="_blank" rel="external">https://wwssllabcd.github.io/blog/2014/12/22/how-to-install-hexo/</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/img/program/github_hexo.png&quot; alt=&quot;輕鬆上手 Hexo 網誌框架&quot; title=&quot;Pic by wsgzao&quot;&gt;&lt;/p&gt;
+&lt;h1 id=&quot;目的&quot;&gt;&lt;a href=&quot;#目的&quot; class=&quot;headerlink&quot; title=&quot;目的&quot;&gt;&lt;/a&gt;&lt;strong&gt;目的&lt;/strong&gt;&lt;/h1&gt;&lt;p&gt;　　使用 Hexo 網誌框架，搭配 GitHub Page，快速架設屬於、管理自己的部落格！&lt;/p&gt;
+&lt;h1 id=&quot;開發版本與環境&quot;&gt;&lt;a href=&quot;#開發版本與環境&quot; class=&quot;headerlink&quot; title=&quot;開發版本與環境&quot;&gt;&lt;/a&gt;&lt;strong&gt;開發版本與環境&lt;/strong&gt;&lt;/h1&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;　　NodeJS: v4.4.5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;　　IDE: Cloud9&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;&lt;strong&gt;前言&lt;/strong&gt;&lt;/h1&gt;&lt;p&gt;　　我的攻城獅筆記一路從 &lt;a href=&quot;https://georgiosky2000.wordpress.com/author/georgiola/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Wordpress&lt;/a&gt; 到 &lt;a href=&quot;http://georgiowan.logdown.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Logdown&lt;/a&gt;，再到現在使用 Hexo 自架，一路走來很有趣，從對於網站相關一竅不通，到現在各方面略懂略懂，真的很開心！至於為什麼一直換呢？只能說是為了滿足自己的爽感，哈，不多說，現在就來筆記一下怎麼使用 Hexo 和 Github Page 自架部落格吧！&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Programmer" scheme="https://oawan.me/categories/programmer/"/>
+    
+    
+      <category term="Hexo" scheme="https://oawan.me/tags/Hexo/"/>
+    
+      <category term="NodeJS" scheme="https://oawan.me/tags/NodeJS/"/>
+    
+      <category term="Blog" scheme="https://oawan.me/tags/Blog/"/>
+    
+      <category term="Cloud9" scheme="https://oawan.me/tags/Cloud9/"/>
+    
+      <category term="攻城獅筆記" scheme="https://oawan.me/tags/%E6%94%BB%E5%9F%8E%E7%8D%85%E7%AD%86%E8%A8%98/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[資訊] 超好用換幣神器！教你怎麼換韓元最划算</title>
+    <link href="https://oawan.me/2016/travel-to-korea-money-exchange/"/>
+    <id>https://oawan.me/2016/travel-to-korea-money-exchange/</id>
+    <published>2016-05-24T17:07:00.000Z</published>
+    <updated>2016-05-27T09:02:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/img/travel/money.jpg" alt="Money Exchange" title="Pic by Bill Pirraglia"></p>
+<p>到韓國自由行，<span style="font-size: 20px; color: #009688">怎麼換韓元最划算呢？</span><br>讓我們一起用<strong>換幣 (Money Exchange)</strong> 來小賺一點交通費吧！</p>
+<a id="more"></a>
+<h1 id="最划算的換幣方式是？"><a href="#最划算的換幣方式是？" class="headerlink" title="最划算的換幣方式是？"></a>最划算的換幣方式是？</h1><p>相信在前往韓國自由行前，最重要的事情除了訂機票、住宿和安排行程活動外，就是<span style="color: #009688">研究如何換幣</span>了！<br>這邊不囉嗦，馬上告訴你一些划算的小心得：</p>
+<ul>
+<li>先在<span style="font-size: 18px; color: #EC6161">台灣換<strong>美金</strong></span>，再拿<span style="font-size: 18px; color: #EC6161"><strong>美金</strong>到韓國換<strong>韓元(₩)</strong></span></li>
+<li>直接帶著<span style="font-size: 18px; color: #EC6161"><strong>台幣</strong>到韓國換<strong>韓元</strong></span></li>
+</ul>
+<blockquote>
+<p><strong>謹記：千萬別在台灣直接換韓元！</strong></p>
+</blockquote>
+<h1 id="那究竟哪種方式較好呢？"><a href="#那究竟哪種方式較好呢？" class="headerlink" title="那究竟哪種方式較好呢？"></a>那究竟哪種方式較好呢？</h1><p>除了上面提到的兩種換錢方式：<span style="color: #009688; border: 1px solid #009688; border-radius: 4px; padding: 1px 5px;">美金換韓元</span>、<span style="color: #009688; border: 1px solid #009688; border-radius: 4px; padding: 1px 5px;">台幣換韓元</span> 外，<br>其實也有些精打細算的朋友也會去計算 <span style="color: #009688; border: 1px solid #009688; border-radius: 4px; padding: 1px 5px;">日幣換韓元</span> 是否也划算？那究竟在匯率不停變動時，什麼樣的方式換韓元最好呢？<br>雖然很重要，但，<strong>為了換錢而點高經濟學技能</strong> 對於 <em><del>宅男</del></em> 門外漢來說實在太不容易了，其實就是懶 XDD</p>
+<p>秉持著攻城獅的原則 <strong>「這麼累的事情只能累一次」</strong>！<br>於是，超好用的換錢神器就誕生啦！！！</p>
+<h1 id="換幣神器抵佳啦！"><a href="#換幣神器抵佳啦！" class="headerlink" title="換幣神器抵佳啦！"></a>換幣神器抵佳啦！</h1><iframe height="450" width="850" scrolling="no" frameborder="0" style="box-shadow:4px 4px 12px -2px rgba(20%,20%,40%,0.5);" src="https://docs.google.com/spreadsheets/d/1-_3JwhXhqw0vT6GVgeXtsVh7H__RQIubxRyLDfDZeG4/edit?usp=sharing"></iframe>
+
+
+
+<h1 id="怎麼使用？"><a href="#怎麼使用？" class="headerlink" title="怎麼使用？"></a>怎麼使用？</h1><ol>
+<li>於 <span style="background-color: #B7E1CD; border-radius: 4px; padding: 1px 5px;">B2</span> 中填入想換的<strong>台幣金額</strong>。</li>
+<li>經過換算後，幫你標記為 <span style="color: white;background-color: #EC6161; border-radius: 4px; padding: 1px 5px;">紅色的部分</span> 就是最划算的方式了！</li>
+<li>快快樂樂地帶摳摳去<strong>賺交通費</strong>囉！</li>
+</ol>
+<h1 id="說明"><a href="#說明" class="headerlink" title="說明"></a>說明</h1><p><span style="background-color: #FFD966; border-radius: 4px; padding: 1px 5px;">在台灣銀行</span>：此部分匯率會由<a href="http://rate.bot.com.tw/Pages/Static/UIP003.zh-TW.htm" target="_blank" rel="external"><strong>台灣銀行</strong></a>牌告匯率作即時的更新。<br><span style="background-color: #FFD966; border-radius: 4px; padding: 1px 5px;">在韓國銀行</span>：此部分匯率會由<a href="http://fx.keb.co.kr/FER1101C.web?schID=pib&amp;LOCALE_CODE=EN" target="_blank" rel="external"><strong>韓國KEB銀行</strong></a>牌告匯率作即時的更新。<br><span style="color: white; background-color: black; border-radius: 4px; padding: 1px 5px;">F4、F7、F8、F9</span>：比較換得的韓元總額，要兌換的金額越大，差額就越驚人哪！<br><span style="border: 1px solid black; border-radius: 4px; padding: 1px 5px;">G4、G7、G8、G9</span>：比較 1 元台幣能換得多少韓元。</p>
+<h1 id="關於換錢所「환전」"><a href="#關於換錢所「환전」" class="headerlink" title="關於換錢所「환전」"></a>關於換錢所「환전」</h1><p>到韓國玩一定得了解到 <strong>換錢所</strong> 換錢這件事，<br>由上面的換錢神器我們可以清楚地知道，<span style="font-size: 18px; color: #EC6161">從台灣帶什麼幣去換韓元</span> 最划算，<br>所以，只要在出發前備好 <strong>待換的幣</strong>，前往當地換錢所貨比三家，就只是賺多賺少的問題啦~~~</p>
+<blockquote>
+<p><strong>通常換錢所都很集中，務必貨比三家一下喲！</strong></p>
+</blockquote>
+<p>想多了解 <em>換幣知識</em> 與 <em>換錢所</em> 的詳細資訊，可以參考 <a href="http://judyer101010.pixnet.net/blog/post/282819920?comment_page=3" target="_blank" rel="external"><strong>愛旅遊的貓奴-小梨！</strong></a> 和 <a href="http://rainieis.tw/blog/post/30941557-%5B%E9%9F%93%E5%9C%8B%5D-%E9%A6%96%E7%88%BE-seoul-%7C-%E6%B0%91%E9%96%93%E6%8F%9B%E9%8C%A2%E6%89%80-%E7%BE%8E%E9%87%91%E6%8F%9B%E9%8C%A2%E8%81%B0%E6%98%8E" target="_blank" rel="external"><strong>披著虎皮的貓</strong></a> 超用心的整理喔 <i class="fa fa-heart" style="color: #EC6161"></i></p>
+<p>That’s it！<strong>Done</strong>！</p>
+<hr>
+<p>如果對文章或換幣神器有任何疑問、建議，都歡迎留言聊聊喔！</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/img/travel/money.jpg&quot; alt=&quot;Money Exchange&quot; title=&quot;Pic by Bill Pirraglia&quot;&gt;&lt;/p&gt;
+&lt;p&gt;到韓國自由行，&lt;span style=&quot;font-size: 20px; color: #009688&quot;&gt;怎麼換韓元最划算呢？&lt;/span&gt;&lt;br&gt;讓我們一起用&lt;strong&gt;換幣 (Money Exchange)&lt;/strong&gt; 來小賺一點交通費吧！&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Travel" scheme="https://oawan.me/categories/travel/"/>
+    
+    
+      <category term="korea" scheme="https://oawan.me/tags/korea/"/>
+    
+      <category term="tool" scheme="https://oawan.me/tags/tool/"/>
+    
+      <category term="換幣神器" scheme="https://oawan.me/tags/%E6%8F%9B%E5%B9%A3%E7%A5%9E%E5%99%A8/"/>
+    
+      <category term="韓國" scheme="https://oawan.me/tags/%E9%9F%93%E5%9C%8B/"/>
+    
+      <category term="旅遊" scheme="https://oawan.me/tags/%E6%97%85%E9%81%8A/"/>
+    
+  </entry>
+  
+</feed>
