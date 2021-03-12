@@ -1,80 +1,19 @@
 <!doctype html>
 
-
-
-  
-
-
 <html class="theme-next muse use-motion" lang="zh-tw">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
-
-
-
-
-
 <meta http-equiv="Cache-Control" content="no-transform" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-
-
   <meta name="google-site-verification" content="kpVCqSccsQmo4O7fepLJM3SIg_5Ef2dN_YVyLAwj25M" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
   <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-    
-      
-    
-
-    
-  
-
-  
-
-  
-    
     
     <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
 
 
 <link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
@@ -85,19 +24,9 @@
   <meta name="keywords" content="攻城獅筆記,nwb,react," />
 
 
-
-
-
-  <link rel="alternate" href="/atom.xml" title="新樂街口的三角窗" type="application/atom+xml" />
-
-
-
+  <link rel="alternate" href="/atom.xml" title="wonderful days" type="application/atom+xml" />
 
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
-
-
-
-
   <meta property="fb:admins" content="georgiowan" />
   <meta property="fb:app_id" content="1600131456966147" />
 
@@ -149,7 +78,7 @@
 
 
 
-  <title>[React] 用 nwb 快速開發 Components and Libraries | 新樂街口的三角窗</title>
+  <title>[React] 用 nwb 快速開發 Components and Libraries | wonderful days</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
@@ -174,9 +103,6 @@
 </script>
 
 
-
-
-
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -186,19 +112,6 @@
   ga('send', 'pageview');
 </script>
 
-
-
-
-
-
-
-
-
-
-
-  
-  
-    
   
 
   <div class="container sidebar-position-left page-post-detail ">
@@ -207,18 +120,16 @@
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
-    
 
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">新樂街口的三角窗</span>
+        <span class="site-title">wonderful days</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
-      
-        <p class="site-subtitle">我，在這裡，享受等你的時光。</p>
-      
+        <p class="site-subtitle">forever young, and dream it possible</p>
+  
   </div>
 
   <div class="site-nav-toggle">
@@ -231,68 +142,44 @@
 </div>
 
 <nav class="site-nav">
-  
+  <ul id="menu" class="menu">
 
-  
-    <ul id="menu" class="menu">
+      <li class="menu-item menu-item-home">
+        <a href="/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+          Home
+        </a>
+      </li>
+    
       
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首頁
-          </a>
-        </li>
+      <li class="menu-item menu-item-categories">
+        <a href="/categories" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+          Categories
+        </a>
+      </li>
       
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/categories" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            分類
-          </a>
-        </li>
+      <li class="menu-item menu-item-archives">
+        <a href="/archives" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+          Archives
+        </a>
+      </li>
       
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            歸檔
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
-            
-            關於
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            標籤
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-  
+      <li class="menu-item menu-item-about">
+        <a href="/about_me/index.html" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+          About
+        </a>
+      </li>
+    
+      <li class="menu-item menu-item-tags">
+        <a href="/tags" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+          Tags
+        </a>
+      </li>
+  </ul> 
 </nav>
 
 
@@ -304,16 +191,8 @@
       <div class="main-inner">
         <div class="content-wrap">
           <div id="content" class="content">
-            
 
   <div id="posts" class="posts-expand">
-    
-
-  
-
-  
-  
-  
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://oawan.me/2017/react-nwb-create-react-components-and-libraries/">
@@ -325,16 +204,13 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="新樂街口的三角窗">
+      <meta itemprop="name" content="wonderful days">
     </span>
 
     
       <header class="post-header">
-
-        
         
           <h1 class="post-title" itemprop="name headline">[React] 用 nwb 快速開發 Components and Libraries</h1>
-        
 
         <div class="post-meta">
           <span class="post-time">
@@ -343,43 +219,29 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">發表於</span>
+                <span class="post-meta-item-text">published</span>
               
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2017-06-16T04:26:33+00:00">
-                2017-06-16
+              <time title="created" itemprop="dateCreated datePublished" datetime="2021-03-04T04:26:33+00:00">
+                2017-03-04
               </time>
             
-
-            
-
-            
           </span>
-
           
             <span class="post-category" >
             
               <span class="post-meta-divider">|</span>
-            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">分類於</span>
-              
-              
+                <span class="post-meta-item-text">categorized</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/programmer/" itemprop="url" rel="index">
                     <span itemprop="name">Programmer</span>
                   </a>
                 </span>
-
-                
-                
               
             </span>
-          
-
-          
             
               <span class="post-comments-count">
                 <span class="post-meta-divider">|</span>
@@ -390,26 +252,13 @@
                   <span class="post-comments-count fb-comments-count" data-href="https://oawan.me/2017/react-nwb-create-react-components-and-libraries/" itemprop="commentCount">0</span> comments
                 </a>
               </span>
-            
-          
-
-          
-          
-
           
             <span class="post-meta-divider">|</span>
             <span class="page-pv"><i class="fa fa-eye"></i>
             <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
             </span>
-          
-
-          
-
-          
-
         </div>
       </header>
-    
 
     <div class="post-body" itemprop="articleBody">
 
@@ -709,32 +558,104 @@
 
 
       </section>
-
       
       <!--noindex-->
         <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
           <div class="post-toc">
+            
+              <div class="post-toc-content">
+                <ol class="nav">
 
-            
-              
-            
+                  <li class="nav-item nav-level-1">
+                    <a class="nav-link" href="#目的">
+                      <span class="nav-number">1.</span> 
+                      <span class="nav-text"># 目的</span>
+                    </a>
+                  </li>
 
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#目的"><span class="nav-number">1.</span> <span class="nav-text"># 目的</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">2.</span> <span class="nav-text"># 前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#筆記"><span class="nav-number">3.</span> <span class="nav-text"># 筆記</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什麼是-nwb"><span class="nav-number">3.1.</span> <span class="nav-text">什麼是 nwb</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nwb-的優點"><span class="nav-number">3.2.</span> <span class="nav-text">nwb 的優點</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-nwb-開發-React-Components-Libraries"><span class="nav-number">3.3.</span> <span class="nav-text">使用 nwb 開發 React Components/Libraries</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-在環境中加入-nwb"><span class="nav-number">3.3.1.</span> <span class="nav-text">1. 在環境中加入 nwb</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-使用-nwb-new-創建-project"><span class="nav-number">3.3.2.</span> <span class="nav-text">2. 使用 nwb new 創建 project</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-認識專案架構"><span class="nav-number">3.3.3.</span> <span class="nav-text">3. 認識專案架構</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-認識指令"><span class="nav-number">3.3.4.</span> <span class="nav-text">4. 認識指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-使用-Sass-Scss"><span class="nav-number">3.3.5.</span> <span class="nav-text">5. 使用 Sass/Scss</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-上傳至-npm"><span class="nav-number">3.3.6.</span> <span class="nav-text">6. 上傳至 npm</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#後記"><span class="nav-number">4.</span> <span class="nav-text"># 後記</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2017-06-17-大事記"><span class="nav-number">4.1.</span> <span class="nav-text">2017.06.17 大事記</span></a></li></ol></li></ol></div>
+                  <li class="nav-item nav-level-1">
+                    <a class="nav-link" href="#前言">
+                      <span class="nav-number">2.</span> 
+                      <span class="nav-text"># 前言</span>
+                    </a>
+                  </li>
+
+                  <li class="nav-item nav-level-1">
+                    <a class="nav-link" href="#筆記">
+                      <span class="nav-number">3.</span> 
+                      <span class="nav-text"># 筆記</span>
+                    </a>
+                    <ol class="nav-child">
+                      <li class="nav-item nav-level-2">
+                        <a class="nav-link" href="#什麼是-nwb">
+                          <span class="nav-number">3.1.</span> 
+                          <span class="nav-text">什麼是 nwb</span>
+                        </a></li>
+                        <li class="nav-item nav-level-2">
+                          <a class="nav-link" href="#nwb-的優點">
+                            <span class="nav-number">3.2.</span> 
+                            <span class="nav-text">nwb 的優點</span>
+                          </a>
+                        </li>
+                        <li class="nav-item nav-level-2">
+                          <a class="nav-link" href="#使用-nwb-開發-React-Components-Libraries">
+                            <span class="nav-number">3.3.</span> 
+                            <span class="nav-text">使用 nwb 開發 React Components/Libraries</span>
+                          </a><ol class="nav-child">
+                            <li class="nav-item nav-level-3">
+                              <a class="nav-link" href="#1-在環境中加入-nwb">
+                                <span class="nav-number">3.3.1.</span> 
+                                <span class="nav-text">1. 在環境中加入 nwb</span>
+                              </a>
+                            </li>
+                            <li class="nav-item nav-level-3">
+                              <a class="nav-link" href="#2-使用-nwb-new-創建-project">
+                                <span class="nav-number">3.3.2.</span> 
+                                <span class="nav-text">2. 使用 nwb new 創建 project</span>
+                              </a>
+                            </li>
+                            <li class="nav-item nav-level-3">
+                              <a class="nav-link" href="#3-認識專案架構">
+                                <span class="nav-number">3.3.3.</span> 
+                                <span class="nav-text">3. 認識專案架構</span>
+                              </a></li><li class="nav-item nav-level-3">
+                                <a class="nav-link" href="#4-認識指令">
+                                  <span class="nav-number">3.3.4.</span> 
+                                  <span class="nav-text">4. 認識指令</span>
+                                </a>
+                              </li>
+                              <li class="nav-item nav-level-3">
+                                <a class="nav-link" href="#5-使用-Sass-Scss">
+                                  <span class="nav-number">3.3.5.</span> 
+                                  <span class="nav-text">5. 使用 Sass/Scss</span>
+                                </a>
+                              </li>
+                              <li class="nav-item nav-level-3">
+                                <a class="nav-link" href="#6-上傳至-npm">
+                                  <span class="nav-number">3.3.6.</span> 
+                                  <span class="nav-text">6. 上傳至 npm</span>
+                                </a>
+                              </li>
+                            </ol>
+                          </li>
+                        </ol>
+                      </li>
+                      <li class="nav-item nav-level-1">
+                        <a class="nav-link" href="#後記"><span class="nav-number">4.</span> <span class="nav-text"># 後記</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2017-06-17-大事記"><span class="nav-number">4.1.</span> <span class="nav-text">2017.06.17 大事記</span>
+                        </a>
+                      </li>
+                    </ol>
+                  </li>
+                </ol>
+              </div>
             
 
           </div>
         </section>
       <!--/noindex-->
-      
-
-      
 
     </div>
-  </aside>
-
-
-        
+  </aside>        
       </div>
     </main>
 
@@ -743,32 +664,17 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">OAwan</span>
-</div>
-
-
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
-</div>
-
-<div class="theme-info">
-  主題 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Muse
-  </a>
+  <span class="author" itemprop="copyrightHolder">Xinjian OUYANG</span>
 </div>
 
 
         
 <div class="busuanzi-count">
   <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-  
-
   
     <span class="site-pv">
       <i class="fa fa-street-view"></i>
@@ -777,8 +683,6 @@
     </span>
   
 </div>
-
-
         
       </div>
     </footer>
@@ -799,28 +703,6 @@
     window.Promise = null;
   }
 </script>
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
   
   <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
 
@@ -839,79 +721,14 @@
   
   <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
-
-  
-
-
   <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
 
   <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
-
-
-
-  
-  
-
   
   <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-
-
-  
-
-
   <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
-
-
-
-  
-
-
-  
-
-
-
-
-	
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-  
-
-  
-
-  
-
   
 
 </body>
